@@ -19,12 +19,12 @@ class QLInputTextFile : public MIOInputFile {
 
 	public:
 
-		QLInputTextFile(TString separator = " ");
+		QLInputTextFile(const std::string &separator = std::string(" "));
 
 		virtual ~QLInputTextFile();
 
 		//##ModelId=3FAF8E5F0371
-		Bool_t Open(TString fileName);
+		Bool_t Open(const std::string &fileName);
 
 		//##ModelId=3FAF8E850235
 		Bool_t Close();
@@ -65,7 +65,7 @@ class QLInputTextFile : public MIOInputFile {
 
 	protected:					 // Protected attribute
 		std::ifstream*  fileStream;
-		TString separator;
+		std::string separator;
 
 	protected:					 // Protected methods
 		void pointTo(int line);

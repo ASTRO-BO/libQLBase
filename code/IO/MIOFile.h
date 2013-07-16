@@ -17,7 +17,7 @@
 #ifndef MIOFile_h_h
 #define MIOFile_h_h
 #include <TObject.h>
-#include <TString.h>
+#include <string>
 #include "QLDefinition.h"
 
 //##ModelId=3C0F6C190309
@@ -46,7 +46,7 @@ class MIOFile {
 		//## Open the MIOFile
 		//## \param MIOFilename Name of MIOFile
 		//## \param mode Mode of MIOFile opened. r for read, w for writing
-		virtual bool Open( TString filename, char* mode="r") ;
+		virtual bool Open(const std::string &filename, char* mode="r");
 
 		//##ModelId=3C0F6C1A0016
 		//## Documentation
@@ -58,15 +58,15 @@ class MIOFile {
 		//##Documentation
 		//## Get the current line.
 		//## \pre The MIOFile must be opened.
-		virtual TString GetLine();
+		virtual std::string GetLine();
 
 		//##ModelId=3C0F6C1A001B
 		//##Documentation
 		//## Get the first configuration line (a line that don't start with --)
 		//## \pre The MIOFile must be opened.
-		virtual TString GetConfigurationLine();
+		virtual const std::string GetConfigurationLine();
 
-		virtual TString GetLine(TString s);
+		virtual const std::string GetLine(const std::string &s);
 
 		//##ModelId=3C0F6C1A001F
 		//##Documentation
@@ -81,7 +81,7 @@ class MIOFile {
 		//##ModelId=3C15F42303C4
 		//##Documentation
 		//## \return Returns last line read from MIOFile.
-		TString GetLastLineRead();
+		std::string GetLastLineRead();
 
 		//##ModelId=3C205AF20278
 		//## Sets the position into MIOFile.
@@ -126,16 +126,16 @@ class MIOFile {
 		//##Documentation
 		//## Writes a string into opend MIOFile.
 		//## \pre The MIOFile must be opened in w mode
-		bool WriteString(TString str);
+		bool WriteString(const std::string &str);
 		
-		bool WriteStringWithEndl(TString str);
+		bool WriteStringWithEndl(const std::string &str);
 		
 		//##Documentation
 		//## Write an array of string into a file. If a filename is specified,
 		//## open the file in rw mode, write the array and close the file.
-		bool WriteStringArray(const char* array[], TString filename = "");
+		bool WriteStringArray(const char* array[], const std::string &filename = "");
 		
-		void DeleteFile(TString filename);
+		void DeleteFile(const std::string &filename);
 
 		//##ModelId=3EADC12702C9
 		static unsigned long byte_read;
@@ -155,7 +155,7 @@ class MIOFile {
 		bool bigendian;
 
 		//##ModelId=3ACCD75E038A
-		TString lastLineRead;
+		std::string lastLineRead;
 
 		//##ModelId=3DA3E56B0064
 		FILE* fp;
@@ -167,7 +167,7 @@ class MIOFile {
 		long startPosition;
 
 		//##ModelId=3C5132490213
-		TString filename;
+		std::string filename;
 };
 
 

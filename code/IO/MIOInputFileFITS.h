@@ -17,7 +17,7 @@ class MIOInputFileFITS : public MIOInputFile {
 
 		//##Documentation
 		//## \return true if file is opened, false if file is closed.
-		virtual Bool_t Open(TString filename);
+		virtual Bool_t Open(const std::string &filename);
 		
 		virtual Int_t GetNCols();
 
@@ -31,7 +31,7 @@ class MIOInputFileFITS : public MIOInputFile {
 		
 		//##Documentation
 		//## Apply a filter to the current header
-		virtual Bool_t ApplyFilter(TString selectEvent);
+		virtual Bool_t ApplyFilter(const std::string &selectEvent);
 		
 		//##Documentation
 		//## Remove the filter to the current header

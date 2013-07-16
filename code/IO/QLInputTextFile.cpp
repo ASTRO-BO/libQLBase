@@ -38,7 +38,7 @@ using namespace std;
                       nRowsRead = buff_sz;                                            \
                       return buff;
 
-QLInputTextFile::QLInputTextFile(TString separator) : fileStream(0) {
+QLInputTextFile::QLInputTextFile(const std::string &separator) : fileStream(0) {
 	this->separator = separator;
 	status = kFileNoError;
 }
@@ -53,7 +53,7 @@ DOUBLE_T* QLInputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong
 	return ret;
 }
 
-Bool_t QLInputTextFile::Open(TString file_name) {
+Bool_t QLInputTextFile::Open(const std::string &file_name) {
 
 	// Close prev input file stream
 	Close();

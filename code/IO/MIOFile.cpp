@@ -43,8 +43,7 @@ bool MIOFile::IsClosed() {
 
 
 //##ModelId=3C0F6C1A0013
-bool MIOFile::Open(TString filename, char* mode) {
-
+bool MIOFile::Open(const std::string &filename, char* mode) {
 	fp = fopen(filename, mode);
 
 	if(fp == NULL) {
@@ -84,7 +83,7 @@ int MIOFile::GetByte() {
 
 
 //##ModelId=3C0F6C1A001B
-TString MIOFile::GetLine() {
+std::string MIOFile::GetLine() {
 	//char* s = new char[500];
 	static char s[512];
 	s[0]=0;
@@ -119,8 +118,8 @@ TString MIOFile::GetLine() {
 }
 
 
-TString MIOFile::GetConfigurationLine() {
-	TString temp;
+std::string MIOFile::GetConfigurationLine() {
+	std::string temp;
 
 	temp = GetLine();
 	while(strstr(temp, "--") !=  NULL) {
@@ -130,8 +129,8 @@ TString MIOFile::GetConfigurationLine() {
 }
 
 
-TString MIOFile::GetLine(TString s) {
-	TString line;
+std::string MIOFile::GetLine(const std::string &s) {
+	std::string line;
 	line = GetLine();
 
 	while(line.Contains(s)) {
@@ -155,7 +154,7 @@ void MIOFile::Close( ) {
 
 
 //##ModelId=3C15F42303C4
-TString MIOFile::GetLastLineRead() {
+std::string MIOFile::GetLastLineRead() {
 	return lastLineRead;
 }
 
@@ -250,7 +249,7 @@ long MIOFile::Find(UChar_t b) {
 
 
 //##ModelId=3DA3E56D0244
-bool MIOFile::WriteString(TString str) {
+bool MIOFile::WriteString(const std::string &str) {
 	if(str != "")
 		if(!closed)
 			if(fprintf(fp,"%s",str.Data())<0)
@@ -258,7 +257,7 @@ bool MIOFile::WriteString(TString str) {
 	return true;
 }
 
-bool MIOFile::WriteStringWithEndl(TString str) {
+bool MIOFile::WriteStringWithEndl(const std::string &str) {
 	if(str != "")
 		if(!closed) {
 			str += "\n";
@@ -269,7 +268,7 @@ bool MIOFile::WriteStringWithEndl(TString str) {
 }
 
 
-bool MIOFile::WriteStringArray(const char* array[], TString filename ) {
+bool MIOFile::WriteStringArray(const char* array[], const std::string &filename ) {
 Bool_t ret;
 UInt_t i = 0;
 
@@ -279,7 +278,7 @@ UInt_t i = 0;
 	//the file is opened
 	i = 0;
 	while(array[i] != 0) {
-		TString s = array[i++];
+		std::string s = array[i++];
 		s += "\n";
 		if(!WriteString(s))
 			return kFALSE;
@@ -288,6 +287,6 @@ UInt_t i = 0;
 	return true;
 }
 
-void MIOFile::DeleteFile(TString filename) {
+void MIOFile::DeleteFile(const std::string &filename) {
 	remove(filename.Data());
 }

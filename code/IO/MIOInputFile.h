@@ -4,7 +4,7 @@
 #include "QLDefinition.h"
 #include <TObject.h>
 #include <TArray.h>
-#include <TString.h>
+#include <string>
 class MIOInputFileFilter;
 
 //##ModelId=3FAF8D8C034F
@@ -32,7 +32,7 @@ class MIOInputFile : public TObject {
 		virtual void SetBaseHeader(Int_t headerBase);
 
 		//##ModelId=3FAF8E5F0371
-		virtual Bool_t Open(TString filename) = 0;
+		virtual Bool_t Open(const std::string &filename) = 0;
 
 		//##ModelId=3FAF8E850235
 		virtual Bool_t Close() = 0;
@@ -44,7 +44,7 @@ class MIOInputFile : public TObject {
 		
 		//##Documentation
 		//## Apply a filter to the current header
-		virtual Bool_t ApplyFilter(TString selectEvent) { return kFALSE; };
+		virtual Bool_t ApplyFilter(const std::string &string selectEvent) { return kFALSE; };
 		
 		//##Documentation
 		//## Remove the filter to the current header
@@ -67,9 +67,9 @@ class MIOInputFile : public TObject {
 
 		virtual Int_t GetStatus() { return status; };
 
-		virtual TString GetFileName() { return filename; };
+		virtual std::string GetFileName() { return filename; };
 		
-		virtual void SetFileName(TString filename) { this->filename = filename; };
+		virtual void SetFileName(const std::string &filename) { this->filename = filename; };
 
 		//##Documentation
 		//## Indica da dove deve partire l'indice della prima colonna nel file (0 o 1)
@@ -110,7 +110,7 @@ class MIOInputFile : public TObject {
 	protected:
 
 		//##ModelId=3FAF8EE401B9
-		TString filename;
+		std::string filename;
 
 		Bool_t opened;
 
@@ -132,7 +132,7 @@ class MIOInputFile : public TObject {
 		
 		Bool_t applyFilter;
 		
-		TString selectEvent;
+		std::string selectEvent;
 
 		//the header che contiene gli eventi da elaborare. Usato da GetNEvents()
 		Int_t headerBase;

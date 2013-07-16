@@ -14,7 +14,7 @@
 #include "QLDefinition.h"
 #include <fitsio.h>
 #include <TObject.h>
-#include <TString.h>
+#include <string>
 #include <iostream>
 
 using namespace std;
@@ -27,7 +27,7 @@ public:
 
 	virtual ~MIOInputFileFilter();
 	
-	Bool_t Open(TString filename);
+	Bool_t Open(const std::string &filename);
 	
 	Bool_t Close();
     
@@ -53,7 +53,7 @@ protected:
 	
 	Int_t status;
 	
-	TString filename;
+	std::string filename;
 	
 	Bool_t opened;
 
