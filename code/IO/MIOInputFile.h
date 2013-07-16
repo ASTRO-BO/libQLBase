@@ -2,7 +2,6 @@
 #define QLINPUTFILE_H_HEADER_INCLUDED_C04E1A23
 
 #include "QLDefinition.h"
-#include <TObject.h>
 #include <TArray.h>
 #include <string>
 class MIOInputFileFilter;
@@ -20,7 +19,7 @@ class MIOInputFileFilter;
 //## $Revision: 1.2 $
 //## \brief Insert here a brief description of the class
 
-class MIOInputFile : public TObject {
+class MIOInputFile {
 
 	public:
 

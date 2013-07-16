@@ -16,7 +16,6 @@
  ***************************************************************************/
 #ifndef MIOFile_h_h
 #define MIOFile_h_h
-#include <TObject.h>
 #include <string>
 #include "QLDefinition.h"
 

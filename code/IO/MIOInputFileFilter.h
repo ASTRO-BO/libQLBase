@@ -13,7 +13,6 @@
 #define QLINPUTFILEFILTER_H
 #include "QLDefinition.h"
 #include <fitsio.h>
-#include <TObject.h>
 #include <string>
 #include <iostream>
 
