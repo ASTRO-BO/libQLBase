@@ -4,6 +4,8 @@
 #include "InputFile.h"
 #include <fstream>
 
+namespace ql_io {
+
 //##ModelId=3FAF8D8C034F
 //##Documentation
 //## This class represent a generic input file with data organized as tabular data.
@@ -76,4 +78,7 @@ class InputTextFile : public InputFile {
 	private:					 // Private methods
 		void _printState();
 };
+
+}
+
 #endif							 /* QLINPUTTEXTFILE_H_HEADER_INCLUDED_C04E1A23 */

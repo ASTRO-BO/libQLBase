@@ -5,6 +5,9 @@
 #include "QLGlobalMemory.h"
 using namespace std;
 
+namespace ql_io
+{
+
 #define SAFE_DELETE(p) if(p) { delete p; p = 0; }
 
 #define READ_DATA(ty) if(!test(ncol, frow, lrow)) {                                   \
@@ -272,4 +275,6 @@ void InputTextFile::_printState() {
 	PD("File: closed\n");
 	PD(" row: " << nrows)
 	PD(" col: " << ncols);
+}
+
 }

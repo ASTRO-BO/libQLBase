@@ -12,6 +12,8 @@
 #include "InputFileFilter.h"
 // #include "QLGlobalMemory.h"
 
+namespace ql_io
+{
 
 InputFileFilter::InputFileFilter()
 {
@@ -136,3 +138,4 @@ DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, Long_t frow, Lo
 	return data;
 }
 
+}

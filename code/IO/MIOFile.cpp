@@ -18,6 +18,8 @@
 #include "File.h"
 #include <unistd.h>
 
+namespace ql_io {
+
 #define EOI -1
 
 //##ModelId=3DA3E56900F0
@@ -289,4 +291,6 @@ UInt_t i = 0;
 
 void File::DeleteFile(const std::string &filename) {
 	remove(filename.Data());
+}
+
 }

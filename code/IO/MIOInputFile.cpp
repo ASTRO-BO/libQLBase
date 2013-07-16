@@ -1,5 +1,7 @@
 #include "InputFile.h"
 
+namespace ql_io {
+
 InputFile::InputFile() {
 	opened = kFALSE;
 	status = 0;
@@ -25,4 +27,6 @@ Bool_t InputFile::IsOpened() {
 Long_t InputFile::GetNEvents() {
 	MoveHeader(headerBase);
 	return GetNRows();
+}
+
 }

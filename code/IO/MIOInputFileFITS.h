@@ -6,6 +6,8 @@
 #include "InputFileFilter.h"
 #include <fitsio.h>
 
+namespace ql_io {
+
 //##ModelId=3FAF8EA503DF
 class InputFileFITS : public InputFile {
 
@@ -102,4 +104,7 @@ class InputFileFITS : public InputFile {
 		Long_t row_status_size;
 
 };
+
+}
+
 #endif							 /* QLINPUTFILEFITS_H_HEADER_INCLUDED_C04E541D */

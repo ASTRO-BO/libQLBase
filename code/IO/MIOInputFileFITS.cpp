@@ -8,6 +8,9 @@
 // #include "QLGlobalMemory.h"
 #include "File.h"
 using namespace std;
+
+namespace ql_io {
+
 #define IFFMAXROWSTATUS 1000000
 
 InputFileFITS::InputFileFITS() : InputFile() {
@@ -711,4 +714,6 @@ Bool_t InputFileFITS::GetFilteredRows(Long_t frow, Long_t nrows) {
 		return kFALSE;
 	}
 	return kTRUE;
+}
+
 }

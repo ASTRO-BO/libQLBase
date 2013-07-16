@@ -14,6 +14,9 @@
 #include <unistd.h>
 #include <string>
 
+namespace ql_io
+{
+
 OutputFileFITS::OutputFileFITS()
 {
     fptr=(fitsfile **)malloc(sizeof(fitsfile));
@@ -560,4 +563,4 @@ char* OutputFileFITSBinaryTable::getValue(char* str) {
 	return c;
 }
 
-
+}

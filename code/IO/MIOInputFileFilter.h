@@ -20,6 +20,10 @@ using namespace std;
 /**
 @author bulgarelli
 */
+
+namespace ql_io
+{
+
 class InputFileFilter {
 public:
 	InputFileFilter();
@@ -57,5 +61,7 @@ protected:
 	Bool_t opened;
 
 };
+
+}
 
 #endif

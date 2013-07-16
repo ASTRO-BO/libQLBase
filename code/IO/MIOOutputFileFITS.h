@@ -15,6 +15,9 @@
 #include  <fitsio.h>
 #include "QLDefinition.h"
 
+namespace ql_io
+{
+
 class OutputFileFITS
 {
     public:
@@ -245,7 +248,6 @@ class OutputFileFITSBinaryTable : public OutputFileFITS
 
 };
 
-
-
+}
 
 #endif

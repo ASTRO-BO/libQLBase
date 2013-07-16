@@ -3,6 +3,9 @@
 
 #include "QLDefinition.h"
 #include <string>
+
+namespace ql_io {
+
 class InputFileFilter;
 
 //##ModelId=3FAF8D8C034F
@@ -136,4 +139,7 @@ class InputFile {
 		Int_t headerBase;
 
 };
+
+}
+
 #endif							 /* QLINPUTFILE_H_HEADER_INCLUDED_C04E1A23 */

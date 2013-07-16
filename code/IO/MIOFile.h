@@ -19,6 +19,8 @@
 #include <string>
 #include "QLDefinition.h"
 
+namespace ql_io {
+
 //##ModelId=3C0F6C190309
 //##Documentation
 //##	$Date: 2006/09/12 13:36:24 $
@@ -169,5 +171,6 @@ class File {
 		std::string filename;
 };
 
+}
 
 #endif
