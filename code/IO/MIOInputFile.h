@@ -2,7 +2,6 @@
 #define QLINPUTFILE_H_HEADER_INCLUDED_C04E1A23
 
 #include "QLDefinition.h"
-#include <TArray.h>
 #include <string>
 class MIOInputFileFilter;
 

@@ -12,9 +12,8 @@
 #ifndef MIOOUTPUTFILEMIOOutputFileFITS_H
 #define MIOOUTPUTFILEMIOOutputFileFITS_H
 
+#include  <fitsio.h>
 #include "QLDefinition.h"
-
-#include  "fitsio.h"
 
 class MIOOutputFileFITS
 {
