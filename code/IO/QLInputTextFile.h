@@ -60,7 +60,7 @@ class QLInputTextFile : public MIOInputFile {
 		virtual UInt_t GetIndexFirstColumn() { return 0;};
 
 		virtual UInt_t GetIndexFirstRow() { return 0;};
-		
+
 		virtual UInt_t GetIndexFirstTableHeader() { return 0; };
 
 	protected:					 // Protected attribute

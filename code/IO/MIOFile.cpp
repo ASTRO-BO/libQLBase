@@ -25,7 +25,7 @@ unsigned long MIOFile::byte_read = 0;
 //##ModelId=3DA3E56A0078
 unsigned long MIOFile::char_read = 0;
 
- 
+
 
 //##ModelId=3C187750028F
 MIOFile::MIOFile(long startP) {

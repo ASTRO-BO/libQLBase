@@ -39,15 +39,15 @@ class MIOInputFile {
 		//## Si sposta nell'header specificato. La numerazione degli header parte da 0.
 		//## Specificare l'offset con il metdo GetIndexFirstTableHeader().
 		virtual Bool_t MoveHeader(int header_number) = 0;
-		
+
 		//##Documentation
 		//## Apply a filter to the current header
 		virtual Bool_t ApplyFilter(const std::string &string selectEvent) { return kFALSE; };
-		
+
 		//##Documentation
 		//## Remove the filter to the current header
 		virtual void RemoveFilter() {};
-		
+
 
 		virtual Int_t GetNCols() { return ncols; };
 
@@ -66,7 +66,7 @@ class MIOInputFile {
 		virtual Int_t GetStatus() { return status; };
 
 		virtual std::string GetFileName() { return filename; };
-		
+
 		virtual void SetFileName(const std::string &filename) { this->filename = filename; };
 
 		//##Documentation
@@ -74,13 +74,13 @@ class MIOInputFile {
 		virtual UInt_t GetIndexFirstColumn() = 0;
 
 		//##Documentation
-		//## Indica da dove deve partire l'indice della prima riga nel file (0 o 1)		
+		//## Indica da dove deve partire l'indice della prima riga nel file (0 o 1)
 		virtual UInt_t GetIndexFirstRow() = 0;
-		
+
 		//##Documentation
-		//## Indica da dove deve partire l'indice del primo header nei file strutturati in tabella (0 o 1)		
+		//## Indica da dove deve partire l'indice del primo header nei file strutturati in tabella (0 o 1)
 		virtual UInt_t GetIndexFirstTableHeader() = 0;
-		
+
 		virtual void SetFilter(MIOInputFileFilter* filter) {};
 
 	public:
@@ -127,9 +127,9 @@ class MIOInputFile {
 		//##Documentation
 		//## The status of the reading
 		Int_t status;
-		
+
 		Bool_t applyFilter;
-		
+
 		std::string selectEvent;
 
 		//the header che contiene gli eventi da elaborare. Usato da GetNEvents()

@@ -18,7 +18,7 @@ class MIOInputFileFITS : public MIOInputFile {
 		//##Documentation
 		//## \return true if file is opened, false if file is closed.
 		virtual Bool_t Open(const std::string &filename);
-		
+
 		virtual Int_t GetNCols();
 
 		virtual Long_t GetNRows();
@@ -28,11 +28,11 @@ class MIOInputFileFITS : public MIOInputFile {
 		virtual Bool_t Close();
 
 		virtual Bool_t MoveHeader(int header_number);
-		
+
 		//##Documentation
 		//## Apply a filter to the current header
 		virtual Bool_t ApplyFilter(const std::string &selectEvent);
-		
+
 		//##Documentation
 		//## Remove the filter to the current header
 		virtual void RemoveFilter();
@@ -46,9 +46,9 @@ class MIOInputFileFITS : public MIOInputFile {
 		virtual UInt_t GetIndexFirstColumn() { return 1;};
 
 		virtual UInt_t GetIndexFirstRow() { return 1;};
-		
+
 		virtual UInt_t GetIndexFirstTableHeader() { return 1; };
-		
+
 		virtual void SetFilter(MIOInputFileFilter* filter);
 
 	public:
@@ -60,7 +60,7 @@ class MIOInputFileFITS : public MIOInputFile {
 		//## Esempio di lettura di una colonna in formato variabile: <br>
 		//## 	UChar_t* aclatcon = tempFile.Read_TBYTE(ACLATCON, j+1, j+1, 12);<br>
 		//## 	if(aclatcon == kPointerNull) return tempFile.GetStatus();<br>
-		//## in un ciclo per la lettura di tutte le righe sull'indice j.		
+		//## in un ciclo per la lettura di tutte le righe sull'indice j.
 		//## \param ncol number of column to be read
 		//## \param frow number of the first row to be read (in the case of fixed format) or number of the row to be read (in the case of variable format)
 		//## \param lrow number of the last row to be read (in the case of fixed format) or not used in the case of variable format
@@ -72,7 +72,7 @@ class MIOInputFileFITS : public MIOInputFile {
 		virtual Short_t* Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
 		virtual Int_t* Read_TINT(int ncol, long frow, long lrow, Long_t nelements = 0);
-		
+
 		//##Documentation
 		//## 1J, signed int 32 bit
 		virtual Long_t* Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements = 0);
@@ -86,19 +86,19 @@ class MIOInputFileFITS : public MIOInputFile {
 		virtual Float_t* Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
 		virtual Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements = 0);
-		
+
 		fitsfile *infptr;
 
 	protected:
-	
+
 		virtual Bool_t GetFilteredRows(Long_t frow, Long_t nrows);
-		
+
 		MIOInputFileFilter* filter;
-		
+
 		long n_good_rows;
-		
-		char* row_status;		
-		
+
+		char* row_status;
+
 		Long_t row_status_size;
 
 };

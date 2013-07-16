@@ -126,14 +126,14 @@ class MIOFile {
 		//## Writes a string into opend MIOFile.
 		//## \pre The MIOFile must be opened in w mode
 		bool WriteString(const std::string &str);
-		
+
 		bool WriteStringWithEndl(const std::string &str);
-		
+
 		//##Documentation
 		//## Write an array of string into a file. If a filename is specified,
 		//## open the file in rw mode, write the array and close the file.
 		bool WriteStringArray(const char* array[], const std::string &filename = "");
-		
+
 		void DeleteFile(const std::string &filename);
 
 		//##ModelId=3EADC12702C9

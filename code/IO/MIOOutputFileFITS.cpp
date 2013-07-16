@@ -37,19 +37,19 @@ long MIOOutputFileFITS::getRowNum() {
 	if(!changeHeader(masterheadnum))
 		return -1;
 	status = 0;
-	fits_get_num_rows(*fptr, &rownum, &status);	
-	return rownum; 
+	fits_get_num_rows(*fptr, &rownum, &status);
+	return rownum;
 }
 
 int MIOOutputFileFITS::getColNum(char* nomecol) {
 	if(!changeHeader(masterheadnum))
 		return -1;
 	status = 0;
-	fits_get_colnum(*fptr,CASEINSEN,nomecol,&colnum,&status);	
+	fits_get_colnum(*fptr,CASEINSEN,nomecol,&colnum,&status);
 	return colnum;
 }
 
-	
+
 bool MIOOutputFileFITS::open() {
 status = 0;
 	if ( !fits_open_file(fptr, filename, READWRITE, &status) ) {
@@ -65,7 +65,7 @@ status = 0;
 	if(!opened) return true;
 	if ( fits_close_file(*fptr, &status) )
 		printerror( status );
-		
+
 	opened = false;
 	return true;
 
@@ -104,10 +104,10 @@ void MIOOutputFileFITS::writeInitHeaderKey(int header) {
 int status = 0;
 
 	string str1;
-			
+
 	if(!changeHeader(header))
 		return;
-			
+
 	if ( fits_write_key(*fptr,  TSTRING, "TELESCOP" ,
 	(void*)"AGILE", "Telescope or mission (OGIP/93-013)" , &status) )
 		printerror( status );
@@ -128,7 +128,7 @@ int status = 0;
 		printerror( status );
 	if ( fits_write_key(*fptr,  TSTRING, "FILEVER" ,
 	(void*)"1", "File version (GTB)" , &status) )
-		printerror( status );	
+		printerror( status );
 	char* datestr = new char[30];
 	int timeref = 0;
 	status = 0;
@@ -136,15 +136,15 @@ int status = 0;
 		printerror(status);
 	if ( fits_write_key(*fptr, TSTRING, "DATE",
 		(void*) datestr, "FITS File creation date (GTB)", &status) )
-		printerror( status );					
+		printerror( status );
 	delete[] datestr;
-	
+
 }
 
 void MIOOutputFileFITS::writeHistoryFile() {
 	return;
 }
-	
+
 void MIOOutputFileFITS::writeEndHeaderKey(int header) {
 int status = 0;
 
@@ -158,8 +158,8 @@ int status = 0;
 			printerror( status );
 	}
 
-	writeHistoryFile();			
-			
+	writeHistoryFile();
+
 }
 
 void MIOOutputFileFITS::writeChksum(int header) {
@@ -192,7 +192,7 @@ bool MIOOutputFileFITS::flush_file() {
 int status=0;
 	if(verbose) cout << "MIOOutputFileFITS: Current row: " << currentrow << ". Last row flushed: " << lastrow_flushed << ". Flush every " << flush_rows << "rows" << endl;
 	if(currentrow >= lastrow_flushed + flush_rows) {
-		fits_flush_file (*fptr, &status);	
+		fits_flush_file (*fptr, &status);
 		lastrow_flushed = currentrow;
 		return true;
 	}
@@ -202,31 +202,31 @@ int status=0;
 
 int MIOOutputFileFITS::openOutFits(char * fitsname, char * templatefile )
 {
-   int status_fits=0 ; 
+   int status_fits=0 ;
 
    if (fits_create_template(fptr,fitsname ,templatefile, &status_fits))
         printerror( 0, " called fits_create_template: ", status_fits );
 
-  
+
 }
 
 
 int MIOOutputFileFITS::printerror(int codice,char* messaggio,int status)
 {
     char errtext[40] ; // max per fitsio  30 char + '/0'
-    
-    cerr << " printerror called from: " << messaggio << " codice: " << codice << endl ; 
-    
+
+    cerr << " printerror called from: " << messaggio << " codice: " << codice << endl ;
+
     if (status) {
         fits_get_errstatus( status, errtext);
-	cerr << " ERROR IN MIOOutputFileFITSIO called from L1fits! : Number: " << status << " " 
-	     << errtext << endl ; 
-	     
-	fits_report_error(stderr,status) ;  //detailded report   
-	
-	cerr << endl <<endl ;  
+	cerr << " ERROR IN MIOOutputFileFITSIO called from L1fits! : Number: " << status << " "
+	     << errtext << endl ;
+
+	fits_report_error(stderr,status) ;  //detailded report
+
+	cerr << endl <<endl ;
     }
-    flushCloseandExit() ; 
+    flushCloseandExit() ;
     return 1 ;
 }
 
@@ -234,12 +234,12 @@ int MIOOutputFileFITS::printerror(int codice,char* messaggio,int status)
 int MIOOutputFileFITS::flushCloseandExit()
 {
     int status ;
-    
+
     if ( fits_flush_file(*fptr, &status) )
         printerror( status );
     if ( fits_close_file(*fptr, &status) )
         printerror( status );
-    cerr << " Error fits recovery: flush fits file, close fits file, exit program ..." << endl ; 	
+    cerr << " Error fits recovery: flush fits file, close fits file, exit program ..." << endl ;
     exit( status ) ;
 }
 
@@ -253,7 +253,7 @@ MIOOutputFileFITSBinaryTable::MIOOutputFileFITSBinaryTable(int ncol_header1, int
 	this->ncol_header4 = ncol_header4;
 	this->ncol_header5 = ncol_header5;
   	this->ncol_header6 = ncol_header6;
-	
+
 	ttype1 = new char* [ncol_header1];
 	tform1 = new char* [ncol_header1];
 	tunit1 = new char* [ncol_header1];
@@ -275,52 +275,52 @@ MIOOutputFileFITSBinaryTable::MIOOutputFileFITSBinaryTable(int ncol_header1, int
 	if(ncol_header3 > 0) {
 		tform3 = new char* [ncol_header3];
 		ttype3 = new char* [ncol_header3];
-		tunit3 = new char* [ncol_header3];  
+		tunit3 = new char* [ncol_header3];
 		pfind3 = new int [ncol_header3];
 		tycom3 = (char**) new char* [ncol_header3];
-		
+
 	} else {
 		tform3 = 0;
 		ttype3 = 0;
 		tunit3 = 0;
 		pfind3 = 0;
 		tycom3 = 0;
-	}	
+	}
 	if(ncol_header4 > 0) {
 		tform4 = new char* [ncol_header4];
 		ttype4 = new char* [ncol_header4];
-		tunit4 = new char* [ncol_header4];  
+		tunit4 = new char* [ncol_header4];
 		pfind4 = new int [ncol_header4];
 		tycom4 = (char**) new  char* [ncol_header4];
-		
+
 	} else {
 		tform4 = 0;
 		ttype4 = 0;
 		tunit4 = 0;
 		pfind4 = 0;
 		tycom4 = 0;
-	}	
+	}
 	if(ncol_header5 > 0) {
 		tform5 = new char* [ncol_header5];
 		ttype5 = new char* [ncol_header5];
-		tunit5 = new char* [ncol_header5];  
+		tunit5 = new char* [ncol_header5];
 		pfind5 = new int [ncol_header5];
 		tycom5 = (char**) new  char* [ncol_header5];
-		
+
 	} else {
 		tform5 = 0;
 		ttype5 = 0;
 		tunit5 = 0;
 		pfind5 = 0;
 		tycom5 = 0;
-	}	
+	}
 	if(ncol_header6 > 0) {
 		tform6 = new char* [ncol_header6];
 		ttype6 = new char* [ncol_header6];
-		tunit6 = new char* [ncol_header6];  
+		tunit6 = new char* [ncol_header6];
 		pfind6 = new int [ncol_header6];
 		tycom6 = (char**) new  char* [ncol_header6];
-		
+
 	} else {
 		tform6 = 0;
 		ttype6 = 0;
@@ -340,141 +340,141 @@ MIOOutputFileFITSBinaryTable::~MIOOutputFileFITSBinaryTable() {
 	delete[] tform2;
 	delete[] ttype2;
 	delete[] tunit2;
-	delete[] pfind2;	
-	delete[] tycom2;	
+	delete[] pfind2;
+	delete[] tycom2;
 	delete[] tform3;
 	delete[] ttype3;
-	delete[] tunit3;  
-	delete[] pfind3;	
+	delete[] tunit3;
+	delete[] pfind3;
 	delete[] tycom3;
 	delete[] tform4;
 	delete[] ttype4;
-	delete[] tunit4;  
-	delete[] pfind4;	
+	delete[] tunit4;
+	delete[] pfind4;
 	delete[] tycom4;
 	delete[] tform5;
 	delete[] ttype5;
-	delete[] tunit5;  
-	delete[] pfind5;	
-	delete[] tycom5;	
+	delete[] tunit5;
+	delete[] pfind5;
+	delete[] tycom5;
 	delete[] tform6;
 	delete[] ttype6;
-	delete[] tunit6;  
-	delete[] pfind6;	
+	delete[] tunit6;
+	delete[] pfind6;
 	delete[] tycom6;
 }
 
 
-bool MIOOutputFileFITSBinaryTable::init() 
+bool MIOOutputFileFITSBinaryTable::init()
 {
-	
+
 	long nrows = 1;
 	char TTYPEXX[10];
-	
-	
+
+
 	nrows_event_hdu = 1;
 	nrows_event_hdu2 = 1;
 	nrows_event_hdu3 = 1;
 	nrows_event_hdu4 = 1;
 	nrows_event_hdu5 = 1;
 	nrows_event_hdu6 = 1;
-	
+
 	//important
 	currentrow = 1;
 	status=0;
-	
+
 	/* create new MIOOutputFileFITS file */
 	if (fits_create_file(fptr, filename, &status))
 		printerror( status );
-	
+
 	if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header1, ttype1, tform1,
 	tunit1, extname1, &status) )
 		printerror( status );
-	
+
 	writeInitHeaderKey(2);
-	
+
 	if ( fits_movabs_hdu(*fptr, 2, 0, &status) )
-		printerror( status );	
+		printerror( status );
 	for (int i= 0; i < ncol_header1; i++ ) {
-		sprintf(TTYPEXX, "TTYPE%d",i+1);	
+		sprintf(TTYPEXX, "TTYPE%d",i+1);
 		if (fits_modify_comment (*fptr, TTYPEXX, tycom1[i], &status))
 			printerror(status);
-	}	
+	}
 
 	if(ncol_header2 > 0) {
 		if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header2, ttype2, tform2,
 			tunit2, extname2, &status) )
 			printerror( status );
-		
+
 		writeInitHeaderKey(3);
 		if ( fits_movabs_hdu(*fptr, 3, 0, &status) )
-			printerror( status );	
-		for (int i= 0; i < ncol_header2; i++ ) {	
+			printerror( status );
+		for (int i= 0; i < ncol_header2; i++ ) {
 			sprintf(TTYPEXX, "TTYPE%d",i+1);
 			if (fits_modify_comment (*fptr, TTYPEXX, tycom2[i], &status))
 				printerror(status);
-		}		
+		}
 	}
 
 	if(ncol_header3 > 0) {
 		if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header3, ttype3, tform3,
 			tunit3, extname3, &status) )
 			printerror( status );
-	
+
 		writeInitHeaderKey(4);
 		if ( fits_movabs_hdu(*fptr, 4, 0, &status) )
-			printerror( status );	
+			printerror( status );
 		for (int i= 0; i < ncol_header3; i++ ) {
-			sprintf(TTYPEXX, "TTYPE%d",i+1);	
+			sprintf(TTYPEXX, "TTYPE%d",i+1);
 			if (fits_modify_comment (*fptr, TTYPEXX, tycom3[i], &status))
 				printerror(status);
-		}		
+		}
 	}
-	
+
 	if(ncol_header4 > 0) {
 		if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header4, ttype4, tform4,
 			tunit4, extname4, &status) )
 			printerror( status );
-	
+
 		writeInitHeaderKey(5);
 		if ( fits_movabs_hdu(*fptr, 5, 0, &status) )
-			printerror( status );	
+			printerror( status );
 		for (int i= 0; i < ncol_header4; i++ ) {
-			sprintf(TTYPEXX, "TTYPE%d",i+1);	
+			sprintf(TTYPEXX, "TTYPE%d",i+1);
 			if (fits_modify_comment (*fptr, TTYPEXX, tycom4[i], &status))
 				printerror(status);
-		}		
-	}  	
-	
+		}
+	}
+
 	if(ncol_header5 > 0) {
 		if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header5, ttype5, tform5,
 			tunit5, extname5, &status) )
 			printerror( status );
-	
+
 		writeInitHeaderKey(6);
 		if ( fits_movabs_hdu(*fptr, 6, 0, &status) )
-			printerror( status );	
+			printerror( status );
 		for (int i= 0; i < ncol_header5; i++ ) {
-			sprintf(TTYPEXX, "TTYPE%d",i+1);	
+			sprintf(TTYPEXX, "TTYPE%d",i+1);
 			if (fits_modify_comment (*fptr, TTYPEXX, tycom5[i], &status))
 				printerror(status);
-		}		
+		}
 	}
 
 	if(ncol_header6 > 0) {
 		if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header6, ttype6, tform6,
 			tunit6, extname6, &status) )
 			printerror( status );
-	
+
 		writeInitHeaderKey(7);
 		if ( fits_movabs_hdu(*fptr, 7, 0, &status) )
-			printerror( status );	
+			printerror( status );
 		for (int i= 0; i < ncol_header6; i++ ) {
-			sprintf(TTYPEXX, "TTYPE%d",i+1);	
+			sprintf(TTYPEXX, "TTYPE%d",i+1);
 			if (fits_modify_comment (*fptr, TTYPEXX, tycom6[i], &status))
 				printerror(status);
-		}		
-	}			
+		}
+	}
 	return status;
 }
 
@@ -484,7 +484,7 @@ bool MIOOutputFileFITSBinaryTable::init()
 bool MIOOutputFileFITSBinaryTable::close()
 {
 	if(!opened) return true;
-	
+
 	status = 0;
 
 	writeEndHeaderKey(1);
@@ -498,43 +498,43 @@ bool MIOOutputFileFITSBinaryTable::close()
 	if(ncol_header2 > 0) {
 
 		writeEndHeaderKey(3);
-		
+
 		writeChksum(3);
-		
+
 	}
-	
+
 	if(ncol_header3 > 0) {
-	
+
 		writeEndHeaderKey(4);
-		
+
 		writeChksum(4);
-		
+
 	}
-  	
+
 	if(ncol_header4 > 0) {
 
 		writeEndHeaderKey(5);
-		
+
 		writeChksum(5);
-		
+
 	}
-	
+
 	if(ncol_header5 > 0) {
 
 		writeEndHeaderKey(6);
-		
+
 		writeChksum(6);
-		
+
 	}
-	
+
 	if(ncol_header6 > 0) {
 
 		writeEndHeaderKey(7);
-		
+
 		writeChksum(6);
-		
+
 	}
-	
+
 	/* close the MIOOutputFileFITS file */
 	return MIOOutputFileFITS::close();
 

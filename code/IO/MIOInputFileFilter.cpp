@@ -51,7 +51,7 @@ Bool_t MIOInputFileFilter::Close() {
 	fits_close_file(infptr, &status);
 	if (status) {
 		char* errms; std::string msg = "Error in MIOInputFileFilter::Close() ";
-		fits_read_errmsg(errms); 
+		fits_read_errmsg(errms);
 		msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
 		cerr << msg << endl;
@@ -70,7 +70,7 @@ Bool_t MIOInputFileFilter::MoveHeader(int header_number) {
 	if (status) {
 		char* errms; std::string msg("Error in MIOInputFileFilter::MoveHeader() ");
 		//fits_read_errmsg(errms);
-		//msg += errms;	
+		//msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
@@ -82,26 +82,26 @@ Bool_t MIOInputFileFilter::MoveHeader(int header_number) {
 
 int MIOInputFileFilter::GetColNum(char* nomecol) {
 	int colnum = -1;
-	fits_get_colnum(infptr,CASEINSEN,nomecol,&colnum,&status);	
+	fits_get_colnum(infptr,CASEINSEN,nomecol,&colnum,&status);
 	if (status) {
 		char* errms; std::string msg("Error in MIOInputFileFilter::GetColNum() ");
 		fits_read_errmsg(errms);
-		msg += errms;	
+		msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
-	}	
+	}
 	return colnum;
 }
 
 
 DOUBLE_T* MIOInputFileFilter::ReadCol(int headernum, char* colname, Long_t frow, Long_t nrows) {
-	
+
 	if(!nrows)
 		return 0;
-	
+
 	status = 0;
 	int anynull;
 	#ifdef READDOUBLE
@@ -111,7 +111,7 @@ DOUBLE_T* MIOInputFileFilter::ReadCol(int headernum, char* colname, Long_t frow,
 	#endif
 	int felem = 1;
 	DOUBLE_T null = 0.0;
-	
+
 	delete[] row_status;
 	row_status = (char*) new char[nrows];
 	int colnum;
@@ -121,18 +121,18 @@ DOUBLE_T* MIOInputFileFilter::ReadCol(int headernum, char* colname, Long_t frow,
 	colnum = GetColNum(colname);
 	if(colnum == -1)
 		return 0;
-	DOUBLE_T* data = (DOUBLE_T*) new DOUBLE_T[nrows];	
+	DOUBLE_T* data = (DOUBLE_T*) new DOUBLE_T[nrows];
 	fits_read_col(infptr, typecode, colnum, frow, felem, nrows, &null,  data, &anynull, &status);
 	if (status) {
 		char* errms; std::string msg("Error in MIOInputFileFilter::ReadCol(): ");
-		//fits_read_errmsg(errms); 
+		//fits_read_errmsg(errms);
 		//msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
-		cerr << msg << endl;		
+		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
-	}	
+	}
 	return data;
 }
 
