@@ -2,18 +2,18 @@
 #define QLINPUTFILEFITS_H_HEADER_INCLUDED_C04E541D
 
 #include "QLDefinition.h"
-#include "MIOInputFile.h"
-#include "MIOInputFileFilter.h"
+#include "InputFile.h"
+#include "InputFileFilter.h"
 #include <fitsio.h>
 
 //##ModelId=3FAF8EA503DF
-class MIOInputFileFITS : public MIOInputFile {
+class InputFileFITS : public InputFile {
 
 	public:
 
-		MIOInputFileFITS();
+		InputFileFITS();
 
-		~MIOInputFileFITS();
+		~InputFileFITS();
 
 		//##Documentation
 		//## \return true if file is opened, false if file is closed.
@@ -49,7 +49,7 @@ class MIOInputFileFITS : public MIOInputFile {
 
 		virtual UInt_t GetIndexFirstTableHeader() { return 1; };
 
-		virtual void SetFilter(MIOInputFileFilter* filter);
+		virtual void SetFilter(InputFileFilter* filter);
 
 	public:
 
@@ -93,7 +93,7 @@ class MIOInputFileFITS : public MIOInputFile {
 
 		virtual Bool_t GetFilteredRows(Long_t frow, Long_t nrows);
 
-		MIOInputFileFilter* filter;
+		InputFileFilter* filter;
 
 		long n_good_rows;
 

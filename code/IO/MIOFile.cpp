@@ -1,5 +1,5 @@
 /***************************************************************************
-						  MIOFile.cpp  -  description
+						  File.cpp  -  description
 							 -------------------
 	begin                : Tue Nov 20 2001
 	copyright            : (C) 2001 by Andrea Bulgarelli
@@ -15,20 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "MIOFile.h"
+#include "File.h"
 #include <unistd.h>
 
 #define EOI -1
 
 //##ModelId=3DA3E56900F0
-unsigned long MIOFile::byte_read = 0;
+unsigned long File::byte_read = 0;
 //##ModelId=3DA3E56A0078
-unsigned long MIOFile::char_read = 0;
+unsigned long File::char_read = 0;
 
 
 
 //##ModelId=3C187750028F
-MIOFile::MIOFile(long startP) {
+File::File(long startP) {
 //	bigendian = false; //si presume che la macchina sia little endian
 	startPosition = startP;
 	filename = "";
@@ -37,13 +37,13 @@ MIOFile::MIOFile(long startP) {
 
 
 //##ModelId=3C87744002A2
-bool MIOFile::IsClosed() {
+bool File::IsClosed() {
 	return closed;
 }
 
 
 //##ModelId=3C0F6C1A0013
-bool MIOFile::Open(const std::string &filename, char* mode) {
+bool File::Open(const std::string &filename, char* mode) {
 	fp = fopen(filename, mode);
 
 	if(fp == NULL) {
@@ -64,7 +64,7 @@ bool MIOFile::Open(const std::string &filename, char* mode) {
 
 
 //##ModelId=3C0F6C1A0016
-int MIOFile::GetByte() {
+int File::GetByte() {
 	int c;
 	if(!closed && !eof) {
 		c = fgetc(fp);
@@ -73,7 +73,7 @@ int MIOFile::GetByte() {
 			//close();
 			c = EOI;
 		}
-		MIOFile::byte_read++;
+		File::byte_read++;
 		return c;
 	}
 	else {
@@ -83,7 +83,7 @@ int MIOFile::GetByte() {
 
 
 //##ModelId=3C0F6C1A001B
-std::string MIOFile::GetLine() {
+std::string File::GetLine() {
 	//char* s = new char[500];
 	static char s[512];
 	s[0]=0;
@@ -93,7 +93,7 @@ std::string MIOFile::GetLine() {
 
 	if(!closed) {
 		c=fgetc(fp);
-		MIOFile::char_read++;
+		File::char_read++;
 		while( c != '\n' && c != EOF ) {
 			s[i] = c;
 			//printf("%c", c);
@@ -101,7 +101,7 @@ std::string MIOFile::GetLine() {
 			if(i>=512)
 				return s;
 			c=fgetc(fp);
-			MIOFile::char_read++;
+			File::char_read++;
 		}
 		if(c == EOF) {
 			eof = true;
@@ -118,7 +118,7 @@ std::string MIOFile::GetLine() {
 }
 
 
-std::string MIOFile::GetConfigurationLine() {
+std::string File::GetConfigurationLine() {
 	std::string temp;
 
 	temp = GetLine();
@@ -129,7 +129,7 @@ std::string MIOFile::GetConfigurationLine() {
 }
 
 
-std::string MIOFile::GetLine(const std::string &s) {
+std::string File::GetLine(const std::string &s) {
 	std::string line;
 	line = GetLine();
 
@@ -144,7 +144,7 @@ std::string MIOFile::GetLine(const std::string &s) {
 
 
 //##ModelId=3C0F6C1A001F
-void MIOFile::Close( ) {
+void File::Close( ) {
 	if(!closed) {
 		fclose(fp);
 		closed = true;
@@ -154,13 +154,13 @@ void MIOFile::Close( ) {
 
 
 //##ModelId=3C15F42303C4
-std::string MIOFile::GetLastLineRead() {
+std::string File::GetLastLineRead() {
 	return lastLineRead;
 }
 
 
 //##ModelId=3C205AF20278
-long MIOFile::Setpos(long offset) {
+long File::Setpos(long offset) {
 	long f;
 	//clearerr(fp);
 	f =  fseek(fp, offset, 0);
@@ -173,13 +173,13 @@ long MIOFile::Setpos(long offset) {
 
 
 //##ModelId=3C205AF202C3
-long MIOFile::Getpos() {
+long File::Getpos() {
 	return ftell(fp);
 }
 
 
 //##ModelId=3C205AF20313
-bool MIOFile::MemBookmarkPos() {
+bool File::MemBookmarkPos() {
 	if((bookmarkPos = ftell(fp)) != -1)
 		return true;
 	else
@@ -188,7 +188,7 @@ bool MIOFile::MemBookmarkPos() {
 
 
 //##ModelId=3C205AF20334
-bool MIOFile::SetLastBookmarkPos() {
+bool File::SetLastBookmarkPos() {
 	if(fseek(fp, bookmarkPos, SEEK_SET) == 0)
 		return true;
 	else
@@ -197,7 +197,7 @@ bool MIOFile::SetLastBookmarkPos() {
 
 
 //##ModelId=3A5A30B40368
-bool MIOFile::IsEOF() {
+bool File::IsEOF() {
 	if(!closed)
 		return eof;
 	else
@@ -206,13 +206,13 @@ bool MIOFile::IsEOF() {
 
 
 //##ModelId=3C51324A022E
-int MIOFile::SetFirstPos() {
+int File::SetFirstPos() {
 	return Setpos(startPosition);
 }
 
 
 //##ModelId=3C51324A0299
-bool MIOFile::Fchdir() {
+bool File::Fchdir() {
 
 	int len = filename.Length();
 	int index;
@@ -237,7 +237,7 @@ bool MIOFile::Fchdir() {
 
 /** No descriptions */
 //##ModelId=3C51324A0304
-long MIOFile::Find(UChar_t b) {
+long File::Find(UChar_t b) {
 	UChar_t f;
 	while(!IsEOF()) {
 		f = (UChar_t) GetByte();
@@ -249,7 +249,7 @@ long MIOFile::Find(UChar_t b) {
 
 
 //##ModelId=3DA3E56D0244
-bool MIOFile::WriteString(const std::string &str) {
+bool File::WriteString(const std::string &str) {
 	if(str != "")
 		if(!closed)
 			if(fprintf(fp,"%s",str.Data())<0)
@@ -257,7 +257,7 @@ bool MIOFile::WriteString(const std::string &str) {
 	return true;
 }
 
-bool MIOFile::WriteStringWithEndl(const std::string &str) {
+bool File::WriteStringWithEndl(const std::string &str) {
 	if(str != "")
 		if(!closed) {
 			str += "\n";
@@ -268,7 +268,7 @@ bool MIOFile::WriteStringWithEndl(const std::string &str) {
 }
 
 
-bool MIOFile::WriteStringArray(const char* array[], const std::string &filename ) {
+bool File::WriteStringArray(const char* array[], const std::string &filename ) {
 Bool_t ret;
 UInt_t i = 0;
 
@@ -287,6 +287,6 @@ UInt_t i = 0;
 	return true;
 }
 
-void MIOFile::DeleteFile(const std::string &filename) {
+void File::DeleteFile(const std::string &filename) {
 	remove(filename.Data());
 }

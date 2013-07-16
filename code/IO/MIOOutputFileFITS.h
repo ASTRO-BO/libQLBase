@@ -9,19 +9,19 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#ifndef MIOOUTPUTFILEMIOOutputFileFITS_H
-#define MIOOUTPUTFILEMIOOutputFileFITS_H
+#ifndef OUTPUTFILEOutputFileFITS_H
+#define OUTPUTFILEOutputFileFITS_H
 
 #include  <fitsio.h>
 #include "QLDefinition.h"
 
-class MIOOutputFileFITS
+class OutputFileFITS
 {
     public:
 
-        MIOOutputFileFITS();
+        OutputFileFITS();
 
-        virtual ~MIOOutputFileFITS();
+        virtual ~OutputFileFITS();
 
 	virtual bool open();
 
@@ -99,13 +99,13 @@ protected:
 
 
 template < typename TIPO >
-int  MIOOutputFileFITS::writeCell( int rownum , TIPO valore , char * nomecol)
+int  OutputFileFITS::writeCell( int rownum , TIPO valore , char * nomecol)
  {
  	return writeCell(rownum, valore, getColNum(nomecol));
  }
 
  template < typename TIPO >
-int  MIOOutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
+int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
  {
 	int status_fits = 0  ;
 
@@ -156,13 +156,13 @@ int  MIOOutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 
 //========================================================================
 
-class MIOOutputFileFITSBinaryTable : public MIOOutputFileFITS
+class OutputFileFITSBinaryTable : public OutputFileFITS
 {
 	public:
 
-        	MIOOutputFileFITSBinaryTable(int ncol_header1, int ncol_header2 = 0, int ncol_header3 = 0, int ncol_header4 = 0, int ncol_header5 = 0, int ncol_header6 = 0);
+		OutputFileFITSBinaryTable(int ncol_header1, int ncol_header2 = 0, int ncol_header3 = 0, int ncol_header4 = 0, int ncol_header5 = 0, int ncol_header6 = 0);
 
-        	virtual ~MIOOutputFileFITSBinaryTable();
+		virtual ~OutputFileFITSBinaryTable();
 
         	virtual bool init();
 

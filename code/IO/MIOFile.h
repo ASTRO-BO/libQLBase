@@ -1,5 +1,5 @@
 /***************************************************************************
-						  MIOFile.h  -  description
+						  File.h  -  description
 							 -------------------
 	begin                : Thu Nov 29 2001
 	copyright            : (C) 2001 by Andrea Bulgarelli
@@ -14,108 +14,108 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef MIOFile_h_h
-#define MIOFile_h_h
+#ifndef File_h_h
+#define File_h_h
 #include <string>
 #include "QLDefinition.h"
 
 //##ModelId=3C0F6C190309
 //##Documentation
 //##	$Date: 2006/09/12 13:36:24 $
-//##	$Header: /home/repository/cvs/gtb/libQL2/code/MIOFile.h,v 1.1 2006/09/12 13:36:24 bulgarelli Exp $
-//##	$Id: MIOFile.h,v 1.1 2006/09/12 13:36:24 bulgarelli Exp $
+//##	$Header: /home/repository/cvs/gtb/libQL2/code/File.h,v 1.1 2006/09/12 13:36:24 bulgarelli Exp $
+//##	$Id: File.h,v 1.1 2006/09/12 13:36:24 bulgarelli Exp $
 //##	$Revision: 1.1 $
-//##	\brief This class represent a device MIOFile for IO system.
+//##	\brief This class represent a device File for IO system.
 
 
-class MIOFile {
+class File {
 	public:
 
 		//##ModelId=3C187750028F
 		//##Documentation
 		//## \param b Indicates if the machine is big or little endian. If little endian, this class
 		//## swap the byte of a word
-		//## \param startP Starting position whitin MIOFile
-		MIOFile(long startP = 0);
+		//## \param startP Starting position whitin File
+		File(long startP = 0);
 
-		virtual ~MIOFile() {};
+		virtual ~File() {};
 
 		//##ModelId=3C0F6C1A0013
 		//##Documentation
-		//## Open the MIOFile
-		//## \param MIOFilename Name of MIOFile
-		//## \param mode Mode of MIOFile opened. r for read, w for writing
+		//## Open the File
+		//## \param Filename Name of File
+		//## \param mode Mode of File opened. r for read, w for writing
 		virtual bool Open(const std::string &filename, char* mode="r");
 
 		//##ModelId=3C0F6C1A0016
 		//## Documentation
-		//## Get a single byte from current position of MIOFile opened.
-		//## \pre The MIOFile must be opened.
+		//## Get a single byte from current position of File opened.
+		//## \pre The File must be opened.
 		virtual int GetByte();
 
 		//##ModelId=3C0F6C1A001B
 		//##Documentation
 		//## Get the current line.
-		//## \pre The MIOFile must be opened.
+		//## \pre The File must be opened.
 		virtual std::string GetLine();
 
 		//##ModelId=3C0F6C1A001B
 		//##Documentation
 		//## Get the first configuration line (a line that don't start with --)
-		//## \pre The MIOFile must be opened.
+		//## \pre The File must be opened.
 		virtual const std::string GetConfigurationLine();
 
 		virtual const std::string GetLine(const std::string &s);
 
 		//##ModelId=3C0F6C1A001F
 		//##Documentation
-		//## Close the MIOFile.
+		//## Close the File.
 		virtual void Close( );
 
 		//##ModelId=3C0F6C1A0021
 		//##Documentation
-		//## \return true if MIOFile is closed, false if MIOFile is opened.
+		//## \return true if File is closed, false if File is opened.
 		virtual bool IsClosed();
 
 		//##ModelId=3C15F42303C4
 		//##Documentation
-		//## \return Returns last line read from MIOFile.
+		//## \return Returns last line read from File.
 		std::string GetLastLineRead();
 
 		//##ModelId=3C205AF20278
-		//## Sets the position into MIOFile.
-		//## \pre The MIOFile must be opened.
+		//## Sets the position into File.
+		//## \pre The File must be opened.
 		virtual long Setpos(long offset);
 
 		//##ModelId=3C205AF202C3
-		//## Gets the current MIOFile position.
-		//## \pre The MIOFile must be opened.
+		//## Gets the current File position.
+		//## \pre The File must be opened.
 		virtual long Getpos();
 
 		//##ModelId=3C205AF20313
 		//##Documentation
 		//## Stores the current position
-		//## \pre The MIOFile must be opened.
+		//## \pre The File must be opened.
 		virtual bool MemBookmarkPos();
 
 		//##ModelId=3C205AF20334
 		//##Documentation
 		//## Sets the position stored with memBookmarkPos() method.
-		//## \pre The MIOFile must be opened.
+		//## \pre The File must be opened.
 		virtual bool SetLastBookmarkPos();
 
 		//##ModelId=3A5A30B40368
 		//##Documentation
-		//## \return Returns true is the position into MIOFile is at end of MIOFile
+		//## \return Returns true is the position into File is at end of File
 		virtual bool IsEOF();
 
 		//##ModelId=3C51324A022E
-		//## \pre The MIOFile must be opened.
+		//## \pre The File must be opened.
 		int SetFirstPos();
 
 		//##ModelId=3C51324A0299
-		//## Changes directory. The path is in the MIOFilename of MIOFile opened.
-		//## \pre The MIOFile name must be setted.
+		//## Changes directory. The path is in the Filename of File opened.
+		//## \pre The File name must be setted.
 		bool Fchdir();
 
 		//##ModelId=3C51324A0304
@@ -123,8 +123,8 @@ class MIOFile {
 
 		//##ModelId=3EADC12800D8
 		//##Documentation
-		//## Writes a string into opend MIOFile.
-		//## \pre The MIOFile must be opened in w mode
+		//## Writes a string into opend File.
+		//## \pre The File must be opened in w mode
 		bool WriteString(const std::string &str);
 
 		bool WriteStringWithEndl(const std::string &str);

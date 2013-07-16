@@ -9,22 +9,22 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "MIOInputFileFilter.h"
+#include "InputFileFilter.h"
 // #include "QLGlobalMemory.h"
 
 
-MIOInputFileFilter::MIOInputFileFilter()
+InputFileFilter::InputFileFilter()
 {
 	row_status = 0;
 	n_good_rows = 0;
 }
 
 
-MIOInputFileFilter::~MIOInputFileFilter()
+InputFileFilter::~InputFileFilter()
 {
 }
 
-Bool_t MIOInputFileFilter::Open(const std::string &filename) {
+Bool_t InputFileFilter::Open(const std::string &filename) {
 	status = 0;
 	this->filename = filename;
 	if ( !fits_open_table(&infptr, filename, READONLY, &status) ) {
@@ -34,7 +34,7 @@ Bool_t MIOInputFileFilter::Open(const std::string &filename) {
 		opened = kFALSE;
 
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFilter::Open() ");
+		char* errms; std::string msg("Error in InputFileFilter::Open() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 		//gm.PrintLogMessage(msg, kTRUE);
@@ -46,11 +46,11 @@ Bool_t MIOInputFileFilter::Open(const std::string &filename) {
 	return kTRUE;
 }
 
-Bool_t MIOInputFileFilter::Close() {
+Bool_t InputFileFilter::Close() {
 	status = 0;
 	fits_close_file(infptr, &status);
 	if (status) {
-		char* errms; std::string msg = "Error in MIOInputFileFilter::Close() ";
+		char* errms; std::string msg = "Error in InputFileFilter::Close() ";
 		fits_read_errmsg(errms);
 		msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
@@ -64,11 +64,11 @@ Bool_t MIOInputFileFilter::Close() {
 	return kTRUE;
 }
 
-Bool_t MIOInputFileFilter::MoveHeader(int header_number) {
+Bool_t InputFileFilter::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + 1, 0, &status);
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFilter::MoveHeader() ");
+		char* errms; std::string msg("Error in InputFileFilter::MoveHeader() ");
 		//fits_read_errmsg(errms);
 		//msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
@@ -80,11 +80,11 @@ Bool_t MIOInputFileFilter::MoveHeader(int header_number) {
 	return true;
 }
 
-int MIOInputFileFilter::GetColNum(char* nomecol) {
+int InputFileFilter::GetColNum(char* nomecol) {
 	int colnum = -1;
 	fits_get_colnum(infptr,CASEINSEN,nomecol,&colnum,&status);
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFilter::GetColNum() ");
+		char* errms; std::string msg("Error in InputFileFilter::GetColNum() ");
 		fits_read_errmsg(errms);
 		msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);
@@ -97,7 +97,7 @@ int MIOInputFileFilter::GetColNum(char* nomecol) {
 }
 
 
-DOUBLE_T* MIOInputFileFilter::ReadCol(int headernum, char* colname, Long_t frow, Long_t nrows) {
+DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, Long_t frow, Long_t nrows) {
 
 	if(!nrows)
 		return 0;
@@ -124,7 +124,7 @@ DOUBLE_T* MIOInputFileFilter::ReadCol(int headernum, char* colname, Long_t frow,
 	DOUBLE_T* data = (DOUBLE_T*) new DOUBLE_T[nrows];
 	fits_read_col(infptr, typecode, colnum, frow, felem, nrows, &null,  data, &anynull, &status);
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFilter::ReadCol(): ");
+		char* errms; std::string msg("Error in InputFileFilter::ReadCol(): ");
 		//fits_read_errmsg(errms);
 		//msg += errms;
 		//gm.PrintLogMessage(msg, kTRUE);

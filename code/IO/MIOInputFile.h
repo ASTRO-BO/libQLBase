@@ -3,7 +3,7 @@
 
 #include "QLDefinition.h"
 #include <string>
-class MIOInputFileFilter;
+class InputFileFilter;
 
 //##ModelId=3FAF8D8C034F
 //##Documentation
@@ -13,18 +13,18 @@ class MIOInputFileFilter;
 //## L'indice della prima colonna, l'indice della prima riga e l'indice del primo header partono tutti
 //## da 0. Utilizzare i rispettivi metodi per gli offset.
 //## $Date: 2007/05/23 17:24:46 $
-//## $Header: /home/repository/cvs/gtb/libQL2/code/MIOInputFile.h,v 1.2 2007/05/23 17:24:46 bulgarelli Exp $
-//## $Id: MIOInputFile.h,v 1.2 2007/05/23 17:24:46 bulgarelli Exp $
+//## $Header: /home/repository/cvs/gtb/libQL2/code/InputFile.h,v 1.2 2007/05/23 17:24:46 bulgarelli Exp $
+//## $Id: InputFile.h,v 1.2 2007/05/23 17:24:46 bulgarelli Exp $
 //## $Revision: 1.2 $
 //## \brief Insert here a brief description of the class
 
-class MIOInputFile {
+class InputFile {
 
 	public:
 
-		MIOInputFile( );
+		InputFile( );
 
-		virtual ~MIOInputFile();
+		virtual ~InputFile();
 
 		//il base header è l'header su cui devono essere contati il numero di eventi di un file
 		virtual void SetBaseHeader(Int_t headerBase);
@@ -81,7 +81,7 @@ class MIOInputFile {
 		//## Indica da dove deve partire l'indice del primo header nei file strutturati in tabella (0 o 1)
 		virtual UInt_t GetIndexFirstTableHeader() = 0;
 
-		virtual void SetFilter(MIOInputFileFilter* filter) {};
+		virtual void SetFilter(InputFileFilter* filter) {};
 
 	public:
 

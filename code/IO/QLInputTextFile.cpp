@@ -1,4 +1,4 @@
-#include "QLInputTextFile.h"
+#include "InputTextFile.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -38,22 +38,22 @@ using namespace std;
                       nRowsRead = buff_sz;                                            \
                       return buff;
 
-QLInputTextFile::QLInputTextFile(const std::string &separator) : fileStream(0) {
+InputTextFile::InputTextFile(const std::string &separator) : fileStream(0) {
 	this->separator = separator;
 	status = kFileNoError;
 }
 
 
-QLInputTextFile::~QLInputTextFile() {
+InputTextFile::~InputTextFile() {
 	SAFE_DELETE(fileStream)
 }
 
-DOUBLE_T* QLInputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) {
+DOUBLE_T* InputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) {
 	DOUBLE_T* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
-Bool_t QLInputTextFile::Open(const std::string &file_name) {
+Bool_t InputTextFile::Open(const std::string &file_name) {
 
 	// Close prev input file stream
 	Close();
@@ -92,7 +92,7 @@ Bool_t QLInputTextFile::Open(const std::string &file_name) {
 }
 
 
-bool QLInputTextFile::findField(std::string& line, int& first, int& last, int pos) {
+bool InputTextFile::findField(std::string& line, int& first, int& last, int pos) {
 
 	if(line.length()==0)
 		return false;
@@ -107,7 +107,7 @@ bool QLInputTextFile::findField(std::string& line, int& first, int& last, int po
 }
 
 
-Bool_t QLInputTextFile::Close() {
+Bool_t InputTextFile::Close() {
 	SAFE_DELETE(fileStream)
 	nrows    = 0;
 	ncols    = 0;
@@ -118,7 +118,7 @@ Bool_t QLInputTextFile::Close() {
 }
 
 
-bool QLInputTextFile::reopen() {
+bool InputTextFile::reopen() {
 	if(fileStream) {
 		if(!fileStream->good()) {
 			delete fileStream;
@@ -133,7 +133,7 @@ bool QLInputTextFile::reopen() {
 }
 
 
-bool QLInputTextFile::test(int ncol, long frow, long& lrow) {
+bool InputTextFile::test(int ncol, long frow, long& lrow) {
 	if(fileStream==0)
 		return false;
 	if(ncol>=ncols)
@@ -149,31 +149,31 @@ bool QLInputTextFile::test(int ncol, long frow, long& lrow) {
 }
 
 
-Long_t QLInputTextFile::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
+Long_t InputTextFile::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
 
 	return 0;
 }
 
 
-DOUBLE_T QLInputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
+DOUBLE_T InputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
 
 	return 0;
 }
 
 
-Bool_t QLInputTextFile::IsOpened() {
+Bool_t InputTextFile::IsOpened() {
 	if(fileStream)
 		return kTRUE;
 	return kFALSE;
 }
 
 
-UChar_t* QLInputTextFile::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
+UChar_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(UChar_t);
 }
 
 
-Short_t* QLInputTextFile::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+Short_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements) {
 
 	// Test inputs
 	if(!test(ncol, frow, lrow)) {
@@ -222,42 +222,42 @@ Short_t* QLInputTextFile::Read_TSHORT(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-Int_t* QLInputTextFile::Read_TINT(int ncol, long frow, long lrow, Long_t nelements) {
+Int_t* InputTextFile::Read_TINT(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(Int_t)
 }
 
 
-Long_t* QLInputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements) {
+Long_t* InputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(Long_t)
 }
 
 
-UShort_t* QLInputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+UShort_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(UShort_t)
 }
 
 
-UInt_t* QLInputTextFile::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
+UInt_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(UInt_t)
 }
 
 
-ULong_t* QLInputTextFile::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
+ULong_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(ULong_t)
 }
 
 
-Float_t* QLInputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements) {
+Float_t* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(Float_t)
 }
 
 
-Double_t* QLInputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements) {
+Double_t* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements) {
 	READ_DATA(Double_t)
 }
 
 
-void QLInputTextFile::_printState() {
+void InputTextFile::_printState() {
 	if(fileStream) {
 		PD("File: " << filename.Data() << "(" << fileStream->rdstate() << ")");
 		if(fileStream->rdstate()&ifstream::badbit)

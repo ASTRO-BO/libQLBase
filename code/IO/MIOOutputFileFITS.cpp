@@ -9,12 +9,12 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "MIOOutputFileFITS.h"
+#include "OutputFileFITS.h"
 
 #include <unistd.h>
 #include <string>
 
-MIOOutputFileFITS::MIOOutputFileFITS()
+OutputFileFITS::OutputFileFITS()
 {
     fptr=(fitsfile **)malloc(sizeof(fitsfile));
     verbose = false;
@@ -28,12 +28,12 @@ MIOOutputFileFITS::MIOOutputFileFITS()
 }
 
 
-MIOOutputFileFITS::~MIOOutputFileFITS()
+OutputFileFITS::~OutputFileFITS()
 {
     free(fptr);
 }
 
-long MIOOutputFileFITS::getRowNum() {
+long OutputFileFITS::getRowNum() {
 	if(!changeHeader(masterheadnum))
 		return -1;
 	status = 0;
@@ -41,7 +41,7 @@ long MIOOutputFileFITS::getRowNum() {
 	return rownum;
 }
 
-int MIOOutputFileFITS::getColNum(char* nomecol) {
+int OutputFileFITS::getColNum(char* nomecol) {
 	if(!changeHeader(masterheadnum))
 		return -1;
 	status = 0;
@@ -50,7 +50,7 @@ int MIOOutputFileFITS::getColNum(char* nomecol) {
 }
 
 
-bool MIOOutputFileFITS::open() {
+bool OutputFileFITS::open() {
 status = 0;
 	if ( !fits_open_file(fptr, filename, READWRITE, &status) ) {
 		opened = true;
@@ -60,7 +60,7 @@ status = 0;
 	return opened;
 }
 
-bool MIOOutputFileFITS::close() {
+bool OutputFileFITS::close() {
 status = 0;
 	if(!opened) return true;
 	if ( fits_close_file(*fptr, &status) )
@@ -71,11 +71,11 @@ status = 0;
 
 }
 
-void MIOOutputFileFITS::setMasterHeader(int masterheadnum) {
+void OutputFileFITS::setMasterHeader(int masterheadnum) {
 	this->masterheadnum = masterheadnum;
 }
 
-long MIOOutputFileFITS::findFirstRow(char* expr) {
+long OutputFileFITS::findFirstRow(char* expr) {
 	if(!changeHeader(masterheadnum))
 		return -1;
 	status = 0;
@@ -90,7 +90,7 @@ long MIOOutputFileFITS::findFirstRow(char* expr) {
 	return findfirstrow;
 }
 
-void MIOOutputFileFITS::printerror(int status)
+void OutputFileFITS::printerror(int status)
 {
     if (status) {
         fits_report_error(stderr, status);
@@ -100,7 +100,7 @@ void MIOOutputFileFITS::printerror(int status)
 }
 
 
-void MIOOutputFileFITS::writeInitHeaderKey(int header) {
+void OutputFileFITS::writeInitHeaderKey(int header) {
 int status = 0;
 
 	string str1;
@@ -141,11 +141,11 @@ int status = 0;
 
 }
 
-void MIOOutputFileFITS::writeHistoryFile() {
+void OutputFileFITS::writeHistoryFile() {
 	return;
 }
 
-void MIOOutputFileFITS::writeEndHeaderKey(int header) {
+void OutputFileFITS::writeEndHeaderKey(int header) {
 int status = 0;
 
 	//move to the first hdu
@@ -162,7 +162,7 @@ int status = 0;
 
 }
 
-void MIOOutputFileFITS::writeChksum(int header) {
+void OutputFileFITS::writeChksum(int header) {
 int status = 0;
 	if(!changeHeader(header))
 		return;
@@ -170,7 +170,7 @@ int status = 0;
 		printerror(status);
 }
 
-bool MIOOutputFileFITS::changeHeader(int headnum) {
+bool OutputFileFITS::changeHeader(int headnum) {
 	status = 0;
 	if ( fits_movabs_hdu(*fptr, headnum, 0, &status) ) {
 		printerror( status );
@@ -180,7 +180,7 @@ bool MIOOutputFileFITS::changeHeader(int headnum) {
 }
 
 
-char* MIOOutputFileFITS::setFileName(char* filenamebase)
+char* OutputFileFITS::setFileName(char* filenamebase)
 {
 	filename = filenamebase;
 // 	cout << filename << endl;
@@ -188,9 +188,9 @@ char* MIOOutputFileFITS::setFileName(char* filenamebase)
 	return filename;
 }
 
-bool MIOOutputFileFITS::flush_file() {
+bool OutputFileFITS::flush_file() {
 int status=0;
-	if(verbose) cout << "MIOOutputFileFITS: Current row: " << currentrow << ". Last row flushed: " << lastrow_flushed << ". Flush every " << flush_rows << "rows" << endl;
+	if(verbose) cout << "OutputFileFITS: Current row: " << currentrow << ". Last row flushed: " << lastrow_flushed << ". Flush every " << flush_rows << "rows" << endl;
 	if(currentrow >= lastrow_flushed + flush_rows) {
 		fits_flush_file (*fptr, &status);
 		lastrow_flushed = currentrow;
@@ -200,7 +200,7 @@ int status=0;
 }
 
 
-int MIOOutputFileFITS::openOutFits(char * fitsname, char * templatefile )
+int OutputFileFITS::openOutFits(char * fitsname, char * templatefile )
 {
    int status_fits=0 ;
 
@@ -211,7 +211,7 @@ int MIOOutputFileFITS::openOutFits(char * fitsname, char * templatefile )
 }
 
 
-int MIOOutputFileFITS::printerror(int codice,char* messaggio,int status)
+int OutputFileFITS::printerror(int codice,char* messaggio,int status)
 {
     char errtext[40] ; // max per fitsio  30 char + '/0'
 
@@ -219,7 +219,7 @@ int MIOOutputFileFITS::printerror(int codice,char* messaggio,int status)
 
     if (status) {
         fits_get_errstatus( status, errtext);
-	cerr << " ERROR IN MIOOutputFileFITSIO called from L1fits! : Number: " << status << " "
+	cerr << " ERROR IN OutputFileFITSIO called from L1fits! : Number: " << status << " "
 	     << errtext << endl ;
 
 	fits_report_error(stderr,status) ;  //detailded report
@@ -231,7 +231,7 @@ int MIOOutputFileFITS::printerror(int codice,char* messaggio,int status)
 }
 
 
-int MIOOutputFileFITS::flushCloseandExit()
+int OutputFileFITS::flushCloseandExit()
 {
     int status ;
 
@@ -246,7 +246,7 @@ int MIOOutputFileFITS::flushCloseandExit()
 //====================================================================================================
 
 
-MIOOutputFileFITSBinaryTable::MIOOutputFileFITSBinaryTable(int ncol_header1, int ncol_header2, int ncol_header3, int ncol_header4, int ncol_header5, int ncol_header6) : MIOOutputFileFITS() {
+OutputFileFITSBinaryTable::OutputFileFITSBinaryTable(int ncol_header1, int ncol_header2, int ncol_header3, int ncol_header4, int ncol_header5, int ncol_header6) : OutputFileFITS() {
 	this->ncol_header1 = ncol_header1;
 	this->ncol_header2 = ncol_header2;
   	this->ncol_header3 = ncol_header3;
@@ -331,7 +331,7 @@ MIOOutputFileFITSBinaryTable::MIOOutputFileFITSBinaryTable(int ncol_header1, int
 }
 
 
-MIOOutputFileFITSBinaryTable::~MIOOutputFileFITSBinaryTable() {
+OutputFileFITSBinaryTable::~OutputFileFITSBinaryTable() {
 	delete[] tform1;
 	delete[] ttype1;
 	delete[] tunit1;
@@ -365,7 +365,7 @@ MIOOutputFileFITSBinaryTable::~MIOOutputFileFITSBinaryTable() {
 }
 
 
-bool MIOOutputFileFITSBinaryTable::init()
+bool OutputFileFITSBinaryTable::init()
 {
 
 	long nrows = 1;
@@ -383,7 +383,7 @@ bool MIOOutputFileFITSBinaryTable::init()
 	currentrow = 1;
 	status=0;
 
-	/* create new MIOOutputFileFITS file */
+	/* create new OutputFileFITS file */
 	if (fits_create_file(fptr, filename, &status))
 		printerror( status );
 
@@ -481,7 +481,7 @@ bool MIOOutputFileFITSBinaryTable::init()
 
 
 
-bool MIOOutputFileFITSBinaryTable::close()
+bool OutputFileFITSBinaryTable::close()
 {
 	if(!opened) return true;
 
@@ -535,15 +535,15 @@ bool MIOOutputFileFITSBinaryTable::close()
 
 	}
 
-	/* close the MIOOutputFileFITS file */
-	return MIOOutputFileFITS::close();
+	/* close the OutputFileFITS file */
+	return OutputFileFITS::close();
 
 }
 
 
 
 
-char* MIOOutputFileFITSBinaryTable::getValue(char* str) {
+char* OutputFileFITSBinaryTable::getValue(char* str) {
 	int l = strlen(str);
 	int ins = 0;
 	for(ins=0; ins<l; ins++) {

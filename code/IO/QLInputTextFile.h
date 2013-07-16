@@ -1,7 +1,7 @@
 #ifndef QLINPUTTEXTFILE_H_HEADER_INCLUDED_C04E1A23
 #define QLINPUTTEXTFILE_H_HEADER_INCLUDED_C04E1A23
 
-#include "MIOInputFile.h"
+#include "InputFile.h"
 #include <fstream>
 
 //##ModelId=3FAF8D8C034F
@@ -11,17 +11,17 @@
 //## - read each column from a row to another row
 //## $Date: 2007/05/23 17:24:46 $
 //## $Header: /home/repository/cvs/gtb/libQL2/code/QLInputTextFile.h,v 1.9 2007/05/23 17:24:46 bulgarelli Exp $
-//## $Id: QLInputTextFile.h,v 1.9 2007/05/23 17:24:46 bulgarelli Exp $
+//## $Id: InputTextFile.h,v 1.9 2007/05/23 17:24:46 bulgarelli Exp $
 //## $Revision: 1.9 $
 //## \brief Insert here a brief description of the class
 
-class QLInputTextFile : public MIOInputFile {
+class InputTextFile : public InputFile {
 
 	public:
 
-		QLInputTextFile(const std::string &separator = std::string(" "));
+		InputTextFile(const std::string &separator = std::string(" "));
 
-		virtual ~QLInputTextFile();
+		virtual ~InputTextFile();
 
 		//##ModelId=3FAF8E5F0371
 		Bool_t Open(const std::string &fileName);

@@ -1,4 +1,4 @@
-#include "MIOInputFileFITS.h"
+#include "InputFileFITS.h"
 #include <TArrayS.h>
 #include <TArrayD.h>
 #include <TArrayF.h>
@@ -6,23 +6,23 @@
 #include <TArrayL.h>
 #include <iostream>
 // #include "QLGlobalMemory.h"
-#include "MIOFile.h"
+#include "File.h"
 using namespace std;
 #define IFFMAXROWSTATUS 1000000
 
-MIOInputFileFITS::MIOInputFileFITS() : MIOInputFile() {
+InputFileFITS::InputFileFITS() : InputFile() {
 	row_status = 0;
 	row_status = (char*) new char[IFFMAXROWSTATUS];
 	row_status_size = IFFMAXROWSTATUS;
 }
 
 
-MIOInputFileFITS::~MIOInputFileFITS() {
+InputFileFITS::~InputFileFITS() {
 	delete[] row_status;
 }
 
-Bool_t MIOInputFileFITS::Open(const std::string &filename) {
-	MIOFile file;
+Bool_t InputFileFITS::Open(const std::string &filename) {
+	File file;
 	if(file.Open(filename, "r"))
 		file.Close();
 	else
@@ -34,13 +34,13 @@ Bool_t MIOInputFileFITS::Open(const std::string &filename) {
 		opened = true;
 		fits_get_num_rows(infptr, &nrows, &status);
 		fits_get_num_cols(infptr, &ncols, &status);
-		PD("MIOInputFileFITS::Open() - " << filename << " - col: " << ncols << ", row: " << nrows << " - opened ");
+		PD("InputFileFITS::Open() - " << filename << " - col: " << ncols << ", row: " << nrows << " - opened ");
 	}
 	else
 		opened = kFALSE;
 
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFITS::Open() ");
+		char* errms; std::string msg("Error in InputFileFITS::Open() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -52,11 +52,11 @@ Bool_t MIOInputFileFITS::Open(const std::string &filename) {
 	return opened;
 }
 
-Int_t MIOInputFileFITS::GetNCols() {
+Int_t InputFileFITS::GetNCols() {
 	status = 0;
 	fits_get_num_cols(infptr, &ncols, &status);
 	if (status) {
-		char* errms; std::string  msg("Error in MIOInputFileFITS::GetNCols() ");
+		char* errms; std::string  msg("Error in InputFileFITS::GetNCols() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -68,11 +68,11 @@ Int_t MIOInputFileFITS::GetNCols() {
 	return ncols;
 }
 
-Long_t MIOInputFileFITS::GetNRows() {
+Long_t InputFileFITS::GetNRows() {
 	status = 0;
 	fits_get_num_rows(infptr, &nrows, &status);
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFITS::GetNRows() ");
+		char* errms; std::string msg("Error in InputFileFITS::GetNRows() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -85,11 +85,11 @@ Long_t MIOInputFileFITS::GetNRows() {
 }
 
 //##ModelId=3FAF8E850235
-Bool_t MIOInputFileFITS::Close() {
+Bool_t InputFileFITS::Close() {
 	status = 0;
 	fits_close_file(infptr, &status);
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFITS::Close() ");
+		char* errms; std::string msg("Error in InputFileFITS::Close() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -104,11 +104,11 @@ Bool_t MIOInputFileFITS::Close() {
 }
 
 
-Bool_t MIOInputFileFITS::MoveHeader(int header_number) {
+Bool_t InputFileFITS::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + GetIndexFirstTableHeader(), 0, &status);
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFITS::MoveHeader() ");
+		char* errms; std::string msg("Error in InputFileFITS::MoveHeader() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -120,17 +120,17 @@ Bool_t MIOInputFileFITS::MoveHeader(int header_number) {
 	return true;
 }
 
-Bool_t MIOInputFileFITS::ApplyFilter(const std::string &selectEvent) {
+Bool_t InputFileFITS::ApplyFilter(const std::string &selectEvent) {
 	applyFilter = kTRUE;
 	this->selectEvent = selectEvent;
 }
 
-void MIOInputFileFITS::RemoveFilter() {
+void InputFileFITS::RemoveFilter() {
 	applyFilter = kFALSE;
 }
 
 
-Long_t MIOInputFileFITS::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
+Long_t InputFileFITS::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
 	DOUBLE_T* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
 	//DOUBLE_T end_time = (*first_time) + deltaT;
@@ -149,7 +149,7 @@ Long_t MIOInputFileFITS::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_fi
 }
 
 
-DOUBLE_T MIOInputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
+DOUBLE_T InputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
 	MoveHeader(headerBase);
 	DOUBLE_T* new_time = READ_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
 	DOUBLE_T ret = *new_time;
@@ -157,13 +157,13 @@ DOUBLE_T MIOInputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
 	return ret;
 }
 
-DOUBLE_T* MIOInputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) {
+DOUBLE_T* InputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) {
 	MoveHeader(headerBase);
 	DOUBLE_T* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
-UChar_t* MIOInputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
+UChar_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TBYTE;
@@ -198,7 +198,7 @@ UChar_t* MIOInputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nel
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TBYTE() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TBYTE() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -228,7 +228,7 @@ UChar_t* MIOInputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-Short_t* MIOInputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+Short_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TSHORT;
@@ -255,7 +255,7 @@ Short_t* MIOInputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t ne
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TSHORT() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TSHORT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -284,7 +284,7 @@ Short_t* MIOInputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t ne
 }
 
 
-Int_t* MIOInputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t nelements) {
+Int_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TINT;
@@ -311,7 +311,7 @@ Int_t* MIOInputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t neleme
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TINT() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TINT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -340,7 +340,7 @@ Int_t* MIOInputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t neleme
 }
 
 
-Long_t* MIOInputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements) {
+Long_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TINT32BIT;
@@ -367,7 +367,7 @@ Long_t* MIOInputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t 
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TINT32BIT() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TINT32BIT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -396,7 +396,7 @@ Long_t* MIOInputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t 
 }
 
 
-UShort_t* MIOInputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+UShort_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TUSHORT;
@@ -423,7 +423,7 @@ UShort_t* MIOInputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t 
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TUSHORT() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TUSHORT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -452,7 +452,7 @@ UShort_t* MIOInputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t 
 }
 
 
-UInt_t* MIOInputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
+UInt_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TUINT;
@@ -479,7 +479,7 @@ UInt_t* MIOInputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nele
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TUINT() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TUINT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -508,7 +508,7 @@ UInt_t* MIOInputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nele
 }
 
 
-ULong_t* MIOInputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
+ULong_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TULONG;
@@ -535,7 +535,7 @@ ULong_t* MIOInputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t ne
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TULONG() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TULONG() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -564,7 +564,7 @@ ULong_t* MIOInputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t ne
 }
 
 
-Float_t* MIOInputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements) {
+Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TFLOAT;
@@ -591,7 +591,7 @@ Float_t* MIOInputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, Long_t ne
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TFLOAT() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TFLOAT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -620,7 +620,7 @@ Float_t* MIOInputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, Long_t ne
 }
 
 
-Double_t* MIOInputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements) {
+Double_t* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TDOUBLE;
@@ -649,7 +649,7 @@ Double_t* MIOInputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t 
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in MIOInputFileFITS::Read_TDOUBLE() ");
+		char* errms; std::string msg("Error in InputFileFITS::Read_TDOUBLE() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);
@@ -677,11 +677,11 @@ Double_t* MIOInputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t 
 	return data;
 }
 
-void MIOInputFileFITS::SetFilter(MIOInputFileFilter* filter) {
+void InputFileFITS::SetFilter(InputFileFilter* filter) {
 	this->filter = filter;
 }
 
-Bool_t MIOInputFileFITS::GetFilteredRows(Long_t frow, Long_t nrows) {
+Bool_t InputFileFITS::GetFilteredRows(Long_t frow, Long_t nrows) {
 	status = 0;
 	if(nrows > row_status_size) {
 		delete[] row_status;
@@ -701,7 +701,7 @@ Bool_t MIOInputFileFITS::GetFilteredRows(Long_t frow, Long_t nrows) {
 	row_status = filter->GetRowStatus();
 	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << " n_good_rows " << n_good_rows << " status " << status << endl;
 	if (status) {
-		char* errms; std::string msg("Error in MIOInputFileFITS::GetFilteredRows() ");
+		char* errms; std::string msg("Error in InputFileFITS::GetFilteredRows() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, kTRUE);

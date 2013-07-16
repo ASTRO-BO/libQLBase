@@ -1,6 +1,6 @@
-#include "MIOInputFile.h"
+#include "InputFile.h"
 
-MIOInputFile::MIOInputFile() {
+InputFile::InputFile() {
 	opened = kFALSE;
 	status = 0;
 	applyFilter = kFALSE;
@@ -9,20 +9,20 @@ MIOInputFile::MIOInputFile() {
 }
 
 
-MIOInputFile::~MIOInputFile() {
+InputFile::~InputFile() {
 
 }
 
-void MIOInputFile::SetBaseHeader(Int_t headerBase) {
+void InputFile::SetBaseHeader(Int_t headerBase) {
 	this->headerBase = headerBase;
 }
 
 
-Bool_t MIOInputFile::IsOpened() {
+Bool_t InputFile::IsOpened() {
 	return opened;
 }
 
-Long_t MIOInputFile::GetNEvents() {
+Long_t InputFile::GetNEvents() {
 	MoveHeader(headerBase);
 	return GetNRows();
 }

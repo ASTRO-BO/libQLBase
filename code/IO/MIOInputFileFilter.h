@@ -20,11 +20,11 @@ using namespace std;
 /**
 @author bulgarelli
 */
-class MIOInputFileFilter {
+class InputFileFilter {
 public:
-	MIOInputFileFilter();
+	InputFileFilter();
 
-	virtual ~MIOInputFileFilter();
+	virtual ~InputFileFilter();
 
 	Bool_t Open(const std::string &filename);
 
