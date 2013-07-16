@@ -1,0 +1,3 @@
+In this directory should contains the documentation of the project
+
+Se per caso ti capito che il QL vada in crash resettando il sistema X window, significa che hai settato un numero di bin in un istogramma troppo alto (es 160000)
