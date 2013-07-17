@@ -18,15 +18,13 @@
  */
 
 #include <string>
-#include <iostream>
+#include <fstream>
 #include <sstream>
 #include "Definitions.h"
 #include "InputTextFile.h"
 
 namespace ql_io
 {
-
-#define SAFE_DELETE(p) if(p) { delete p; p = 0; }
 
 #define READ_DATA(ty) if(!test(ncol, frow, lrow)) {                                   \
                         status = kFileNoRead;                                         \
@@ -40,8 +38,8 @@ namespace ql_io
                       int       buff_off  = 0;                                        \
                       ty*       buff      = new ty[buff_sz];                          \
                       for(int i = 0; i <= lrow; i++) {                                \
-                        string line;                                                  \
-                        if(getline(*fileStream,line)) {                               \
+                        std::string line;                                                  \
+                        if(getline(fileStream,line)) {                               \
                           if(line.size()==0) {                                        \
                             i--;                                                      \
                             continue;                                                 \
@@ -51,7 +49,7 @@ namespace ql_io
                             int last  = 0;                                            \
                             for(int j = 0; j <= ncol; j++)                            \
                               findField(line,first,last,last);                        \
-                            istringstream ist(string(line,first,last-first));         \
+                            std::istringstream ist(std::string(line,first,last-first));         \
                             ist >> buff[buff_off++];                                  \
                           }                                                           \
                         }                                                             \
@@ -59,43 +57,42 @@ namespace ql_io
                       nRowsRead = buff_sz;                                            \
                       return buff;
 
-InputTextFile::InputTextFile(const std::string &separator) : fileStream(0) {
+InputTextFile::InputTextFile(const std::string &separator) {
 	this->separator = separator;
 	status = kFileNoError;
 }
 
 InputTextFile::~InputTextFile() {
-	SAFE_DELETE(fileStream)
 }
 
 double* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
-	double* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
+	double* ret = Read_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
-bool InputTextFile::Open(const std::string &file_name) {
+bool InputTextFile::Open(const std::string &filename) {
 
 	// Close prev input file stream
 	Close();
 
 	// Try to open new file
-	fileStream = new ifstream(file_name.Data());
-	if(!fileStream->is_open()) {
-		SAFE_DELETE(fileStream)
-			return false;
+	fileStream.open(filename.c_str());
+	if(!fileStream.is_open()) {
+		opened = false;
+		return false;
 	}
 
 	// Save file name
 	opened = true;
-	filename = file_name;
+	this->filename = filename;
 
 	// Read first line
-	string line;
-	if(!getline(*fileStream,line)) {
-		SAFE_DELETE(fileStream)
-			return false;
+	std::string line;
+	if(!getline(fileStream,line)) {
+		Close();
+		return false;
 	} else
-	nrows++;
+		nrows++;
 
 	// Count cols
 	int first = 0;
@@ -104,7 +101,7 @@ bool InputTextFile::Open(const std::string &file_name) {
 		ncols++;
 
 	// Count rows
-	while(getline(*fileStream,line))
+	while(getline(fileStream,line))
 		if(line.size())
 			nrows++;
 
@@ -126,7 +123,6 @@ bool InputTextFile::findField(std::string& line, int& first, int& last, int pos)
 }
 
 bool InputTextFile::Close() {
-	SAFE_DELETE(fileStream)
 	nrows    = 0;
 	ncols    = 0;
 	filename = "";
@@ -137,12 +133,12 @@ bool InputTextFile::Close() {
 
 bool InputTextFile::reopen() {
 	if(fileStream) {
-		if(!fileStream->good()) {
-			delete fileStream;
-			fileStream = new ifstream(filename.Data());
+		if(!fileStream.good()) {
+			Close();
+			fileStream.open(filename.c_str());
 		}
 		else {
-			fileStream->seekg(0);
+			fileStream.seekg(0);
 		}
 		return true;
 	}
@@ -150,8 +146,6 @@ bool InputTextFile::reopen() {
 }
 
 bool InputTextFile::test(int ncol, long frow, long& lrow) {
-	if(fileStream==0)
-		return false;
 	if(ncol>=ncols)
 		return false;
 	if(frow < 0 || frow > lrow)
@@ -205,8 +199,8 @@ int16_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 
 	// Read rows
 	for(int i = 0; i <= lrow; i++) {
-		string line;
-		if(getline(*fileStream,line)) {
+		std::string line;
+		if(getline(fileStream,line)) {
 
 			// Skip withe rows
 			if(line.size()==0) {
@@ -223,7 +217,7 @@ int16_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 					findField(line,first,last,last);
 
 				// convert string
-				istringstream ist(string(line,first,last-first));
+				std::istringstream ist(std::string(line,first,last-first));
 				ist >> buff[buff_off++];
 			}
 		}
@@ -262,17 +256,19 @@ double* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 
 void InputTextFile::_printState() {
 	if(fileStream) {
-		DEBUG("File: " << filename.Data() << "(" << fileStream->rdstate() << ")");
-		if(fileStream->rdstate()&ifstream::badbit)
-			gm.PrintLogMessage("Error: critical error in stream buffer", true);
-		if(fileStream->rdstate()&ifstream::eofbit)
-			gm.PrintLogMessage("Error: End-Of-File reached while extracting", true);
-		if(fileStream->rdstate()&ifstream::failbit)
-			gm.PrintLogMessage("Error: failure extracting from stream", true);
-		if(fileStream->rdstate()==0)
-			DEBUG(" no error condition\n");
-	} else
-	DEBUG("File: closed\n");
+		DEBUG("File: " << filename << "(" << fileStream.rdstate() << ") ");
+		if(fileStream.rdstate()&std::ifstream::badbit)
+			DEBUG("Error: critical error in stream buffer");
+		if(fileStream.rdstate()&std::ifstream::eofbit)
+			DEBUG("Error: End-Of-File reached while extracting");
+		if(fileStream.rdstate()&std::ifstream::failbit)
+			DEBUG("Error: failure extracting from stream");
+		if(fileStream.rdstate()==0)
+			DEBUG("no errors\n");
+	}
+	else
+		DEBUG("File: closed\n");
+
 	DEBUG(" row: " << nrows)
 	DEBUG(" col: " << ncols);
 }

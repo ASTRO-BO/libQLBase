@@ -34,7 +34,7 @@ class InputTextFile : public InputFile {
 
 		virtual ~InputTextFile();
 
-		bool Open(const std::string &fileName);
+		bool Open(const std::string &filename);
 
 		bool Close();
 
@@ -73,7 +73,7 @@ class InputTextFile : public InputFile {
 		virtual uint32_t GetIndexFirstTableHeader() { return 0; };
 
 	protected:
-		std::ifstream*  fileStream;
+		std::ifstream fileStream;
 		std::string separator;
 
 	protected:

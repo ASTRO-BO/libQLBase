@@ -33,6 +33,17 @@ namespace ql_io
 #define DEBUG(msg)
 #endif
 
+enum FileError {
+    kFileNoError = 0,
+    kFileNoRead,
+    kEndFile,
+    kErrorMoveHeader,
+    kFileStopped,
+    kFileDataError,
+    kReadFileDisabled,
+    kFileErrorRowsTerminated = 307
+};
+
 }
 
 #endif
