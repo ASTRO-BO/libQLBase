@@ -38,8 +38,8 @@ bool File::IsClosed() {
 	return closed;
 }
 
-bool File::Open(const std::string &filename, char* mode) {
-	fp = fopen(filename, mode);
+bool File::Open(const std::string &filename, const char* mode) {
+	fp = fopen(filename.c_str(), mode);
 
 	if(fp == NULL) {
 		closed = true;
@@ -100,19 +100,16 @@ std::string File::GetLine() {
 		}
 	}
 	s[i] = '\0';
-	unsigned dims = strlen(s);
-	char* sr = new char[ dims + 1];
-	for(unsigned i=0; i<=dims; i++)
-		sr[i] = s[i];
-	lastLineRead = sr;
-	return sr;
+
+    lastLineRead = std::string(s);
+	return lastLineRead;
 }
 
 std::string File::GetConfigurationLine() {
 	std::string temp;
 
 	temp = GetLine();
-	while(strstr(temp, "--") !=  NULL) {
+	while(temp.find("--") != std::string::npos) {
 		temp = GetLine();
 	}
 	return temp;
@@ -122,8 +119,7 @@ std::string File::GetLine(const std::string &s) {
 	std::string line;
 	line = GetLine();
 
-	while(line.Contains(s)) {
-		line = "";
+	while(line.find(s) != std::string::npos) {
 		line = GetLine();
 		if(IsEOF() == true)
 			break;
@@ -185,23 +181,14 @@ int File::SetFirstPos() {
 
 bool File::Fchdir() {
 
-	int len = filename.Length();
-	int index;
-	for(index=len-1; index>=0; index--) {
-		//		char c = filename[index];
-		if(filename[index] == '/')
-			break;
+	int pos = filename.find_last_of('/');
+	if(pos != std::string::npos)
+	{
+		std::string path = filename.substr(pos);
+		if(chdir(path.c_str()) != 0)
+			return false;
 	}
-	char* path = new char[index+2];
-	for(int i=0; i<=index; i++)
-		path[i]=filename[i];
-	path[index+1] = '\0';
-	if(strlen(path) != 0)
-	if(chdir(path)==0) {
-		return true;
-	}
-	else
-		return false;
+
 	return true;
 }
 
@@ -216,44 +203,52 @@ long File::Find(uint8_t b) {
 }
 
 bool File::WriteString(const std::string &str) {
-	if(str != "")
-		if(!closed)
-			if(fprintf(fp,"%s",str.Data())<0)
-				return false;
+	if(str == "" || close)
+		return false;
+
+	if(fprintf(fp,"%s",str.c_str())<0)
+		return false;
+
 	return true;
 }
 
 bool File::WriteStringWithEndl(const std::string &str) {
-	if(str != "")
-		if(!closed) {
-			str += "\n";
-			if(fprintf(fp,"%s",str.Data())<0)
-				return false;
-			}
+	if(str == "" || close)
+		return false;
+
+	std::string temp = str;
+	temp.append("\n");
+	if(fprintf(fp,"%s",temp.c_str())<0)
+		return false;
+
 	return true;
 }
 
 bool File::WriteStringArray(const char* array[], const std::string &filename ) {
-bool ret;
-uint32_t i = 0;
+	bool ret;
+	uint32_t i = 0;
 
-	if(filename != "")
-		if(!Open(filename, "w"))
-			return kFALSE;
-	//the file is opened
+	if(filename == "")
+		return false;
+
+	if(!Open(filename, "w"))
+		return false;
+
 	i = 0;
 	while(array[i] != 0) {
 		std::string s = array[i++];
-		s += "\n";
+		s.append("\n");
 		if(!WriteString(s))
-			return kFALSE;
-		}
+			return false;
+	}
+
 	Close();
+
 	return true;
 }
 
 void File::DeleteFile(const std::string &filename) {
-	remove(filename.Data());
+	remove(filename.c_str());
 }
 
 }

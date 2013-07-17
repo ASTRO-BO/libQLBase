@@ -37,7 +37,7 @@ class File {
 		 * @param filename Name of the file.
 		 * @param mode Mode of File opened. r for read, w for writing.
 		 */
-		virtual bool Open(const std::string &filename, char* mode="r");
+		virtual bool Open(const std::string &filename, const char* mode="r");
 
 		/** Get a single byte from current position of File opened.
 		 * @pre The File must be opened.
@@ -52,9 +52,9 @@ class File {
 		/** Get the first configuration line (a line that don't start with --).
 		 * @pre The File must be opened.
 		*/
-		virtual const std::string GetConfigurationLine();
+		virtual std::string GetConfigurationLine();
 
-		virtual const std::string GetLine(const std::string &s);
+		virtual std::string GetLine(const std::string &s);
 
 		virtual void Close( );
 
