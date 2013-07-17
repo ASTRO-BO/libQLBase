@@ -18,7 +18,6 @@
  */
 
 #include "InputFileFilter.h"
-// #include "QLGlobalMemory.h"
 
 namespace ql_io
 {

@@ -20,7 +20,6 @@
 #ifndef QL_IO_INPUTFILE_H
 #define QL_IO_INPUTFILE_H
 
-#include "QLDefinition.h"
 #include <string>
 #include <cstdint>
 

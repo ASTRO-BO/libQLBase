@@ -17,11 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "InputTextFile.h"
 #include <string>
 #include <iostream>
 #include <sstream>
-#include "QLGlobalMemory.h"
+#include "InputTextFile.h"
+
 using namespace std;
 
 namespace ql_io

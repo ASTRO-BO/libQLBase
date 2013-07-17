@@ -22,7 +22,6 @@
 
 #include <string>
 #include <cstdint>
-#include "QLDefinition.h"
 
 namespace ql_io {
 

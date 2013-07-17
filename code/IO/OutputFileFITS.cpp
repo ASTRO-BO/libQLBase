@@ -17,10 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "OutputFileFITS.h"
-
 #include <unistd.h>
 #include <string>
+#include "OutputFileFITS.h"
 
 namespace ql_io
 {

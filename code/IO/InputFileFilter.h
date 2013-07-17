@@ -20,10 +20,8 @@
 #ifndef QL_IO_INPUTFILEFILTER_H
 #define QL_IO_INPUTFILEFILTER_H
 
-#include "QLDefinition.h"
-#include <fitsio.h>
 #include <string>
-#include <iostream>
+#include <fitsio.h>
 
 using namespace std;
 

@@ -17,15 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "InputFileFITS.h"
-#include <TArrayS.h>
-#include <TArrayD.h>
-#include <TArrayF.h>
-#include <TArrayI.h>
-#include <TArrayL.h>
 #include <iostream>
-// #include "QLGlobalMemory.h"
+#include "InputFileFITS.h"
 #include "File.h"
+
 using namespace std;
 
 namespace ql_io {

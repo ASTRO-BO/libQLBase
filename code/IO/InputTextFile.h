@@ -20,9 +20,9 @@
 #ifndef QL_IO_INPUTTEXTFILE_H
 #define QL_IO_INPUTTEXTFILE_H
 
-#include "InputFile.h"
 #include <fstream>
 #include <cstdint>
+#include "InputFile.h"
 
 namespace ql_io {
 

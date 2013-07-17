@@ -21,11 +21,8 @@
 #define QL_IO_INPUTFILEFITS_H
 
 #include <cstdint>
-
-#include "QLDefinition.h"
-#include "InputFile.h"
-#include "InputFileFilter.h"
 #include <fitsio.h>
+#include "InputFile.h"
 
 namespace ql_io {
 

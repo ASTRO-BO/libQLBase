@@ -21,7 +21,6 @@
 #define QL_IO_OUTPUTFILEFITS_H
 
 #include  <fitsio.h>
-#include "QLDefinition.h"
 
 namespace ql_io
 {
