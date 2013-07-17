@@ -38,7 +38,7 @@ class InputTextFile : public InputFile {
 
 		bool Close();
 
-		bool MoveHeader(int header_number) { return kTRUE; };
+		bool MoveHeader(int header_number) { return true; };
 
 		int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
 

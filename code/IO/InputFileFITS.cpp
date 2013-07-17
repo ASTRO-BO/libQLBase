@@ -51,17 +51,17 @@ bool InputFileFITS::Open(const std::string &filename) {
 		PD("InputFileFITS::Open() - " << filename << " - col: " << ncols << ", row: " << nrows << " - opened ");
 	}
 	else
-		opened = kFALSE;
+		opened = false;
 
 	if (status) {
 		char* errms; std::string msg("Error in InputFileFITS::Open() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
-		return kFALSE;
+		return false;
 	}
 	return opened;
 }
@@ -73,7 +73,7 @@ int32_t InputFileFITS::GetNCols() {
 		char* errms; std::string  msg("Error in InputFileFITS::GetNCols() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
@@ -89,7 +89,7 @@ int64_t InputFileFITS::GetNRows() {
 		char* errms; std::string msg("Error in InputFileFITS::GetNRows() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
@@ -106,15 +106,15 @@ bool InputFileFITS::Close() {
 		char* errms; std::string msg("Error in InputFileFITS::Close() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
-		opened = kTRUE;
+		opened = true;
 		status = 0;
-		return kFALSE;
+		return false;
 	}
-	opened = kFALSE;
-	return kTRUE;
+	opened = false;
+	return true;
 }
 
 bool InputFileFITS::MoveHeader(int header_number) {
@@ -124,7 +124,7 @@ bool InputFileFITS::MoveHeader(int header_number) {
 		char* errms; std::string msg("Error in InputFileFITS::MoveHeader() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
@@ -134,12 +134,12 @@ bool InputFileFITS::MoveHeader(int header_number) {
 }
 
 bool InputFileFITS::ApplyFilter(const std::string &selectEvent) {
-	applyFilter = kTRUE;
+	applyFilter = true;
 	this->selectEvent = selectEvent;
 }
 
 void InputFileFITS::RemoveFilter() {
-	applyFilter = kFALSE;
+	applyFilter = false;
 }
 
 int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
@@ -212,7 +212,7 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 		char* errms; std::string msg("Error in InputFileFITS::Read_TBYTE() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -268,7 +268,7 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 		char* errms; std::string msg("Error in InputFileFITS::Read_TSHORT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -323,7 +323,7 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 		char* errms; std::string msg("Error in InputFileFITS::Read_TINT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -378,7 +378,7 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 		char* errms; std::string msg("Error in InputFileFITS::Read_TINT32BIT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -433,7 +433,7 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 		char* errms; std::string msg("Error in InputFileFITS::Read_TUSHORT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -488,7 +488,7 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 		char* errms; std::string msg("Error in InputFileFITS::Read_TUINT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -543,7 +543,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 		char* errms; std::string msg("Error in InputFileFITS::Read_TULONG() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -598,7 +598,7 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 		char* errms; std::string msg("Error in InputFileFITS::Read_TFLOAT() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -655,7 +655,7 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 		char* errms; std::string msg("Error in InputFileFITS::Read_TDOUBLE() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		return 0;
@@ -695,11 +695,11 @@ bool InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
 	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << endl;
 	//fits_find_rows(infptr, (char*)selectEvent.Data(), frow, nrows, &n_good_rows, row_status, &status );
 	if(!filter->Open(filename))
-		return kFALSE;
+		return false;
 	if(!filter->Calculate(frow, nrows))
-		return kFALSE;
+		return false;
 	if(!filter->Close())
-		return kFALSE;
+		return false;
 	n_good_rows = filter->GetNGoodRows();
 	row_status = filter->GetRowStatus();
 	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << " n_good_rows " << n_good_rows << " status " << status << endl;
@@ -707,13 +707,13 @@ bool InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
 		char* errms; std::string msg("Error in InputFileFITS::GetFilteredRows() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-// 		gm.PrintLogMessage(msg, kTRUE);
+// 		gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
-		return kFALSE;
+		return false;
 	}
-	return kTRUE;
+	return true;
 }
 
 }

@@ -39,19 +39,19 @@ bool InputFileFilter::Open(const std::string &filename) {
 		opened = true;
 	}
 	else
-		opened = kFALSE;
+		opened = false;
 
 	if (status) {
 		char* errms; std::string msg("Error in InputFileFilter::Open() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
-		//gm.PrintLogMessage(msg, kTRUE);
+		//gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
-		return kFALSE;
+		return false;
 	}
-	return kTRUE;
+	return true;
 }
 
 bool InputFileFilter::Close() {
@@ -61,15 +61,15 @@ bool InputFileFilter::Close() {
 		char* errms; std::string msg = "Error in InputFileFilter::Close() ";
 		fits_read_errmsg(errms);
 		msg += errms;
-		//gm.PrintLogMessage(msg, kTRUE);
+		//gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
-		opened = kTRUE;
+		opened = true;
 		status = 0;
-		return kFALSE;
+		return false;
 	}
-	opened = kFALSE;
-	return kTRUE;
+	opened = false;
+	return true;
 }
 
 bool InputFileFilter::MoveHeader(int header_number) {
@@ -79,7 +79,7 @@ bool InputFileFilter::MoveHeader(int header_number) {
 		char* errms; std::string msg("Error in InputFileFilter::MoveHeader() ");
 		//fits_read_errmsg(errms);
 		//msg += errms;
-		//gm.PrintLogMessage(msg, kTRUE);
+		//gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
@@ -95,7 +95,7 @@ int InputFileFilter::GetColNum(char* nomecol) {
 		char* errms; std::string msg("Error in InputFileFilter::GetColNum() ");
 		fits_read_errmsg(errms);
 		msg += errms;
-		//gm.PrintLogMessage(msg, kTRUE);
+		//gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;
@@ -134,7 +134,7 @@ double* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int
 		char* errms; std::string msg("Error in InputFileFilter::ReadCol(): ");
 		//fits_read_errmsg(errms);
 		//msg += errms;
-		//gm.PrintLogMessage(msg, kTRUE);
+		//gm.PrintLogMessage(msg, true);
 		cerr << msg << endl;
 		fits_report_error(stderr, status);
 		status = 0;

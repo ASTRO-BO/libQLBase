@@ -81,18 +81,18 @@ bool InputTextFile::Open(const std::string &file_name) {
 	fileStream = new ifstream(file_name.Data());
 	if(!fileStream->is_open()) {
 		SAFE_DELETE(fileStream)
-			return kFALSE;
+			return false;
 	}
 
 	// Save file name
-	opened = kTRUE;
+	opened = true;
 	filename = file_name;
 
 	// Read first line
 	string line;
 	if(!getline(*fileStream,line)) {
 		SAFE_DELETE(fileStream)
-			return kFALSE;
+			return false;
 	} else
 	nrows++;
 
@@ -107,7 +107,7 @@ bool InputTextFile::Open(const std::string &file_name) {
 		if(line.size())
 			nrows++;
 
-	return kTRUE;
+	return true;
 }
 
 bool InputTextFile::findField(std::string& line, int& first, int& last, int pos) {
@@ -129,9 +129,9 @@ bool InputTextFile::Close() {
 	nrows    = 0;
 	ncols    = 0;
 	filename = "";
-	opened   = kFALSE;
+	opened   = false;
 	status   = kFileNoError;
-	return kTRUE;
+	return true;
 }
 
 bool InputTextFile::reopen() {
@@ -175,8 +175,8 @@ double InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 
 bool InputTextFile::IsOpened() {
 	if(fileStream)
-		return kTRUE;
-	return kFALSE;
+		return true;
+	return false;
 }
 
 uint8_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements) {
@@ -263,11 +263,11 @@ void InputTextFile::_printState() {
 	if(fileStream) {
 		PD("File: " << filename.Data() << "(" << fileStream->rdstate() << ")");
 		if(fileStream->rdstate()&ifstream::badbit)
-			gm.PrintLogMessage("Error: critical error in stream buffer", kTRUE);
+			gm.PrintLogMessage("Error: critical error in stream buffer", true);
 		if(fileStream->rdstate()&ifstream::eofbit)
-			gm.PrintLogMessage("Error: End-Of-File reached while extracting", kTRUE);
+			gm.PrintLogMessage("Error: End-Of-File reached while extracting", true);
 		if(fileStream->rdstate()&ifstream::failbit)
-			gm.PrintLogMessage("Error: failure extracting from stream", kTRUE);
+			gm.PrintLogMessage("Error: failure extracting from stream", true);
 		if(fileStream->rdstate()==0)
 			PD(" no error condition\n");
 	} else

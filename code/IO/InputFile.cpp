@@ -22,9 +22,9 @@
 namespace ql_io {
 
 InputFile::InputFile() {
-	opened = kFALSE;
+	opened = false;
 	status = 0;
-	applyFilter = kFALSE;
+	applyFilter = false;
 	selectEvent = "";
 	headerBase = 1; //starting index = 0
 }
