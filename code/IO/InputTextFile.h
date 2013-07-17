@@ -56,9 +56,9 @@ class InputTextFile : public InputFile {
 
 		uint64_t* Read_TULONG(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Float_t* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0);
+		float* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0);
+		double* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0);
 
 		virtual uint32_t GetIndexFirstColumn() { return 0;};
 

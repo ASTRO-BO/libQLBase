@@ -250,13 +250,13 @@ uint64_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 }
 
 
-Float_t* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(Float_t)
+float* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
+	READ_DATA(float)
 }
 
 
-Double_t* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(Double_t)
+double* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
+	READ_DATA(double)
 }
 
 

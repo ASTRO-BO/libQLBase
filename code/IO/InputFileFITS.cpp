@@ -567,7 +567,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 }
 
 
-Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
+float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TFLOAT;
@@ -589,7 +589,7 @@ Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nele
 			return 0;
 		}
 	}
-	Float_t* data = new Float_t[nelem];
+	float* data = new float[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -605,7 +605,7 @@ Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nele
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			Float_t* dataf = (Float_t*) new Float_t[n_good_rows];
+			float* dataf = (float*) new float[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -623,7 +623,7 @@ Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nele
 }
 
 
-Double_t* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
+double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TDOUBLE;
@@ -646,7 +646,7 @@ Double_t* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t ne
 			return 0;
 		}
 	}
-	Double_t* data = (Double_t*) new Double_t[nelem];
+	double* data = (double*) new double[nelem];
 	//cout << "(2) ncol " << ncol << " frow " << frow << " nelem " << nelem << endl;
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -663,7 +663,7 @@ Double_t* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t ne
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			Double_t* dataf = (Double_t*) new Double_t[n_good_rows];
+			double* dataf = (double*) new double[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)

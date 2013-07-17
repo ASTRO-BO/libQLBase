@@ -105,9 +105,9 @@ class InputFile {
 
 		virtual uint64_t* Read_TULONG(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Float_t* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
+		virtual float* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
+		virtual double* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
 	protected:
 
