@@ -50,11 +50,11 @@ class InputFileFITS : public InputFile {
 		/** Remove the filter to the current header. */
 		virtual void RemoveFilter();
 
-		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time);
+		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
 
-		virtual DOUBLE_T* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
+		virtual double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
 
-		virtual DOUBLE_T GetTime(uint32_t timeColumnNumber, uint64_t pos);
+		virtual double GetTime(uint32_t timeColumnNumber, uint64_t pos);
 
 		virtual uint32_t GetIndexFirstColumn() { return 1;};
 

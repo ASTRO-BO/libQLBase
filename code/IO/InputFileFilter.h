@@ -50,7 +50,7 @@ protected:
 
 	virtual int32_t GetColNum(char* nomecol);
 
-	virtual DOUBLE_T* ReadCol(int32_t headernum, char* colname, int64_t frow, int64_t nrows);
+	virtual double* ReadCol(int32_t headernum, char* colname, int64_t frow, int64_t nrows);
 
 	fitsfile *infptr;
 

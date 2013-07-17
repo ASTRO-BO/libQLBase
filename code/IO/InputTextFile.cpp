@@ -69,8 +69,8 @@ InputTextFile::~InputTextFile() {
 	SAFE_DELETE(fileStream)
 }
 
-DOUBLE_T* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
-	DOUBLE_T* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
+double* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
+	double* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
@@ -165,12 +165,12 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 	return true;
 }
 
-int64_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) {
+int64_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
 
 	return 0;
 }
 
-DOUBLE_T InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
+double InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 
 	return 0;
 }

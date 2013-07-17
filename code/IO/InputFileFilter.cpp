@@ -104,7 +104,7 @@ int InputFileFilter::GetColNum(char* nomecol) {
 	return colnum;
 }
 
-DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int64_t nrows) {
+double* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int64_t nrows) {
 
 	if(!nrows)
 		return 0;
@@ -117,7 +117,7 @@ DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, i
 	int typecode = TFLOAT;
 	#endif
 	int felem = 1;
-	DOUBLE_T null = 0.0;
+	double null = 0.0;
 
 	delete[] row_status;
 	row_status = (char*) new char[nrows];
@@ -128,7 +128,7 @@ DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, i
 	colnum = GetColNum(colname);
 	if(colnum == -1)
 		return 0;
-	DOUBLE_T* data = (DOUBLE_T*) new DOUBLE_T[nrows];
+	double* data = (double*) new double[nrows];
 	fits_read_col(infptr, typecode, colnum, frow, felem, nrows, &null,  data, &anynull, &status);
 	if (status) {
 		char* errms; std::string msg("Error in InputFileFilter::ReadCol(): ");

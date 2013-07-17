@@ -144,15 +144,15 @@ void InputFileFITS::RemoveFilter() {
 	applyFilter = kFALSE;
 }
 
-int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) {
-	DOUBLE_T* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
+int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
+	double* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
-	//DOUBLE_T end_time = (*first_time) + deltaT;
-	DOUBLE_T current_time = *first_time;
+	//double end_time = (*first_time) + deltaT;
+	double current_time = *first_time;
 	int64_t next_pos = pos_first;
 	while(current_time < end_time) {
 		next_pos++;
-		DOUBLE_T* new_time = READ_TDOUBLE(timeColumnNumber, next_pos, next_pos);
+		double* new_time = READ_TDOUBLE(timeColumnNumber, next_pos, next_pos);
 		if(new_time == 0) return 0;
 		current_time = *new_time;
 		delete[] new_time;
@@ -162,17 +162,17 @@ int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_f
 	return next_pos;
 }
 
-DOUBLE_T InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
+double InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 	MoveHeader(headerBase);
-	DOUBLE_T* new_time = READ_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
-	DOUBLE_T ret = *new_time;
+	double* new_time = READ_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
+	double ret = *new_time;
 	delete[] new_time;
 	return ret;
 }
 
-DOUBLE_T* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
+double* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
 	MoveHeader(headerBase);
-	DOUBLE_T* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
+	double* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
