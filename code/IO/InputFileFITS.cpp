@@ -37,7 +37,7 @@ InputFileFITS::~InputFileFITS() {
 	delete[] row_status;
 }
 
-Bool_t InputFileFITS::Open(const std::string &filename) {
+bool InputFileFITS::Open(const std::string &filename) {
 	File file;
 	if(file.Open(filename, "r"))
 		file.Close();
@@ -101,7 +101,7 @@ int64_t InputFileFITS::GetNRows() {
 }
 
 //##ModelId=3FAF8E850235
-Bool_t InputFileFITS::Close() {
+bool InputFileFITS::Close() {
 	status = 0;
 	fits_close_file(infptr, &status);
 	if (status) {
@@ -119,7 +119,7 @@ Bool_t InputFileFITS::Close() {
 	return kTRUE;
 }
 
-Bool_t InputFileFITS::MoveHeader(int header_number) {
+bool InputFileFITS::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + GetIndexFirstTableHeader(), 0, &status);
 	if (status) {
@@ -135,7 +135,7 @@ Bool_t InputFileFITS::MoveHeader(int header_number) {
 	return true;
 }
 
-Bool_t InputFileFITS::ApplyFilter(const std::string &selectEvent) {
+bool InputFileFITS::ApplyFilter(const std::string &selectEvent) {
 	applyFilter = kTRUE;
 	this->selectEvent = selectEvent;
 }
@@ -686,7 +686,7 @@ void InputFileFITS::SetFilter(InputFileFilter* filter) {
 	this->filter = filter;
 }
 
-Bool_t InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
+bool InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
 	status = 0;
 	if(nrows > row_status_size) {
 		delete[] row_status;

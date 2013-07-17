@@ -34,17 +34,17 @@ class InputTextFile : public InputFile {
 
 		virtual ~InputTextFile();
 
-		Bool_t Open(const std::string &fileName);
+		bool Open(const std::string &fileName);
 
-		Bool_t Close();
+		bool Close();
 
-		Bool_t MoveHeader(int header_number) { return kTRUE; };
+		bool MoveHeader(int header_number) { return kTRUE; };
 
 		int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time);
 
 		DOUBLE_T GetTime(uint32_t timeColumnNumber, uint64_t pos);
 
-		Bool_t IsOpened();
+		bool IsOpened();
 
 		DOUBLE_T* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
 

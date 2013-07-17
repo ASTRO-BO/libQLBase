@@ -234,7 +234,7 @@ bool File::WriteStringWithEndl(const std::string &str) {
 }
 
 bool File::WriteStringArray(const char* array[], const std::string &filename ) {
-Bool_t ret;
+bool ret;
 uint32_t i = 0;
 
 	if(filename != "")

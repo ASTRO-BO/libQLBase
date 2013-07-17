@@ -34,11 +34,11 @@ public:
 
 	virtual ~InputFileFilter();
 
-	Bool_t Open(const std::string &filename);
+	bool Open(const std::string &filename);
 
-	Bool_t Close();
+	bool Close();
 
-	virtual Bool_t Calculate(int64_t frow, int64_t nrows) = 0;
+	virtual bool Calculate(int64_t frow, int64_t nrows) = 0;
 
 	virtual int64_t GetNGoodRows() { return n_good_rows; };
 
@@ -46,7 +46,7 @@ public:
 
 protected:
 
-	virtual Bool_t MoveHeader(int32_t header_number);
+	virtual bool MoveHeader(int32_t header_number);
 
 	virtual int32_t GetColNum(char* nomecol);
 
@@ -62,7 +62,7 @@ protected:
 
 	std::string filename;
 
-	Bool_t opened;
+	bool opened;
 
 };
 

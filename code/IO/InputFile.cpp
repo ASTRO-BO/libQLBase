@@ -38,7 +38,7 @@ void InputFile::SetBaseHeader(int32_t headerBase) {
 }
 
 
-Bool_t InputFile::IsOpened() {
+bool InputFile::IsOpened() {
 	return opened;
 }
 

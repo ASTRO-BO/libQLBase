@@ -74,7 +74,7 @@ DOUBLE_T* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint
 	return ret;
 }
 
-Bool_t InputTextFile::Open(const std::string &file_name) {
+bool InputTextFile::Open(const std::string &file_name) {
 
 	// Close prev input file stream
 	Close();
@@ -126,7 +126,7 @@ bool InputTextFile::findField(std::string& line, int& first, int& last, int pos)
 	return true;
 }
 
-Bool_t InputTextFile::Close() {
+bool InputTextFile::Close() {
 	SAFE_DELETE(fileStream)
 	nrows    = 0;
 	ncols    = 0;
@@ -175,7 +175,7 @@ DOUBLE_T InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 	return 0;
 }
 
-Bool_t InputTextFile::IsOpened() {
+bool InputTextFile::IsOpened() {
 	if(fileStream)
 		return kTRUE;
 	return kFALSE;

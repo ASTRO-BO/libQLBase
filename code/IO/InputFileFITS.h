@@ -34,18 +34,18 @@ class InputFileFITS : public InputFile {
 
 		~InputFileFITS();
 
-		virtual Bool_t Open(const std::string &filename);
+		virtual bool Open(const std::string &filename);
 
 		virtual int32_t GetNCols();
 
 		virtual int64_t GetNRows();
 
-		virtual Bool_t Close();
+		virtual bool Close();
 
-		virtual Bool_t MoveHeader(int header_number);
+		virtual bool MoveHeader(int header_number);
 
 		/** Apply a filter to the current header. */
-		virtual Bool_t ApplyFilter(const std::string &selectEvent);
+		virtual bool ApplyFilter(const std::string &selectEvent);
 
 		/** Remove the filter to the current header. */
 		virtual void RemoveFilter();
@@ -110,7 +110,7 @@ class InputFileFITS : public InputFile {
 
 	protected:
 
-		virtual Bool_t GetFilteredRows(int64_t frow, int64_t nrows);
+		virtual bool GetFilteredRows(int64_t frow, int64_t nrows);
 
 		InputFileFilter* filter;
 

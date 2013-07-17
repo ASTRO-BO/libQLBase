@@ -32,7 +32,7 @@ InputFileFilter::~InputFileFilter()
 {
 }
 
-Bool_t InputFileFilter::Open(const std::string &filename) {
+bool InputFileFilter::Open(const std::string &filename) {
 	status = 0;
 	this->filename = filename;
 	if ( !fits_open_table(&infptr, filename, READONLY, &status) ) {
@@ -54,7 +54,7 @@ Bool_t InputFileFilter::Open(const std::string &filename) {
 	return kTRUE;
 }
 
-Bool_t InputFileFilter::Close() {
+bool InputFileFilter::Close() {
 	status = 0;
 	fits_close_file(infptr, &status);
 	if (status) {
@@ -72,7 +72,7 @@ Bool_t InputFileFilter::Close() {
 	return kTRUE;
 }
 
-Bool_t InputFileFilter::MoveHeader(int header_number) {
+bool InputFileFilter::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + 1, 0, &status);
 	if (status) {

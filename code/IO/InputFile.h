@@ -40,14 +40,14 @@ class InputFile {
 
 		virtual void SetBaseHeader(int32_t headerBase);
 
-		virtual Bool_t Open(const std::string &filename) = 0;
+		virtual bool Open(const std::string &filename) = 0;
 
-		virtual Bool_t Close() = 0;
+		virtual bool Close() = 0;
 
-		virtual Bool_t MoveHeader(int header_number) = 0;
+		virtual bool MoveHeader(int header_number) = 0;
 
 		/** Apply a filter to the current header */
-		virtual Bool_t ApplyFilter(const std::string &string selectEvent) { return kFALSE; };
+		virtual bool ApplyFilter(const std::string &string selectEvent) { return kFALSE; };
 
 		/** Remove the filter to the current header */
 		virtual void RemoveFilter() {};
@@ -64,7 +64,7 @@ class InputFile {
 
 		virtual DOUBLE_T GetTime(uint32_t timeColumnNumber, uint64_t pos) = 0;
 
-		virtual Bool_t IsOpened();
+		virtual bool IsOpened();
 
 		virtual int32_t GetStatus() { return status; };
 
@@ -106,7 +106,7 @@ class InputFile {
 
 		std::string filename;
 
-		Bool_t opened;
+		bool opened;
 
 		int32_t ncols;
 		int64_t nrows;
@@ -117,7 +117,7 @@ class InputFile {
 		/** The status of the reading. */
 		int32_t status;
 
-		Bool_t applyFilter;
+		bool applyFilter;
 
 		std::string selectEvent;
 
