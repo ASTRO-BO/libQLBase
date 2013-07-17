@@ -22,8 +22,6 @@
 #include <sstream>
 #include "InputTextFile.h"
 
-using namespace std;
-
 namespace ql_io
 {
 

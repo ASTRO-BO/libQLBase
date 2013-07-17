@@ -21,8 +21,6 @@
 #include "InputFileFITS.h"
 #include "File.h"
 
-using namespace std;
-
 namespace ql_io {
 
 #define IFFMAXROWSTATUS 1000000

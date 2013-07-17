@@ -23,8 +23,6 @@
 #include <string>
 #include <fitsio.h>
 
-using namespace std;
-
 namespace ql_io
 {
 
