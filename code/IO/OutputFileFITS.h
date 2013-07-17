@@ -20,7 +20,7 @@
 #ifndef QL_IO_OUTPUTFILEFITS_H
 #define QL_IO_OUTPUTFILEFITS_H
 
-#include  <fitsio.h>
+#include  <cfitsio/fitsio.h>
 
 namespace ql_io
 {

@@ -21,7 +21,7 @@
 #define QL_IO_INPUTFILEFILTER_H
 
 #include <string>
-#include <fitsio.h>
+#include <cfitsio/fitsio.h>
 
 namespace ql_io
 {
