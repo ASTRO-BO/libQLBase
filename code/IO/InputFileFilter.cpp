@@ -29,7 +29,6 @@ InputFileFilter::InputFileFilter()
 	n_good_rows = 0;
 }
 
-
 InputFileFilter::~InputFileFilter()
 {
 }
@@ -105,7 +104,6 @@ int InputFileFilter::GetColNum(char* nomecol) {
 	}
 	return colnum;
 }
-
 
 DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int64_t nrows) {
 

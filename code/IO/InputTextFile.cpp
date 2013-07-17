@@ -65,7 +65,6 @@ InputTextFile::InputTextFile(const std::string &separator) : fileStream(0) {
 	status = kFileNoError;
 }
 
-
 InputTextFile::~InputTextFile() {
 	SAFE_DELETE(fileStream)
 }
@@ -113,7 +112,6 @@ Bool_t InputTextFile::Open(const std::string &file_name) {
 	return kTRUE;
 }
 
-
 bool InputTextFile::findField(std::string& line, int& first, int& last, int pos) {
 
 	if(line.length()==0)
@@ -128,7 +126,6 @@ bool InputTextFile::findField(std::string& line, int& first, int& last, int pos)
 	return true;
 }
 
-
 Bool_t InputTextFile::Close() {
 	SAFE_DELETE(fileStream)
 	nrows    = 0;
@@ -138,7 +135,6 @@ Bool_t InputTextFile::Close() {
 	status   = kFileNoError;
 	return kTRUE;
 }
-
 
 bool InputTextFile::reopen() {
 	if(fileStream) {
@@ -153,7 +149,6 @@ bool InputTextFile::reopen() {
 	}
 	return false;
 }
-
 
 bool InputTextFile::test(int ncol, long frow, long& lrow) {
 	if(fileStream==0)
@@ -170,18 +165,15 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 	return true;
 }
 
-
 int64_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) {
 
 	return 0;
 }
 
-
 DOUBLE_T InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 
 	return 0;
 }
-
 
 Bool_t InputTextFile::IsOpened() {
 	if(fileStream)
@@ -189,11 +181,9 @@ Bool_t InputTextFile::IsOpened() {
 	return kFALSE;
 }
 
-
 uint8_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint8_t);
 }
-
 
 int16_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 
@@ -243,41 +233,33 @@ int16_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 	return buff;
 }
 
-
 int32_t* InputTextFile::Read_TINT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(int32_t)
 }
-
 
 int64_t* InputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(int64_t)
 }
 
-
 uint16_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint16_t)
 }
-
 
 uint32_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint32_t)
 }
 
-
 uint64_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint64_t)
 }
-
 
 float* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(float)
 }
 
-
 double* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(double)
 }
-
 
 void InputTextFile::_printState() {
 	if(fileStream) {

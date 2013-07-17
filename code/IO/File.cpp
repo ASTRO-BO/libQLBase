@@ -24,14 +24,9 @@ namespace ql_io {
 
 #define EOI -1
 
-//##ModelId=3DA3E56900F0
 unsigned long File::byte_read = 0;
-//##ModelId=3DA3E56A0078
 unsigned long File::char_read = 0;
 
-
-
-//##ModelId=3C187750028F
 File::File(long startP) {
 //	bigendian = false; //si presume che la macchina sia little endian
 	startPosition = startP;
@@ -39,14 +34,10 @@ File::File(long startP) {
 	closed = true;
 }
 
-
-//##ModelId=3C87744002A2
 bool File::IsClosed() {
 	return closed;
 }
 
-
-//##ModelId=3C0F6C1A0013
 bool File::Open(const std::string &filename, char* mode) {
 	fp = fopen(filename, mode);
 
@@ -66,8 +57,6 @@ bool File::Open(const std::string &filename, char* mode) {
 	return !closed;
 }
 
-
-//##ModelId=3C0F6C1A0016
 int File::GetByte() {
 	int c;
 	if(!closed && !eof) {
@@ -85,8 +74,6 @@ int File::GetByte() {
 	}
 }
 
-
-//##ModelId=3C0F6C1A001B
 std::string File::GetLine() {
 	//char* s = new char[500];
 	static char s[512];
@@ -121,7 +108,6 @@ std::string File::GetLine() {
 	return sr;
 }
 
-
 std::string File::GetConfigurationLine() {
 	std::string temp;
 
@@ -131,7 +117,6 @@ std::string File::GetConfigurationLine() {
 	}
 	return temp;
 }
-
 
 std::string File::GetLine(const std::string &s) {
 	std::string line;
@@ -146,8 +131,6 @@ std::string File::GetLine(const std::string &s) {
 	return line;
 }
 
-
-//##ModelId=3C0F6C1A001F
 void File::Close( ) {
 	if(!closed) {
 		fclose(fp);
@@ -156,14 +139,10 @@ void File::Close( ) {
 	}
 }
 
-
-//##ModelId=3C15F42303C4
 std::string File::GetLastLineRead() {
 	return lastLineRead;
 }
 
-
-//##ModelId=3C205AF20278
 long File::Setpos(long offset) {
 	long f;
 	//clearerr(fp);
@@ -175,14 +154,10 @@ long File::Setpos(long offset) {
 	return f;
 }
 
-
-//##ModelId=3C205AF202C3
 long File::Getpos() {
 	return ftell(fp);
 }
 
-
-//##ModelId=3C205AF20313
 bool File::MemBookmarkPos() {
 	if((bookmarkPos = ftell(fp)) != -1)
 		return true;
@@ -190,8 +165,6 @@ bool File::MemBookmarkPos() {
 		return false;
 }
 
-
-//##ModelId=3C205AF20334
 bool File::SetLastBookmarkPos() {
 	if(fseek(fp, bookmarkPos, SEEK_SET) == 0)
 		return true;
@@ -199,8 +172,6 @@ bool File::SetLastBookmarkPos() {
 		return false;
 }
 
-
-//##ModelId=3A5A30B40368
 bool File::IsEOF() {
 	if(!closed)
 		return eof;
@@ -208,14 +179,10 @@ bool File::IsEOF() {
 		return true;
 }
 
-
-//##ModelId=3C51324A022E
 int File::SetFirstPos() {
 	return Setpos(startPosition);
 }
 
-
-//##ModelId=3C51324A0299
 bool File::Fchdir() {
 
 	int len = filename.Length();
@@ -238,9 +205,6 @@ bool File::Fchdir() {
 	return true;
 }
 
-
-/** No descriptions */
-//##ModelId=3C51324A0304
 long File::Find(uint8_t b) {
 	uint8_t f;
 	while(!IsEOF()) {
@@ -251,8 +215,6 @@ long File::Find(uint8_t b) {
 	return -1;
 }
 
-
-//##ModelId=3DA3E56D0244
 bool File::WriteString(const std::string &str) {
 	if(str != "")
 		if(!closed)
@@ -270,7 +232,6 @@ bool File::WriteStringWithEndl(const std::string &str) {
 			}
 	return true;
 }
-
 
 bool File::WriteStringArray(const char* array[], const std::string &filename ) {
 Bool_t ret;

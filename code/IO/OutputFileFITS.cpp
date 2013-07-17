@@ -38,7 +38,6 @@ OutputFileFITS::OutputFileFITS()
     findfirstrow = 8;
 }
 
-
 OutputFileFITS::~OutputFileFITS()
 {
     free(fptr);
@@ -59,7 +58,6 @@ int OutputFileFITS::getColNum(char* nomecol) {
 	fits_get_colnum(*fptr,CASEINSEN,nomecol,&colnum,&status);
 	return colnum;
 }
-
 
 bool OutputFileFITS::open() {
 status = 0;
@@ -109,7 +107,6 @@ void OutputFileFITS::printerror(int status)
     }
     return;
 }
-
 
 void OutputFileFITS::writeInitHeaderKey(int header) {
 int status = 0;
@@ -190,7 +187,6 @@ bool OutputFileFITS::changeHeader(int headnum) {
 	return true;
 }
 
-
 char* OutputFileFITS::setFileName(char* filenamebase)
 {
 	filename = filenamebase;
@@ -210,7 +206,6 @@ int status=0;
 	return false;
 }
 
-
 int OutputFileFITS::openOutFits(char * fitsname, char * templatefile )
 {
    int status_fits=0 ;
@@ -220,7 +215,6 @@ int OutputFileFITS::openOutFits(char * fitsname, char * templatefile )
 
 
 }
-
 
 int OutputFileFITS::printerror(int codice,char* messaggio,int status)
 {
@@ -241,7 +235,6 @@ int OutputFileFITS::printerror(int codice,char* messaggio,int status)
     return 1 ;
 }
 
-
 int OutputFileFITS::flushCloseandExit()
 {
     int status ;
@@ -253,9 +246,6 @@ int OutputFileFITS::flushCloseandExit()
     cerr << " Error fits recovery: flush fits file, close fits file, exit program ..." << endl ;
     exit( status ) ;
 }
-
-//====================================================================================================
-
 
 OutputFileFITSBinaryTable::OutputFileFITSBinaryTable(int ncol_header1, int ncol_header2, int ncol_header3, int ncol_header4, int ncol_header5, int ncol_header6) : OutputFileFITS() {
 	this->ncol_header1 = ncol_header1;
@@ -341,7 +331,6 @@ OutputFileFITSBinaryTable::OutputFileFITSBinaryTable(int ncol_header1, int ncol_
 	}
 }
 
-
 OutputFileFITSBinaryTable::~OutputFileFITSBinaryTable() {
 	delete[] tform1;
 	delete[] ttype1;
@@ -374,7 +363,6 @@ OutputFileFITSBinaryTable::~OutputFileFITSBinaryTable() {
 	delete[] pfind6;
 	delete[] tycom6;
 }
-
 
 bool OutputFileFITSBinaryTable::init()
 {
@@ -489,9 +477,6 @@ bool OutputFileFITSBinaryTable::init()
 	return status;
 }
 
-
-
-
 bool OutputFileFITSBinaryTable::close()
 {
 	if(!opened) return true;
@@ -550,9 +535,6 @@ bool OutputFileFITSBinaryTable::close()
 	return OutputFileFITS::close();
 
 }
-
-
-
 
 char* OutputFileFITSBinaryTable::getValue(char* str) {
 	int l = strlen(str);

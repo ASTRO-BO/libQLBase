@@ -29,7 +29,6 @@ InputFile::InputFile() {
 	headerBase = 1; //starting index = 0
 }
 
-
 InputFile::~InputFile() {
 
 }

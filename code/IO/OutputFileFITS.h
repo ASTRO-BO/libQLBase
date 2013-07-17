@@ -76,23 +76,23 @@ protected:
 
         int printerror(int codice,char* messaggio,int status_fitsio);
 
-        int flushCloseandExit(); // flush fits file and exit
+        /** Flush fits file and exit. */
+        int flushCloseandExit();
 
-	// Pointer to fits file
+        /** Pointer to fits file. */
         fitsfile** fptr;
 
-	// File name
         char* filename;
 
-        // Indicates the current row of data to start for writing the events data
-        dword currentrow; //ex firstrow
+        /** Indicates the current row of data to start for writing the events data */
+        dword currentrow;
 
-        // Indicates the last row flushed
+	/** Indicates the last row flushed */
 	dword lastrow_flushed;
 
 	bool verbose;
 
-	//flush ogni n righe
+	/** Flush every n rows */
 	int flush_rows;
 
 	bool opened;
@@ -108,14 +108,13 @@ protected:
 	int masterheadnum;
 };
 
-
 template < typename TIPO >
 int  OutputFileFITS::writeCell( int rownum , TIPO valore , char * nomecol)
  {
  	return writeCell(rownum, valore, getColNum(nomecol));
  }
 
- template < typename TIPO >
+template < typename TIPO >
 int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
  {
 	int status_fits = 0  ;
@@ -163,9 +162,6 @@ int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 		printerror( colnum," Writing fits col: ",status_fits );
 	}
  };
-
-
-//========================================================================
 
 class OutputFileFITSBinaryTable : public OutputFileFITS
 {
@@ -243,17 +239,15 @@ class OutputFileFITSBinaryTable : public OutputFileFITS
         	int tm_type;
         	int tm_subtype;
 
-		//OBT letto (quello nell'header AGILE)
+		// read OBT
 		double dfhobt_sec;
 		double dfhobt_us;
 		double dfhobt_time;
 
-		//sec e ms letti con l'ultima chiamata a writeRawOBTFormat
+		/** secs read with the lastest call to writeRawOBTFormat() */
 		unsigned long last_sec_read;
+		/** millisecs read with the lastest call to writeRawOBTFormat() */
 		unsigned long last_ms_read;
-
-
-
 };
 
 }

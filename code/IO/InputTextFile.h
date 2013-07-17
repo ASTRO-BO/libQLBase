@@ -26,17 +26,6 @@
 
 namespace ql_io {
 
-//##ModelId=3FAF8D8C034F
-//##Documentation
-//## This class represent a generic input file with data organized as tabular data.
-//## The responsibilities of this class are:
-//## - read each column from a row to another row
-//## $Date: 2007/05/23 17:24:46 $
-//## $Header: /home/repository/cvs/gtb/libQL2/code/QLInputTextFile.h,v 1.9 2007/05/23 17:24:46 bulgarelli Exp $
-//## $Id: InputTextFile.h,v 1.9 2007/05/23 17:24:46 bulgarelli Exp $
-//## $Revision: 1.9 $
-//## \brief Insert here a brief description of the class
-
 class InputTextFile : public InputFile {
 
 	public:
@@ -45,10 +34,8 @@ class InputTextFile : public InputFile {
 
 		virtual ~InputTextFile();
 
-		//##ModelId=3FAF8E5F0371
 		Bool_t Open(const std::string &fileName);
 
-		//##ModelId=3FAF8E850235
 		Bool_t Close();
 
 		Bool_t MoveHeader(int header_number) { return kTRUE; };
@@ -85,17 +72,17 @@ class InputTextFile : public InputFile {
 
 		virtual uint32_t GetIndexFirstTableHeader() { return 0; };
 
-	protected:					 // Protected attribute
+	protected:
 		std::ifstream*  fileStream;
 		std::string separator;
 
-	protected:					 // Protected methods
+	protected:
 		void pointTo(int line);
 		bool findField(std::string& line, int& first, int& last, int pos = 0);
 		bool reopen();
 		bool test(int ncol, long frow, long& lrow);
 
-	private:					 // Private methods
+	private:
 		void _printState();
 };
 

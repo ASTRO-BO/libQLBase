@@ -38,7 +38,6 @@ InputFileFITS::InputFileFITS() : InputFile() {
 	row_status_size = IFFMAXROWSTATUS;
 }
 
-
 InputFileFITS::~InputFileFITS() {
 	delete[] row_status;
 }
@@ -125,7 +124,6 @@ Bool_t InputFileFITS::Close() {
 	return kTRUE;
 }
 
-
 Bool_t InputFileFITS::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + GetIndexFirstTableHeader(), 0, &status);
@@ -151,7 +149,6 @@ void InputFileFITS::RemoveFilter() {
 	applyFilter = kFALSE;
 }
 
-
 int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) {
 	DOUBLE_T* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
@@ -169,7 +166,6 @@ int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_f
 	delete[] first_time;
 	return next_pos;
 }
-
 
 DOUBLE_T InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 	MoveHeader(headerBase);
@@ -249,7 +245,6 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 
 }
 
-
 int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
@@ -304,7 +299,6 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 	}
 	return data;
 }
-
 
 int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
@@ -361,7 +355,6 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 	return data;
 }
 
-
 int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
@@ -416,7 +409,6 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 	}
 	return data;
 }
-
 
 uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
@@ -473,7 +465,6 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 	return data;
 }
 
-
 uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
@@ -528,7 +519,6 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 	}
 	return data;
 }
-
 
 uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
@@ -585,7 +575,6 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 	return data;
 }
 
-
 float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
@@ -640,7 +629,6 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 	}
 	return data;
 }
-
 
 double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;

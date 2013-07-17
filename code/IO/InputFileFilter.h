@@ -26,9 +26,6 @@
 #include <iostream>
 
 using namespace std;
-/**
-@author bulgarelli
-*/
 
 namespace ql_io
 {
