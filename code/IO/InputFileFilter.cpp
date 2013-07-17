@@ -17,6 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#include <iostream>
 #include "InputFileFilter.h"
 
 namespace ql_io
@@ -35,7 +36,7 @@ InputFileFilter::~InputFileFilter()
 bool InputFileFilter::Open(const std::string &filename) {
 	status = 0;
 	this->filename = filename;
-	if ( !fits_open_table(&infptr, filename, READONLY, &status) ) {
+	if ( !fits_open_table(&infptr, filename.c_str(), READONLY, &status) ) {
 		opened = true;
 	}
 	else
@@ -46,7 +47,7 @@ bool InputFileFilter::Open(const std::string &filename) {
 		fits_read_errmsg(errms);
 		msg += 	errms;
 		//gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -62,7 +63,7 @@ bool InputFileFilter::Close() {
 		fits_read_errmsg(errms);
 		msg += errms;
 		//gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		opened = true;
 		status = 0;
@@ -80,7 +81,7 @@ bool InputFileFilter::MoveHeader(int header_number) {
 		//fits_read_errmsg(errms);
 		//msg += errms;
 		//gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -96,7 +97,7 @@ int InputFileFilter::GetColNum(char* nomecol) {
 		fits_read_errmsg(errms);
 		msg += errms;
 		//gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -135,7 +136,7 @@ double* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int
 		//fits_read_errmsg(errms);
 		//msg += errms;
 		//gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
