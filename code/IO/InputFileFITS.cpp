@@ -18,6 +18,7 @@
  */
 
 #include <iostream>
+#include "Definitions.h"
 #include "InputFileFITS.h"
 #include "File.h"
 
@@ -48,7 +49,7 @@ bool InputFileFITS::Open(const std::string &filename) {
 		opened = true;
 		fits_get_num_rows(infptr, &nrows, &status);
 		fits_get_num_cols(infptr, &ncols, &status);
-		PD("InputFileFITS::Open() - " << filename << " - col: " << ncols << ", row: " << nrows << " - opened ");
+		DEBUG("InputFileFITS::Open() - " << filename << " - col: " << ncols << ", row: " << nrows << " - opened ");
 	}
 	else
 		opened = false;

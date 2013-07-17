@@ -20,6 +20,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include "Definitions.h"
 #include "InputTextFile.h"
 
 namespace ql_io
@@ -261,7 +262,7 @@ double* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 
 void InputTextFile::_printState() {
 	if(fileStream) {
-		PD("File: " << filename.Data() << "(" << fileStream->rdstate() << ")");
+		DEBUG("File: " << filename.Data() << "(" << fileStream->rdstate() << ")");
 		if(fileStream->rdstate()&ifstream::badbit)
 			gm.PrintLogMessage("Error: critical error in stream buffer", true);
 		if(fileStream->rdstate()&ifstream::eofbit)
@@ -269,11 +270,11 @@ void InputTextFile::_printState() {
 		if(fileStream->rdstate()&ifstream::failbit)
 			gm.PrintLogMessage("Error: failure extracting from stream", true);
 		if(fileStream->rdstate()==0)
-			PD(" no error condition\n");
+			DEBUG(" no error condition\n");
 	} else
-	PD("File: closed\n");
-	PD(" row: " << nrows)
-	PD(" col: " << ncols);
+	DEBUG("File: closed\n");
+	DEBUG(" row: " << nrows)
+	DEBUG(" col: " << ncols);
 }
 
 }
