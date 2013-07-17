@@ -9,8 +9,9 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#ifndef QLINPUTFILEFILTER_H
-#define QLINPUTFILEFILTER_H
+#ifndef QL_IO_INPUTFILEFILTER_H
+#define QL_IO_INPUTFILEFILTER_H
+
 #include "QLDefinition.h"
 #include <fitsio.h>
 #include <string>

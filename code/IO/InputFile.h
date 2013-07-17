@@ -1,5 +1,5 @@
-#ifndef QLINPUTFILE_H_HEADER_INCLUDED_C04E1A23
-#define QLINPUTFILE_H_HEADER_INCLUDED_C04E1A23
+#ifndef QL_IO_INPUTFILE_H
+#define QL_IO_INPUTFILE_H
 
 #include "QLDefinition.h"
 #include <string>
@@ -142,4 +142,4 @@ class InputFile {
 
 }
 
-#endif							 /* QLINPUTFILE_H_HEADER_INCLUDED_C04E1A23 */
+#endif

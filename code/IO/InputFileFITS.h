@@ -1,5 +1,5 @@
-#ifndef QLINPUTFILEFITS_H_HEADER_INCLUDED_C04E541D
-#define QLINPUTFILEFITS_H_HEADER_INCLUDED_C04E541D
+#ifndef QL_IO_INPUTFILEFITS_H
+#define QL_IO_INPUTFILEFITS_H
 
 #include "QLDefinition.h"
 #include "InputFile.h"
@@ -107,4 +107,4 @@ class InputFileFITS : public InputFile {
 
 }
 
-#endif							 /* QLINPUTFILEFITS_H_HEADER_INCLUDED_C04E541D */
+#endif

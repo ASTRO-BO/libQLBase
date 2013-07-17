@@ -14,8 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef File_h_h
-#define File_h_h
+#ifndef QL_IO_FILE_H
+#define QL_IO_FILE_H
+
 #include <string>
 #include "QLDefinition.h"
 

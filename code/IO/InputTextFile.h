@@ -1,5 +1,5 @@
-#ifndef QLINPUTTEXTFILE_H_HEADER_INCLUDED_C04E1A23
-#define QLINPUTTEXTFILE_H_HEADER_INCLUDED_C04E1A23
+#ifndef QL_IO_INPUTTEXTFILE_H
+#define QL_IO_INPUTTEXTFILE_H
 
 #include "InputFile.h"
 #include <fstream>
@@ -81,4 +81,4 @@ class InputTextFile : public InputFile {
 
 }
 
-#endif							 /* QLINPUTTEXTFILE_H_HEADER_INCLUDED_C04E1A23 */
+#endif

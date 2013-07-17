@@ -9,8 +9,8 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#ifndef OUTPUTFILEOutputFileFITS_H
-#define OUTPUTFILEOutputFileFITS_H
+#ifndef QL_IO_OUTPUTFILEFITS_H
+#define QL_IO_OUTPUTFILEFITS_H
 
 #include  <fitsio.h>
 #include "QLDefinition.h"
