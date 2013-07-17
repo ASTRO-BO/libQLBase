@@ -47,7 +47,7 @@ class InputFile {
 		virtual bool MoveHeader(int header_number) = 0;
 
 		/** Apply a filter to the current header */
-		virtual bool ApplyFilter(const std::string &string selectEvent) { return false; };
+		virtual bool ApplyFilter(const std::string &selectEvent) { return false; };
 
 		/** Remove the filter to the current header */
 		virtual void RemoveFilter() {};
