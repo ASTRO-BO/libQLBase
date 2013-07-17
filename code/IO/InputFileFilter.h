@@ -23,7 +23,7 @@
 #include <string>
 #include <cfitsio/fitsio.h>
 
-namespace ql_io
+namespace qlbase
 {
 
 class InputFileFilter {

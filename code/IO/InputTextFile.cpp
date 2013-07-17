@@ -23,7 +23,7 @@
 #include "Definitions.h"
 #include "InputTextFile.h"
 
-namespace ql_io
+namespace qlbase
 {
 
 #define READ_DATA(ty) if(!test(ncol, frow, lrow)) {                                   \

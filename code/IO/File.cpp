@@ -20,7 +20,7 @@
 #include <unistd.h>
 #include "File.h"
 
-namespace ql_io {
+namespace qlbase {
 
 #define EOI -1
 

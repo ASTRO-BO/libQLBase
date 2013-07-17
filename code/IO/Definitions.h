@@ -21,7 +21,7 @@
 
 #include<iostream>
 
-namespace ql_io
+namespace qlbase
 {
 
 #define QL_DEBUG 1

@@ -21,7 +21,7 @@
 #include <string>
 #include "OutputFileFITS.h"
 
-namespace ql_io
+namespace qlbase
 {
 
 OutputFileFITS::OutputFileFITS()

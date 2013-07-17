@@ -24,7 +24,7 @@
 #include <cstdint>
 #include "InputFile.h"
 
-namespace ql_io {
+namespace qlbase {
 
 class InputTextFile : public InputFile {
 

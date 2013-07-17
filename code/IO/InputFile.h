@@ -24,7 +24,7 @@
 #include <cstdint>
 #include "InputFileFilter.h"
 
-namespace ql_io {
+namespace qlbase {
 
 /** This class represent a generic input file with data organized as tabular
  *  data.

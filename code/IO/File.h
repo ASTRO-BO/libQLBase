@@ -23,7 +23,7 @@
 #include <string>
 #include <cstdint>
 
-namespace ql_io {
+namespace qlbase {
 
 /** This class represent a device File for IO system. */
 class File {

@@ -20,7 +20,7 @@
 #include <iostream>
 #include "InputFileFilter.h"
 
-namespace ql_io
+namespace qlbase
 {
 
 InputFileFilter::InputFileFilter()

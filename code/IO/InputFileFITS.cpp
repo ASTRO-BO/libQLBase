@@ -22,7 +22,7 @@
 #include "InputFileFITS.h"
 #include "File.h"
 
-namespace ql_io {
+namespace qlbase {
 
 #define IFFMAXROWSTATUS 1000000
 

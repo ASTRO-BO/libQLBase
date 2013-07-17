@@ -22,7 +22,7 @@
 
 #include  <cfitsio/fitsio.h>
 
-namespace ql_io
+namespace qlbase
 {
 
 class OutputFileFITS

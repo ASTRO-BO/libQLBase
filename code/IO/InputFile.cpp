@@ -19,7 +19,7 @@
 
 #include "InputFile.h"
 
-namespace ql_io {
+namespace qlbase {
 
 InputFile::InputFile() {
 	opened = false;

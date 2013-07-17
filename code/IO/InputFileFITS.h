@@ -24,7 +24,7 @@
 #include <cfitsio/fitsio.h>
 #include "InputFile.h"
 
-namespace ql_io {
+namespace qlbase {
 
 class InputFileFITS : public InputFile {
 
