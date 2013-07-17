@@ -45,7 +45,7 @@ bool InputFileFITS::Open(const std::string &filename) {
 	opened = true;
 	status = 0;
 	this->filename = filename;
-	if ( !fits_open_table(&infptr, filename, READONLY, &status) ) {
+	if ( !fits_open_table(&infptr, filename.c_str(), READONLY, &status) ) {
 		opened = true;
 		fits_get_num_rows(infptr, &nrows, &status);
 		fits_get_num_cols(infptr, &ncols, &status);
@@ -59,7 +59,7 @@ bool InputFileFITS::Open(const std::string &filename) {
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -75,7 +75,7 @@ int32_t InputFileFITS::GetNCols() {
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return 0;
@@ -91,7 +91,7 @@ int64_t InputFileFITS::GetNRows() {
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return 0;
@@ -108,7 +108,7 @@ bool InputFileFITS::Close() {
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		opened = true;
 		status = 0;
@@ -126,7 +126,7 @@ bool InputFileFITS::MoveHeader(int header_number) {
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -144,14 +144,14 @@ void InputFileFITS::RemoveFilter() {
 }
 
 int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
-	double* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
+	double* first_time = Read_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
 	//double end_time = (*first_time) + deltaT;
 	double current_time = *first_time;
 	int64_t next_pos = pos_first;
 	while(current_time < end_time) {
 		next_pos++;
-		double* new_time = READ_TDOUBLE(timeColumnNumber, next_pos, next_pos);
+		double* new_time = Read_TDOUBLE(timeColumnNumber, next_pos, next_pos);
 		if(new_time == 0) return 0;
 		current_time = *new_time;
 		delete[] new_time;
@@ -163,7 +163,7 @@ int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_f
 
 double InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 	MoveHeader(headerBase);
-	double* new_time = READ_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
+	double* new_time = Read_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
 	double ret = *new_time;
 	delete[] new_time;
 	return ret;
@@ -171,7 +171,7 @@ double InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 
 double* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
 	MoveHeader(headerBase);
-	double* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
+	double* ret = Read_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
@@ -214,7 +214,7 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -270,7 +270,7 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -325,7 +325,7 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -380,7 +380,7 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -435,7 +435,7 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -490,7 +490,7 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -545,7 +545,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -600,7 +600,7 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -636,7 +636,7 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 		nelem = nelements;
 	double null = 0.0;
 	if(applyFilter) {
-		//cout << "(1) ncol " << ncol << " frow " << frow << " lrow " << lrow << " nelem " << nelem << endl;
+		//cout << "(1) ncol " << ncol << " frow " << frow << " lrow " << lrow << " nelem " << nelem << std::endl;
 		if(GetFilteredRows(frow, nelem)) {
 			if(n_good_rows == 0) {
 				nRowsRead = 0;
@@ -648,7 +648,7 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 		}
 	}
 	double* data = (double*) new double[nelem];
-	//cout << "(2) ncol " << ncol << " frow " << frow << " nelem " << nelem << endl;
+	//cout << "(2) ncol " << ncol << " frow " << frow << " nelem " << nelem << std::endl;
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -657,7 +657,7 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -693,7 +693,7 @@ bool InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
 		row_status_size = nrows;
 	}
 	n_good_rows = 0;
-	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << endl;
+	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << std::endl;
 	//fits_find_rows(infptr, (char*)selectEvent.Data(), frow, nrows, &n_good_rows, row_status, &status );
 	if(!filter->Open(filename))
 		return false;
@@ -703,13 +703,13 @@ bool InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
 		return false;
 	n_good_rows = filter->GetNGoodRows();
 	row_status = filter->GetRowStatus();
-	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << " n_good_rows " << n_good_rows << " status " << status << endl;
+	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << " n_good_rows " << n_good_rows << " status " << status << std::endl;
 	if (status) {
 		char* errms; std::string msg("Error in InputFileFITS::GetFilteredRows() ");
 		fits_read_errmsg(errms);
 		msg += 	errms;
 // 		gm.PrintLogMessage(msg, true);
-		cerr << msg << endl;
+		std::cerr << msg << std::endl;
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;

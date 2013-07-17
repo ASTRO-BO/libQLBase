@@ -22,10 +22,9 @@
 
 #include <string>
 #include <cstdint>
+#include "InputFileFilter.h"
 
 namespace ql_io {
-
-class InputFileFilter;
 
 /** This class represent a generic input file with data organized as tabular
  *  data.
