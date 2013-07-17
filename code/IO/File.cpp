@@ -239,10 +239,10 @@ bool File::Fchdir() {
 
 /** No descriptions */
 //##ModelId=3C51324A0304
-long File::Find(UChar_t b) {
-	UChar_t f;
+long File::Find(uint8_t b) {
+	uint8_t f;
 	while(!IsEOF()) {
-		f = (UChar_t) GetByte();
+		f = (uint8_t) GetByte();
 		if(f == b)
 			return Getpos();
 	}
@@ -272,7 +272,7 @@ bool File::WriteStringWithEndl(const std::string &str) {
 
 bool File::WriteStringArray(const char* array[], const std::string &filename ) {
 Bool_t ret;
-UInt_t i = 0;
+uint32_t i = 0;
 
 	if(filename != "")
 		if(!Open(filename, "w"))

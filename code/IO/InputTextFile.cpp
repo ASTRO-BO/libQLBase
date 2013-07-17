@@ -51,7 +51,7 @@ InputTextFile::~InputTextFile() {
 	SAFE_DELETE(fileStream)
 }
 
-DOUBLE_T* InputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) {
+DOUBLE_T* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
 	DOUBLE_T* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
@@ -152,13 +152,13 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 }
 
 
-Long_t InputTextFile::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
+Long_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
 
 	return 0;
 }
 
 
-DOUBLE_T InputTextFile::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
+DOUBLE_T InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 
 	return 0;
 }
@@ -171,8 +171,8 @@ Bool_t InputTextFile::IsOpened() {
 }
 
 
-UChar_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
-	READ_DATA(UChar_t);
+uint8_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
+	READ_DATA(uint8_t);
 }
 
 
@@ -235,18 +235,18 @@ Long_t* InputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-UShort_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
-	READ_DATA(UShort_t)
+uint16_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+	READ_DATA(uint16_t)
 }
 
 
-UInt_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
-	READ_DATA(UInt_t)
+uint32_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
+	READ_DATA(uint32_t)
 }
 
 
-ULong_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
-	READ_DATA(ULong_t)
+uint64_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
+	READ_DATA(uint64_t)
 }
 
 

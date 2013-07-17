@@ -18,6 +18,7 @@
 #define QL_IO_FILE_H
 
 #include <string>
+#include <cstdint>
 #include "QLDefinition.h"
 
 namespace ql_io {
@@ -122,7 +123,7 @@ class File {
 		bool Fchdir();
 
 		//##ModelId=3C51324A0304
-		long Find(UChar_t b);
+		long Find(uint8_t b);
 
 		//##ModelId=3EADC12800D8
 		//##Documentation

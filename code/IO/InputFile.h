@@ -3,6 +3,7 @@
 
 #include "QLDefinition.h"
 #include <string>
+#include <cstdint>
 
 namespace ql_io {
 
@@ -58,11 +59,11 @@ class InputFile {
 
 		virtual Long_t GetNEvents();
 
-		virtual Long_t GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) = 0;
+		virtual Long_t GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) = 0;
 
-		virtual DOUBLE_T* GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) = 0;
+		virtual DOUBLE_T* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) = 0;
 
-		virtual DOUBLE_T GetTime(UInt_t timeColumnNumber, ULong_t pos) = 0;
+		virtual DOUBLE_T GetTime(uint32_t timeColumnNumber, uint64_t pos) = 0;
 
 		virtual Bool_t IsOpened();
 
@@ -74,15 +75,15 @@ class InputFile {
 
 		//##Documentation
 		//## Indica da dove deve partire l'indice della prima colonna nel file (0 o 1)
-		virtual UInt_t GetIndexFirstColumn() = 0;
+		virtual uint32_t GetIndexFirstColumn() = 0;
 
 		//##Documentation
 		//## Indica da dove deve partire l'indice della prima riga nel file (0 o 1)
-		virtual UInt_t GetIndexFirstRow() = 0;
+		virtual uint32_t GetIndexFirstRow() = 0;
 
 		//##Documentation
 		//## Indica da dove deve partire l'indice del primo header nei file strutturati in tabella (0 o 1)
-		virtual UInt_t GetIndexFirstTableHeader() = 0;
+		virtual uint32_t GetIndexFirstTableHeader() = 0;
 
 		virtual void SetFilter(InputFileFilter* filter) {};
 
@@ -90,7 +91,7 @@ class InputFile {
 
 		virtual Long_t GetNRowReads() { return nRowsRead; };
 
-		virtual UChar_t* Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint8_t* Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 
 		virtual Short_t* Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 
@@ -98,11 +99,11 @@ class InputFile {
 
 		virtual Long_t* Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 
-		virtual UShort_t* Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 
-		virtual UInt_t* Read_TUINT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint32_t* Read_TUINT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 
-		virtual ULong_t* Read_TULONG(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint64_t* Read_TULONG(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 
 		virtual Float_t* Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
 

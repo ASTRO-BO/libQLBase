@@ -3,6 +3,7 @@
 
 #include "InputFile.h"
 #include <fstream>
+#include <cstdint>
 
 namespace ql_io {
 
@@ -33,15 +34,15 @@ class InputTextFile : public InputFile {
 
 		Bool_t MoveHeader(int header_number) { return kTRUE; };
 
-		Long_t GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time);
+		Long_t GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time);
 
-		DOUBLE_T GetTime(UInt_t timeColumnNumber, ULong_t pos);
+		DOUBLE_T GetTime(uint32_t timeColumnNumber, uint64_t pos);
 
 		Bool_t IsOpened();
 
-		DOUBLE_T* GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim);
+		DOUBLE_T* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
 
-		UChar_t* Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint8_t* Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements = 0);
 
 		Short_t* Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
@@ -49,21 +50,21 @@ class InputTextFile : public InputFile {
 
 		Long_t* Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
-		UShort_t* Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
-		UInt_t* Read_TUINT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint32_t* Read_TUINT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
-		ULong_t* Read_TULONG(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint64_t* Read_TULONG(int ncol, long frow, long lrow, Long_t nelements = 0);
 
 		Float_t* Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements = 0);
 
 		Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements = 0);
 
-		virtual UInt_t GetIndexFirstColumn() { return 0;};
+		virtual uint32_t GetIndexFirstColumn() { return 0;};
 
-		virtual UInt_t GetIndexFirstRow() { return 0;};
+		virtual uint32_t GetIndexFirstRow() { return 0;};
 
-		virtual UInt_t GetIndexFirstTableHeader() { return 0; };
+		virtual uint32_t GetIndexFirstTableHeader() { return 0; };
 
 	protected:					 // Protected attribute
 		std::ifstream*  fileStream;

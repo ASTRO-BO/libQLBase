@@ -133,7 +133,7 @@ void InputFileFITS::RemoveFilter() {
 }
 
 
-Long_t InputFileFITS::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
+Long_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
 	DOUBLE_T* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
 	//DOUBLE_T end_time = (*first_time) + deltaT;
@@ -152,7 +152,7 @@ Long_t InputFileFITS::GetNextRowPeriod(UInt_t timeColumnNumber, Long_t pos_first
 }
 
 
-DOUBLE_T InputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
+DOUBLE_T InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 	MoveHeader(headerBase);
 	DOUBLE_T* new_time = READ_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
 	DOUBLE_T ret = *new_time;
@@ -160,13 +160,13 @@ DOUBLE_T InputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t pos) {
 	return ret;
 }
 
-DOUBLE_T* InputFileFITS::GetTime(UInt_t timeColumnNumber, ULong_t start, ULong_t dim) {
+DOUBLE_T* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
 	MoveHeader(headerBase);
 	DOUBLE_T* ret = READ_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
 
-UChar_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
+uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TBYTE;
@@ -188,7 +188,7 @@ UChar_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t neleme
 			return 0;
 		}
 	}
-	UChar_t* data = (UChar_t*) new UChar_t[nelem];
+	uint8_t* data = (uint8_t*) new uint8_t[nelem];
 	//ncol: number of column
 	//frow: number of row
 	//felem: number of the first element to be read starting from the cell
@@ -212,7 +212,7 @@ UChar_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t neleme
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			UChar_t* dataf = (UChar_t*) new UChar_t[n_good_rows];
+			uint8_t* dataf = (uint8_t*) new uint8_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -399,7 +399,7 @@ Long_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-UShort_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TUSHORT;
@@ -421,7 +421,7 @@ UShort_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nel
 			return 0;
 		}
 	}
-	UShort_t* data = new UShort_t[nelem];
+	uint16_t* data = new uint16_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -437,7 +437,7 @@ UShort_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nel
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			UShort_t* dataf = (UShort_t*) new UShort_t[n_good_rows];
+			uint16_t* dataf = (uint16_t*) new uint16_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -455,7 +455,7 @@ UShort_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-UInt_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
+uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TUINT;
@@ -477,7 +477,7 @@ UInt_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelemen
 			return 0;
 		}
 	}
-	UInt_t* data = new UInt_t[nelem];
+	uint32_t* data = new uint32_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -493,7 +493,7 @@ UInt_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelemen
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			UInt_t* dataf = (UInt_t*) new UInt_t[n_good_rows];
+			uint32_t* dataf = (uint32_t*) new uint32_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -511,7 +511,7 @@ UInt_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelemen
 }
 
 
-ULong_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
+uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TULONG;
@@ -533,7 +533,7 @@ ULong_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelem
 			return 0;
 		}
 	}
-	ULong_t* data = (ULong_t*) new ULong_t[nelem];
+	uint64_t* data = (uint64_t*) new uint64_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -549,7 +549,7 @@ ULong_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelem
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			ULong_t* dataf = (ULong_t*) new ULong_t[n_good_rows];
+			uint64_t* dataf = (uint64_t*) new uint64_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
