@@ -99,7 +99,7 @@ int InputFileFilter::GetColNum(char* nomecol) {
 }
 
 
-DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, Long_t frow, Long_t nrows) {
+DOUBLE_T* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int64_t nrows) {
 
 	if(!nrows)
 		return 0;

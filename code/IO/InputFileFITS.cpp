@@ -55,7 +55,7 @@ Bool_t InputFileFITS::Open(const std::string &filename) {
 	return opened;
 }
 
-Int_t InputFileFITS::GetNCols() {
+int32_t InputFileFITS::GetNCols() {
 	status = 0;
 	fits_get_num_cols(infptr, &ncols, &status);
 	if (status) {
@@ -71,7 +71,7 @@ Int_t InputFileFITS::GetNCols() {
 	return ncols;
 }
 
-Long_t InputFileFITS::GetNRows() {
+int64_t InputFileFITS::GetNRows() {
 	status = 0;
 	fits_get_num_rows(infptr, &nrows, &status);
 	if (status) {
@@ -133,12 +133,12 @@ void InputFileFITS::RemoveFilter() {
 }
 
 
-Long_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
+int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) {
 	DOUBLE_T* first_time = READ_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
 	//DOUBLE_T end_time = (*first_time) + deltaT;
 	DOUBLE_T current_time = *first_time;
-	Long_t next_pos = pos_first;
+	int64_t next_pos = pos_first;
 	while(current_time < end_time) {
 		next_pos++;
 		DOUBLE_T* new_time = READ_TDOUBLE(timeColumnNumber, next_pos, next_pos);
@@ -166,7 +166,7 @@ DOUBLE_T* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint
 	return ret;
 }
 
-uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
+uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TBYTE;
@@ -231,7 +231,7 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, Long_t neleme
 }
 
 
-Short_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TSHORT;
@@ -253,7 +253,7 @@ Short_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelem
 			return 0;
 		}
 	}
-	Short_t* data = (Short_t*) new Short_t[nelem];
+	int16_t* data = (int16_t*) new int16_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -269,7 +269,7 @@ Short_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelem
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			Short_t* dataf = (Short_t*) new Short_t[n_good_rows];
+			int16_t* dataf = (int16_t*) new int16_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -287,7 +287,7 @@ Short_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelem
 }
 
 
-Int_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t nelements) {
+int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TINT;
@@ -309,7 +309,7 @@ Int_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t nelements
 			return 0;
 		}
 	}
-	Int_t* data = new Int_t[nelem];
+	int32_t* data = new int32_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -325,7 +325,7 @@ Int_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t nelements
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			Int_t* dataf = (Int_t*) new Int_t[n_good_rows];
+			int32_t* dataf = (int32_t*) new int32_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -343,7 +343,7 @@ Int_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, Long_t nelements
 }
 
 
-Long_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements) {
+int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TINT32BIT;
@@ -365,7 +365,7 @@ Long_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nel
 			return 0;
 		}
 	}
-	Long_t* data = new Long_t[nelem];
+	int64_t* data = new int64_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
 		delete [] data;
@@ -381,7 +381,7 @@ Long_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nel
 	nRowsRead = lrow - frow + 1;
 	if(applyFilter) {
 		if(n_good_rows > 0) {
-			Long_t* dataf = (Long_t*) new Long_t[n_good_rows];
+			int64_t* dataf = (int64_t*) new int64_t[n_good_rows];
 			long j = 0;
 			for(long i=0; i<nelem; i++)
 				if(row_status[i] == 1)
@@ -399,7 +399,7 @@ Long_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TUSHORT;
@@ -455,7 +455,7 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nel
 }
 
 
-uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
+uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TUINT;
@@ -511,7 +511,7 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, Long_t nelem
 }
 
 
-uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
+uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TULONG;
@@ -567,7 +567,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, Long_t nele
 }
 
 
-Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements) {
+Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TFLOAT;
@@ -623,7 +623,7 @@ Float_t* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelem
 }
 
 
-Double_t* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements) {
+Double_t* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;
 	int typecode = TDOUBLE;
@@ -684,7 +684,7 @@ void InputFileFITS::SetFilter(InputFileFilter* filter) {
 	this->filter = filter;
 }
 
-Bool_t InputFileFITS::GetFilteredRows(Long_t frow, Long_t nrows) {
+Bool_t InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
 	status = 0;
 	if(nrows > row_status_size) {
 		delete[] row_status;

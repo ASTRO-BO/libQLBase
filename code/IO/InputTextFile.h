@@ -34,7 +34,7 @@ class InputTextFile : public InputFile {
 
 		Bool_t MoveHeader(int header_number) { return kTRUE; };
 
-		Long_t GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time);
+		int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time);
 
 		DOUBLE_T GetTime(uint32_t timeColumnNumber, uint64_t pos);
 
@@ -42,23 +42,23 @@ class InputTextFile : public InputFile {
 
 		DOUBLE_T* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
 
-		uint8_t* Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint8_t* Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Short_t* Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		int16_t* Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Int_t* Read_TINT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		int32_t* Read_TINT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Long_t* Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		int64_t* Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		uint32_t* Read_TUINT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint32_t* Read_TUINT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		uint64_t* Read_TULONG(int ncol, long frow, long lrow, Long_t nelements = 0);
+		uint64_t* Read_TULONG(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Float_t* Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements = 0);
+		Float_t* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements = 0);
+		Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0);
 
 		virtual uint32_t GetIndexFirstColumn() { return 0;};
 

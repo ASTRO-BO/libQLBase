@@ -152,7 +152,7 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 }
 
 
-Long_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) {
+int64_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) {
 
 	return 0;
 }
@@ -171,12 +171,12 @@ Bool_t InputTextFile::IsOpened() {
 }
 
 
-uint8_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements) {
+uint8_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint8_t);
 }
 
 
-Short_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+int16_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 
 	// Test inputs
 	if(!test(ncol, frow, lrow)) {
@@ -193,7 +193,7 @@ Short_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelem
 	// Create buffer
 	int       buff_sz   = lrow - frow + 1;
 	int       buff_off  = 0;
-	Short_t*  buff      = new Short_t[buff_sz];
+	int16_t*  buff      = new int16_t[buff_sz];
 
 	// Read rows
 	for(int i = 0; i <= lrow; i++) {
@@ -225,37 +225,37 @@ Short_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, Long_t nelem
 }
 
 
-Int_t* InputTextFile::Read_TINT(int ncol, long frow, long lrow, Long_t nelements) {
-	READ_DATA(Int_t)
+int32_t* InputTextFile::Read_TINT(int ncol, long frow, long lrow, int64_t nelements) {
+	READ_DATA(int32_t)
 }
 
 
-Long_t* InputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements) {
-	READ_DATA(Long_t)
+int64_t* InputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements) {
+	READ_DATA(int64_t)
 }
 
 
-uint16_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements) {
+uint16_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint16_t)
 }
 
 
-uint32_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, Long_t nelements) {
+uint32_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint32_t)
 }
 
 
-uint64_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, Long_t nelements) {
+uint64_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(uint64_t)
 }
 
 
-Float_t* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements) {
+Float_t* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(Float_t)
 }
 
 
-Double_t* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements) {
+Double_t* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
 	READ_DATA(Double_t)
 }
 

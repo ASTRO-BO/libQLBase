@@ -35,27 +35,27 @@ public:
 
 	Bool_t Close();
 
-	virtual Bool_t Calculate(Long_t frow, Long_t nrows) = 0;
+	virtual Bool_t Calculate(int64_t frow, int64_t nrows) = 0;
 
-	virtual Long_t GetNGoodRows() { return n_good_rows; };
+	virtual int64_t GetNGoodRows() { return n_good_rows; };
 
 	virtual char* GetRowStatus() { return row_status; };
 
 protected:
 
-	virtual Bool_t MoveHeader(Int_t header_number);
+	virtual Bool_t MoveHeader(int32_t header_number);
 
-	virtual Int_t GetColNum(char* nomecol);
+	virtual int32_t GetColNum(char* nomecol);
 
-	virtual DOUBLE_T* ReadCol(Int_t headernum, char* colname, Long_t frow, Long_t nrows);
+	virtual DOUBLE_T* ReadCol(int32_t headernum, char* colname, int64_t frow, int64_t nrows);
 
 	fitsfile *infptr;
 
-	Long_t n_good_rows;
+	int64_t n_good_rows;
 
 	char* row_status;
 
-	Int_t status;
+	int32_t status;
 
 	std::string filename;
 

@@ -31,7 +31,7 @@ class InputFile {
 		virtual ~InputFile();
 
 		//il base header è l'header su cui devono essere contati il numero di eventi di un file
-		virtual void SetBaseHeader(Int_t headerBase);
+		virtual void SetBaseHeader(int32_t headerBase);
 
 		//##ModelId=3FAF8E5F0371
 		virtual Bool_t Open(const std::string &filename) = 0;
@@ -53,13 +53,13 @@ class InputFile {
 		virtual void RemoveFilter() {};
 
 
-		virtual Int_t GetNCols() { return ncols; };
+		virtual int32_t GetNCols() { return ncols; };
 
-		virtual Long_t GetNRows() { return nrows; };
+		virtual int64_t GetNRows() { return nrows; };
 
-		virtual Long_t GetNEvents();
+		virtual int64_t GetNEvents();
 
-		virtual Long_t GetNextRowPeriod(uint32_t timeColumnNumber, Long_t pos_first, DOUBLE_T end_time) = 0;
+		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, DOUBLE_T end_time) = 0;
 
 		virtual DOUBLE_T* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) = 0;
 
@@ -67,7 +67,7 @@ class InputFile {
 
 		virtual Bool_t IsOpened();
 
-		virtual Int_t GetStatus() { return status; };
+		virtual int32_t GetStatus() { return status; };
 
 		virtual std::string GetFileName() { return filename; };
 
@@ -89,25 +89,25 @@ class InputFile {
 
 	public:
 
-		virtual Long_t GetNRowReads() { return nRowsRead; };
+		virtual int64_t GetNRowReads() { return nRowsRead; };
 
-		virtual uint8_t* Read_TBYTE(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint8_t* Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Short_t* Read_TSHORT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual int16_t* Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Int_t* Read_TINT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual int32_t* Read_TINT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Long_t* Read_TINT32BIT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual int64_t* Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual uint32_t* Read_TUINT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint32_t* Read_TUINT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual uint64_t* Read_TULONG(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual uint64_t* Read_TULONG(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Float_t* Read_TFLOAT(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual Float_t* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
-		virtual Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, Long_t nelements = 0) = 0;
+		virtual Double_t* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 
 	protected:
 
@@ -118,26 +118,26 @@ class InputFile {
 
 		//##Documentation
 		//## Number of columns of the current file
-		Int_t ncols;
+		int32_t ncols;
 
 		//##Documentation
 		//## Number of rows of the current file
-		Long_t nrows;
+		int64_t nrows;
 
 		//##Documentation
 		//## Number of rows of the last reading;
-		Long_t nRowsRead;
+		int64_t nRowsRead;
 
 		//##Documentation
 		//## The status of the reading
-		Int_t status;
+		int32_t status;
 
 		Bool_t applyFilter;
 
 		std::string selectEvent;
 
 		//the header che contiene gli eventi da elaborare. Usato da GetNEvents()
-		Int_t headerBase;
+		int32_t headerBase;
 
 };
 

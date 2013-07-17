@@ -15,7 +15,7 @@ InputFile::~InputFile() {
 
 }
 
-void InputFile::SetBaseHeader(Int_t headerBase) {
+void InputFile::SetBaseHeader(int32_t headerBase) {
 	this->headerBase = headerBase;
 }
 
@@ -24,7 +24,7 @@ Bool_t InputFile::IsOpened() {
 	return opened;
 }
 
-Long_t InputFile::GetNEvents() {
+int64_t InputFile::GetNEvents() {
 	MoveHeader(headerBase);
 	return GetNRows();
 }
