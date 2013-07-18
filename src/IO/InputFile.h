@@ -21,7 +21,7 @@
 #define QL_IO_INPUTFILE_H
 
 #include <string>
-#include <cstdint>
+#include <stdint.h>
 #include "InputFileFilter.h"
 
 namespace qlbase {

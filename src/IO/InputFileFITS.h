@@ -20,7 +20,7 @@
 #ifndef QL_IO_INPUTFILEFITS_H
 #define QL_IO_INPUTFILEFITS_H
 
-#include <cstdint>
+#include <stdint.h>
 #include <cfitsio/fitsio.h>
 #include "InputFile.h"
 

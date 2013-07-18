@@ -21,7 +21,7 @@
 #define QL_IO_FILE_H
 
 #include <string>
-#include <cstdint>
+#include <stdint.h>
 
 namespace qlbase {
 
