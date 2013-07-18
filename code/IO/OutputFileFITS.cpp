@@ -17,20 +17,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <unistd.h>
 #include <string>
+#include <cstring>
 #include "OutputFileFITS.h"
 
 namespace qlbase
 {
 
-OutputFileFITS::OutputFileFITS()
+OutputFileFITS::OutputFileFITS() : filename("3901.lv1")
 {
     fptr=(fitsfile **)malloc(sizeof(fitsfile));
     verbose = false;
     flush_rows = 1;
     currentrow = 0;
-    filename = "3901.lv1";
     opened = false;
     rownum = 0;
     colnum = 0;
@@ -60,7 +59,7 @@ int OutputFileFITS::getColNum(char* nomecol) {
 
 bool OutputFileFITS::open() {
 status = 0;
-	if ( !fits_open_file(fptr, filename, READWRITE, &status) ) {
+	if ( !fits_open_file(fptr, filename.c_str(), READWRITE, &status) ) {
 		opened = true;
 	}
 	else
@@ -93,7 +92,7 @@ long OutputFileFITS::findFirstRow(char* expr) {
 		printerror( status );
 // 	fits_find_rows(*fptr, expr, 1, 10, n_good, row_status, &status);
 // 	for(int i=0; i<10; i++) {
-// 		cout << n_good[i] << " " << (int)row_status[i] << endl;
+// 		std::cout << n_good[i] << " " << (int)row_status[i] << std::endl;
 // 	}
 	return findfirstrow;
 }
@@ -110,7 +109,7 @@ void OutputFileFITS::printerror(int status)
 void OutputFileFITS::writeInitHeaderKey(int header) {
 int status = 0;
 
-	string str1;
+	std::string str1;
 
 	if(!changeHeader(header))
 		return;
@@ -131,7 +130,7 @@ int status = 0;
 	(void*)"Andrea Bulgarelli", "Unique ID of the creator" , &status) )
 		printerror( status );
 	if ( fits_write_key(*fptr,  TSTRING, "FILENAME" ,
-	(void*)filename, "Original file name of this FITS (GTB)" , &status) )
+	(void*)filename.c_str(), "Original file name of this FITS (GTB)" , &status) )
 		printerror( status );
 	if ( fits_write_key(*fptr,  TSTRING, "FILEVER" ,
 	(void*)"1", "File version (GTB)" , &status) )
@@ -186,17 +185,15 @@ bool OutputFileFITS::changeHeader(int headnum) {
 	return true;
 }
 
-char* OutputFileFITS::setFileName(char* filenamebase)
+void OutputFileFITS::setFileName(const std::string &filename)
 {
-	filename = filenamebase;
-// 	cout << filename << endl;
+	this->filename = filename;
 	lastrow_flushed = 0;
-	return filename;
 }
 
 bool OutputFileFITS::flush_file() {
 int status=0;
-	if(verbose) cout << "OutputFileFITS: Current row: " << currentrow << ". Last row flushed: " << lastrow_flushed << ". Flush every " << flush_rows << "rows" << endl;
+	if(verbose) std::cout << "OutputFileFITS: Current row: " << currentrow << ". Last row flushed: " << lastrow_flushed << ". Flush every " << flush_rows << "rows" << std::endl;
 	if(currentrow >= lastrow_flushed + flush_rows) {
 		fits_flush_file (*fptr, &status);
 		lastrow_flushed = currentrow;
@@ -215,20 +212,20 @@ int OutputFileFITS::openOutFits(char * fitsname, char * templatefile )
 
 }
 
-int OutputFileFITS::printerror(int codice,char* messaggio,int status)
+int OutputFileFITS::printerror(int codice, const char* messaggio,int status)
 {
     char errtext[40] ; // max per fitsio  30 char + '/0'
 
-    cerr << " printerror called from: " << messaggio << " codice: " << codice << endl ;
+    std::cerr << " printerror called from: " << messaggio << " codice: " << codice << std::endl ;
 
     if (status) {
         fits_get_errstatus( status, errtext);
-	cerr << " ERROR IN OutputFileFITSIO called from L1fits! : Number: " << status << " "
-	     << errtext << endl ;
+	std::cerr << " ERROR IN OutputFileFITSIO called from L1fits! : Number: " << status << " "
+	     << errtext << std::endl ;
 
 	fits_report_error(stderr,status) ;  //detailded report
 
-	cerr << endl <<endl ;
+	std::cerr << std::endl <<std::endl ;
     }
     flushCloseandExit() ;
     return 1 ;
@@ -242,7 +239,7 @@ int OutputFileFITS::flushCloseandExit()
         printerror( status );
     if ( fits_close_file(*fptr, &status) )
         printerror( status );
-    cerr << " Error fits recovery: flush fits file, close fits file, exit program ..." << endl ;
+    std::cerr << " Error fits recovery: flush fits file, close fits file, exit program ..." << std::endl ;
     exit( status ) ;
 }
 
@@ -382,7 +379,7 @@ bool OutputFileFITSBinaryTable::init()
 	status=0;
 
 	/* create new OutputFileFITS file */
-	if (fits_create_file(fptr, filename, &status))
+	if (fits_create_file(fptr, filename.c_str(), &status))
 		printerror( status );
 
 	if ( fits_create_tbl(*fptr, BINARY_TBL, nrows, ncol_header1, ttype1, tform1,
@@ -535,7 +532,7 @@ bool OutputFileFITSBinaryTable::close()
 
 }
 
-char* OutputFileFITSBinaryTable::getValue(char* str) {
+char* OutputFileFITSBinaryTable::getValue(const char* str) {
 	int l = strlen(str);
 	int ins = 0;
 	for(ins=0; ins<l; ins++) {

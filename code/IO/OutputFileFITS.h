@@ -20,7 +20,9 @@
 #ifndef QL_IO_OUTPUTFILEFITS_H
 #define QL_IO_OUTPUTFILEFITS_H
 
-#include  <cfitsio/fitsio.h>
+#include <cfitsio/fitsio.h>
+#include <typeinfo>
+#include <iostream>
 
 namespace qlbase
 {
@@ -47,13 +49,13 @@ class OutputFileFITS
 
 	virtual void writeEndHeaderKey(int header);
 
-        virtual char* setFileName(char* filenamebase = 0);
+        virtual void setFileName(const std::string &filename);
 
 	virtual int getColNum(char* nomecol);
 
 	virtual long getRowNum();
 
-	virtual void SetCurrentRowToWrite(dword cr) { currentrow = cr; };
+	virtual void SetCurrentRowToWrite(int32_t cr) { currentrow = cr; };
 
 	virtual bool flush_file();
 
@@ -73,7 +75,7 @@ protected:
 
         int openOutFits(char * outfitsname , char * templatefile);
 
-        int printerror(int codice,char* messaggio,int status_fitsio);
+        int printerror(int codice,const char* messaggio,int status_fitsio);
 
         /** Flush fits file and exit. */
         int flushCloseandExit();
@@ -81,13 +83,13 @@ protected:
         /** Pointer to fits file. */
         fitsfile** fptr;
 
-        char* filename;
+        std::string filename;
 
         /** Indicates the current row of data to start for writing the events data */
-        dword currentrow;
+        int32_t currentrow;
 
 	/** Indicates the last row flushed */
-	dword lastrow_flushed;
+	int32_t lastrow_flushed;
 
 	bool verbose;
 
@@ -133,9 +135,9 @@ int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 
 	if( typeid(valore).name() == typeid(unsigned char).name() )      tipodati = TBYTE ; //packetlib byte - 1 byte unsigned (1B)
 	else if( typeid(valore).name() == typeid(short int).name() )      tipodati = TSHORT ; //2 byte signed (1I)
-	else if( typeid(valore).name() == typeid(unsigned short).name() )      tipodati = TUSHORT ; //packetlib word - 2 byte unsigned short (1U)
+	else if( typeid(valore).name() == typeid(unsigned short).name() )      tipodati = TUSHORT ; //packetlib word - 2 byte unsigned int (1U)
 	else if( typeid(valore).name() == typeid(long).name() )     tipodati = TLONG ;  //32 bit long signed integer (1J)
-	else if( typeid(valore).name() == typeid(unsigned long).name() )      tipodati = TULONG ; //packetlib dword - 4 byte unsigned long (1V)
+	else if( typeid(valore).name() == typeid(unsigned long).name() )      tipodati = TULONG ; //packetlib dword - 4 byte unsigned int (1V)
 	else if( typeid(valore).name() == typeid(int).name() )               tipodati = TINT32BIT  ; //4 byte (32 bit) signed (1J)
 	else if( typeid(valore).name() == typeid(unsigned int).name() )      tipodati = TUINT ;  // 4 byte unsigned int (1V)
 	else if( typeid(valore).name() == typeid(float).name() )            tipodati = TFLOAT ; //4 byte real (1E)
@@ -143,21 +145,21 @@ int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 	else if( typeid(valore).name() == typeid(long long int).name() )     tipodati = TLONGLONG ;  //64 bit long signed integer (1K)
 	else
 	{
-		cerr << " ERROR: data type unknown into writeCell: ";
-		cerr << " writing command ignored. "  << endl ;
+		std::cerr << " ERROR: data type unknown into writeCell: ";
+		std::cerr << " writing command ignored. "  << std::endl ;
 
 		return 1 ;
 	}
 
 	if(status_fits)
 	{
-		cerr << endl <<" MAYBE WRONG COL : " << colnum << " value: " << valore << endl ;
+		std::cerr << std::endl <<" MAYBE WRONG COL : " << colnum << " value: " << valore << std::endl ;
 		printerror( colnum," Looking for col number ",status_fits );
 	}
 	fits_write_col(*fptr,tipodati,colnum,rownum,firstelem, (long)1, &valore, &status_fits);
 	if(status_fits)
 	{
-		cerr << endl<< " MAYBE WRONG VALUE IN : " << colnum << " value: " << valore << endl ;
+		std::cerr << std::endl<< " MAYBE WRONG VALUE IN : " << colnum << " value: " << valore << std::endl ;
 		printerror( colnum," Writing fits col: ",status_fits );
 	}
  };
@@ -174,7 +176,7 @@ class OutputFileFITSBinaryTable : public OutputFileFITS
 
 		virtual bool close();
 
-		virtual char* getValue(char* str);
+		virtual char* getValue(const char* str);
 
 	protected:
 
