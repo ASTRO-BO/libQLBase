@@ -11,7 +11,17 @@ set(LIBNAME ${CMAKE_PROJECT_NAME}.${QLBase_MAJOR_VERSION}.${QLBase_MINOR_VERSION
 file(GLOB_RECURSE SOURCES "*.cpp")
 add_library(${LIBNAME} SHARED ${SOURCES})
 
+# make docs
+FIND_PACKAGE(Doxygen)
+if (NOT DOXYGEN_FOUND)
+  message(FATAL_ERROR
+    "Doxygen is needed to build the documentation. Please install it correctly")
+endif()
+configure_file(../Doxyfile.in ${PROJECT_BINARY_DIR}/Doxyfile @ONLY IMMEDIATE)
+add_custom_target(docs COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile)
+
 # unix /usr/local installation
 install(DIRECTORY IO/ DESTINATION include/${CMAKE_PROJECT_NAME}
             FILES_MATCHING PATTERN "*.h")
 install(TARGETS ${LIBNAME} DESTINATION lib64)
+install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/ DESTINATION share/doc/${CMAKE_PROJECT_NAME})
