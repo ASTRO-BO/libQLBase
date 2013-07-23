@@ -73,7 +73,7 @@ bool InputFileFilter::Close() {
 	return true;
 }
 
-bool InputFileFilter::MoveHeader(int header_number) {
+bool InputFileFilter::MoveHeader(int32_t header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + 1, 0, &status);
 	if (status) {
@@ -105,7 +105,7 @@ int InputFileFilter::GetColNum(char* nomecol) {
 	return colnum;
 }
 
-double* InputFileFilter::ReadCol(int headernum, char* colname, int64_t frow, int64_t nrows) {
+double* InputFileFilter::ReadCol(int32_t headernum, char* colname, int64_t frow, int64_t nrows) {
 
 	if(!nrows)
 		return 0;
