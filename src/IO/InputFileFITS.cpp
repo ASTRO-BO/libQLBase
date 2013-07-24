@@ -127,15 +127,6 @@ bool InputFileFITS::MoveHeader(int header_number) {
 	return true;
 }
 
-bool InputFileFITS::ApplyFilter(const std::string &selectEvent) {
-	applyFilter = true;
-	this->selectEvent = selectEvent;
-}
-
-void InputFileFITS::RemoveFilter() {
-	applyFilter = false;
-}
-
 int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
 	double* first_time = Read_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
@@ -179,17 +170,7 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	uint8_t* data = (uint8_t*) new uint8_t[nelem];
 	//ncol: number of column
 	//frow: number of row
@@ -212,22 +193,7 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			uint8_t* dataf = (uint8_t*) new uint8_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 
 }
@@ -243,17 +209,7 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	int16_t* data = (int16_t*) new int16_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -268,22 +224,7 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			int16_t* dataf = (int16_t*) new int16_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -298,17 +239,7 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	int32_t* data = new int32_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -323,22 +254,7 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			int32_t* dataf = (int32_t*) new int32_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -353,17 +269,7 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	int64_t* data = new int64_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -378,22 +284,7 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			int64_t* dataf = (int64_t*) new int64_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -408,17 +299,7 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	uint16_t* data = new uint16_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -433,22 +314,7 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			uint16_t* dataf = (uint16_t*) new uint16_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -463,17 +329,7 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	uint32_t* data = new uint32_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -488,22 +344,7 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			uint32_t* dataf = (uint32_t*) new uint32_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -518,17 +359,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 	else
 		nelem = nelements;
 	long null = 0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	uint64_t* data = (uint64_t*) new uint64_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -543,22 +374,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			uint64_t* dataf = (uint64_t*) new uint64_t[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -573,17 +389,7 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 	else
 		nelem = nelements;
 	float null = 0.0;
-	if(applyFilter) {
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	float* data = new float[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
 	if (status) {
@@ -598,22 +404,7 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			float* dataf = (float*) new float[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
 }
 
@@ -628,18 +419,7 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 	else
 		nelem = nelements;
 	double null = 0.0;
-	if(applyFilter) {
-		//cout << "(1) ncol " << ncol << " frow " << frow << " lrow " << lrow << " nelem " << nelem << std::endl;
-		if(GetFilteredRows(frow, nelem)) {
-			if(n_good_rows == 0) {
-				nRowsRead = 0;
-				return 0;
-			}
-		} else {
-			nRowsRead = 0;
-			return 0;
-		}
-	}
+
 	double* data = (double*) new double[nelem];
 	//cout << "(2) ncol " << ncol << " frow " << frow << " nelem " << nelem << std::endl;
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
@@ -655,59 +435,8 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 		return 0;
 	}
 	nRowsRead = lrow - frow + 1;
-	if(applyFilter) {
-		if(n_good_rows > 0) {
-			double* dataf = (double*) new double[n_good_rows];
-			long j = 0;
-			for(long i=0; i<nelem; i++)
-				if(row_status[i] == 1)
-					dataf[j++] = data[i];
-			delete[] data;
-			data = dataf;
-			nRowsRead = n_good_rows;
-		} else {
-			delete[] data;
-			data = 0;
-			nRowsRead = 0;
-		}
-	}
+
 	return data;
-}
-
-void InputFileFITS::SetFilter(InputFileFilter* filter) {
-	this->filter = filter;
-}
-
-bool InputFileFITS::GetFilteredRows(int64_t frow, int64_t nrows) {
-	status = 0;
-	if(nrows > row_status_size) {
-		delete[] row_status;
-		row_status = (char*) new char[nrows];
-		row_status_size = nrows;
-	}
-	n_good_rows = 0;
-	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << std::endl;
-	//fits_find_rows(infptr, (char*)selectEvent.Data(), frow, nrows, &n_good_rows, row_status, &status );
-	if(!filter->Open(filename))
-		return false;
-	if(!filter->Calculate(frow, nrows))
-		return false;
-	if(!filter->Close())
-		return false;
-	n_good_rows = filter->GetNGoodRows();
-	row_status = filter->GetRowStatus();
-	//cout << "(2) GetFilteredRows() frow " << frow << " nrows " << nrows << " n_good_rows " << n_good_rows << " status " << status << std::endl;
-	if (status) {
-		char* errms; std::string msg("Error in InputFileFITS::GetFilteredRows() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
-		fits_report_error(stderr, status);
-		status = 0;
-		return false;
-	}
-	return true;
 }
 
 }

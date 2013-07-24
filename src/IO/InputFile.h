@@ -22,7 +22,6 @@
 
 #include <string>
 #include <stdint.h>
-#include "InputFileFilter.h"
 
 namespace qlbase {
 
@@ -44,12 +43,6 @@ class InputFile {
 		virtual bool Close() = 0;
 
 		virtual bool MoveHeader(int header_number) = 0;
-
-		/** Apply a filter to the current header */
-		virtual bool ApplyFilter(const std::string &selectEvent) { return false; };
-
-		/** Remove the filter to the current header */
-		virtual void RemoveFilter() {};
 
 		virtual int32_t GetNCols() { return ncols; };
 
@@ -76,8 +69,6 @@ class InputFile {
 		virtual uint32_t GetIndexFirstRow() = 0;
 
 		virtual uint32_t GetIndexFirstTableHeader() = 0;
-
-		virtual void SetFilter(InputFileFilter* filter) {};
 
 	public:
 

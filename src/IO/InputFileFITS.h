@@ -62,8 +62,6 @@ class InputFileFITS : public InputFile {
 
 		virtual uint32_t GetIndexFirstTableHeader() { return 1; };
 
-		virtual void SetFilter(InputFileFilter* filter);
-
 	public:
 
 		/** Read a FITS column.
@@ -109,10 +107,6 @@ class InputFileFITS : public InputFile {
 		fitsfile *infptr;
 
 	protected:
-
-		virtual bool GetFilteredRows(int64_t frow, int64_t nrows);
-
-		InputFileFilter* filter;
 
 		long n_good_rows;
 
