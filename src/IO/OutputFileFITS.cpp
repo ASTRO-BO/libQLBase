@@ -86,8 +86,6 @@ long OutputFileFITS::findFirstRow(char* expr) {
 	if(!changeHeader(masterheadnum))
 		return -1;
 	status = 0;
-	long n_good[10];
-	char row_status[10];
 	if(fits_find_first_row(*fptr, expr, &findfirstrow, &status))
 		printerror( status );
 // 	fits_find_rows(*fptr, expr, 1, 10, n_good, row_status, &status);
@@ -207,9 +205,11 @@ int OutputFileFITS::openOutFits(char * fitsname, char * templatefile )
    int status_fits=0 ;
 
    if (fits_create_template(fptr,fitsname ,templatefile, &status_fits))
+   {
         printerror( 0, " called fits_create_template: ", status_fits );
-
-
+        return 0;
+   }
+   return 1;
 }
 
 int OutputFileFITS::printerror(int codice, const char* messaggio,int status)
