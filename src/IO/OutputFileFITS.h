@@ -143,7 +143,7 @@ int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 	else if( typeid(valore).name() == typeid(unsigned int).name() )      tipodati = TUINT ;  // 4 byte unsigned int (1V)
 	else if( typeid(valore).name() == typeid(float).name() )            tipodati = TFLOAT ; //4 byte real (1E)
 	else if( typeid(valore).name() == typeid(double).name() )            tipodati = TDOUBLE ;   //8 byte real (1D)
-	else if( typeid(valore).name() == typeid(long long int).name() )     tipodati = TLONGLONG ;  //64 bit long signed integer (1K)
+	else if( typeid(valore).name() == typeid(long int).name() )     tipodati = TLONGLONG ;  //64 bit long signed integer (1K)
 	else
 	{
 		ERR(" ERROR: data type unknown into writeCell: ");
@@ -163,7 +163,7 @@ int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 		ERR(std::endl<< " MAYBE WRONG VALUE IN : " << colnum << " value: " << valore);
 		printerror( colnum," Writing fits col: ",status_fits );
 	}
- };
+ }
 
 class OutputFileFITSBinaryTable : public OutputFileFITS
 {
