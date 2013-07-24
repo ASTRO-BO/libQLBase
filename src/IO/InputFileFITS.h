@@ -109,11 +109,6 @@ class InputFileFITS : public InputFile {
 	protected:
 
 		long n_good_rows;
-
-		char* row_status;
-
-		int64_t row_status_size;
-
 };
 
 }

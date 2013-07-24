@@ -26,13 +26,9 @@ namespace qlbase {
 #define IFFMAXROWSTATUS 1000000
 
 InputFileFITS::InputFileFITS() : InputFile() {
-	row_status = 0;
-	row_status = (char*) new char[IFFMAXROWSTATUS];
-	row_status_size = IFFMAXROWSTATUS;
 }
 
 InputFileFITS::~InputFileFITS() {
-	delete[] row_status;
 }
 
 bool InputFileFITS::Open(const std::string &filename) {
