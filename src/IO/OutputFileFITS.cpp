@@ -216,16 +216,16 @@ int OutputFileFITS::printerror(int codice, const char* messaggio,int status)
 {
     char errtext[40] ; // max per fitsio  30 char + '/0'
 
-    std::cerr << " printerror called from: " << messaggio << " codice: " << codice << std::endl ;
+    ERR(" printerror called from: " << messaggio << " codice: " << codice);
 
     if (status) {
         fits_get_errstatus( status, errtext);
-	std::cerr << " ERROR IN OutputFileFITSIO called from L1fits! : Number: " << status << " "
-	     << errtext << std::endl ;
+	ERR(" ERROR IN OutputFileFITSIO called from L1fits! : Number: " << status << " "
+	     << errtext);
 
 	fits_report_error(stderr,status) ;  //detailded report
 
-	std::cerr << std::endl <<std::endl ;
+	ERR(std::endl);
     }
     flushCloseandExit() ;
     return 1 ;
@@ -239,7 +239,7 @@ int OutputFileFITS::flushCloseandExit()
         printerror( status );
     if ( fits_close_file(*fptr, &status) )
         printerror( status );
-    std::cerr << " Error fits recovery: flush fits file, close fits file, exit program ..." << std::endl ;
+    ERR(" Error fits recovery: flush fits file, close fits file, exit program ...");
     exit( status ) ;
 }
 

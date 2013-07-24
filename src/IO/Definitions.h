@@ -33,6 +33,8 @@ namespace qlbase
 #define DEBUG(msg)
 #endif
 
+#define ERR(msg) {std::cerr << msg << std::endl;}
+
 enum FileError {
     kFileNoError = 0,
     kFileNoRead,

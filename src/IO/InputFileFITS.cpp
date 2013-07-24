@@ -48,11 +48,7 @@ bool InputFileFITS::Open(const std::string &filename) {
 		opened = false;
 
 	if (status) {
-		char* errms; std::string msg("Error in InputFileFITS::Open() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Open() ");
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -64,11 +60,7 @@ int32_t InputFileFITS::GetNCols() {
 	status = 0;
 	fits_get_num_cols(infptr, &ncols, &status);
 	if (status) {
-		char* errms; std::string  msg("Error in InputFileFITS::GetNCols() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::GetNCols() ");
 		fits_report_error(stderr, status);
 		status = 0;
 		return 0;
@@ -80,11 +72,7 @@ int64_t InputFileFITS::GetNRows() {
 	status = 0;
 	fits_get_num_rows(infptr, &nrows, &status);
 	if (status) {
-		char* errms; std::string msg("Error in InputFileFITS::GetNRows() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::GetNRows() ");
 		fits_report_error(stderr, status);
 		status = 0;
 		return 0;
@@ -97,11 +85,7 @@ bool InputFileFITS::Close() {
 	status = 0;
 	fits_close_file(infptr, &status);
 	if (status) {
-		char* errms; std::string msg("Error in InputFileFITS::Close() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Close() ");
 		fits_report_error(stderr, status);
 		opened = true;
 		status = 0;
@@ -115,11 +99,7 @@ bool InputFileFITS::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + GetIndexFirstTableHeader(), 0, &status);
 	if (status) {
-		char* errms; std::string msg("Error in InputFileFITS::MoveHeader() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::MoveHeader() ");
 		fits_report_error(stderr, status);
 		status = 0;
 		return false;
@@ -184,11 +164,7 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TBYTE() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TBYTE() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -215,11 +191,7 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TSHORT() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TSHORT() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -245,11 +217,7 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TINT() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TINT() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -275,11 +243,7 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TINT32BIT() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TINT32BIT() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -305,11 +269,7 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TUSHORT() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TUSHORT() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -335,11 +295,7 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TUINT() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TUINT() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -365,11 +321,7 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TULONG() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TULONG() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -395,11 +347,7 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TFLOAT() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TFLOAT() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}
@@ -426,11 +374,7 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		char* errms; std::string msg("Error in InputFileFITS::Read_TDOUBLE() ");
-		fits_read_errmsg(errms);
-		msg += 	errms;
-// 		gm.PrintLogMessage(msg, true);
-		std::cerr << msg << std::endl;
+		ERR("Error in InputFileFITS::Read_TDOUBLE() ");
 		fits_report_error(stderr, status);
 		return 0;
 	}

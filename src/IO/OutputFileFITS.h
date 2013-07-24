@@ -23,6 +23,7 @@
 #include <cfitsio/fitsio.h>
 #include <typeinfo>
 #include <iostream>
+#include "Definitions.h"
 
 namespace qlbase
 {
@@ -145,21 +146,21 @@ int  OutputFileFITS::writeCell( int rownum , TIPO valore , int colnum)
 	else if( typeid(valore).name() == typeid(long long int).name() )     tipodati = TLONGLONG ;  //64 bit long signed integer (1K)
 	else
 	{
-		std::cerr << " ERROR: data type unknown into writeCell: ";
-		std::cerr << " writing command ignored. "  << std::endl ;
+		ERR(" ERROR: data type unknown into writeCell: ");
+		ERR(" writing command ignored. ");
 
 		return 1 ;
 	}
 
 	if(status_fits)
 	{
-		std::cerr << std::endl <<" MAYBE WRONG COL : " << colnum << " value: " << valore << std::endl ;
+		ERR(std::endl <<" MAYBE WRONG COL : " << colnum << " value: " << valore);
 		printerror( colnum," Looking for col number ",status_fits );
 	}
 	fits_write_col(*fptr,tipodati,colnum,rownum,firstelem, (long)1, &valore, &status_fits);
 	if(status_fits)
 	{
-		std::cerr << std::endl<< " MAYBE WRONG VALUE IN : " << colnum << " value: " << valore << std::endl ;
+		ERR(std::endl<< " MAYBE WRONG VALUE IN : " << colnum << " value: " << valore);
 		printerror( colnum," Writing fits col: ",status_fits );
 	}
  };
