@@ -20,7 +20,6 @@
 #include <iostream>
 #include "Definitions.h"
 #include "InputFileFITS.h"
-#include "File.h"
 
 namespace qlbase {
 
@@ -37,12 +36,6 @@ InputFileFITS::~InputFileFITS() {
 }
 
 bool InputFileFITS::Open(const std::string &filename) {
-	File file;
-	if(file.Open(filename, "r"))
-		file.Close();
-	else
-		return false;
-	opened = true;
 	status = 0;
 	this->filename = filename;
 	if ( !fits_open_table(&infptr, filename.c_str(), READONLY, &status) ) {
