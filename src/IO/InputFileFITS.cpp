@@ -24,7 +24,6 @@
 
 namespace qlbase {
 
-#define IFFMAXROWSTATUS 1000000
 #define ERRMSGSIZ 81
 
 InputFileFITS::InputFileFITS() : InputFile() {
@@ -61,7 +60,7 @@ void InputFileFITS::close() {
 
 void InputFileFITS::jumpToChunk(int number) {
 	int status = 0;
-	fits_movabs_hdu(infptr, number + GetIndexFirstTableHeader(), 0, &status);
+	fits_movabs_hdu(infptr, number+1, 0, &status);
 
 	if (status)
 		throwException("Error in InputFileFITS::jumpToChuck() ", status);
@@ -111,7 +110,7 @@ std::vector<int8_t> InputFileFITS::read8i(int ncol, long frow, long lrow, int64_
 	//into this cell.
 	std::vector<int8_t> data;
 	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  &data[0], &anynull, &status);
+	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 	if (status) {
 		throwException("Error in InputFileFITS::read() ", status);
 	}
@@ -133,7 +132,7 @@ std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow, int6
 
 	std::vector<int16_t> data;
 	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  &data[0], &anynull, &status);
+	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 
 	if (status)
 		throwException("Error in InputFileFITS::read16i() ", status);
@@ -155,7 +154,7 @@ std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow, int6
 
 	std::vector<int32_t> data;
 	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  &data[0], &anynull, &status);
+	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 	if (status)
 		throwException("Error in InputFileFITS::read32i() ", status);
 
@@ -176,7 +175,7 @@ std::vector<int64_t> InputFileFITS::read64i(int ncol, long frow, long lrow, int6
 
 	std::vector<int64_t> data;
 	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  &data[0], &anynull, &status);
+	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 
 	if (status)
 		throwException("Error in InputFileFITS::read64i() ", status);
@@ -198,7 +197,7 @@ std::vector<float> InputFileFITS::read32f(int ncol, long frow, long lrow, int64_
 
 	std::vector<float> data;
 	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  &data[0], &anynull, &status);
+	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 
 	if (status)
 		throwException("Error in InputFileFITS::read32f() ", status);
@@ -220,7 +219,7 @@ std::vector<double> InputFileFITS::read64f(int ncol, long frow, long lrow, int64
 
 	std::vector<double> data;
 	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  &data[0], &anynull, &status);
+	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 
 	if (status)
 		throwException("Error in InputFileFITS::read64f() ", status);

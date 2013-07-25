@@ -56,12 +56,6 @@ class InputFileFITS : public InputFile {
 		virtual int32_t getNCols();
 		virtual int64_t getNRows();
 
-		virtual uint32_t GetIndexFirstColumn() { return 1;};
-
-		virtual uint32_t GetIndexFirstRow() { return 1;};
-
-		virtual uint32_t GetIndexFirstTableHeader() { return 1; };
-
 	public:
 
 		/** Read a FITS column.
