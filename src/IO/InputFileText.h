@@ -49,12 +49,6 @@ class InputFileText : public InputFile {
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-		virtual uint32_t GetIndexFirstColumn() { return 0;};
-
-		virtual uint32_t GetIndexFirstRow() { return 0;};
-
-		virtual uint32_t GetIndexFirstTableHeader() { return 0; };
-
 	protected:
 		std::ifstream fileStream;
 		std::string separator;
