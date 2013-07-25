@@ -18,12 +18,14 @@
  */
 
 #include <iostream>
+
 #include "Definitions.h"
 #include "InputFileFITS.h"
 
 namespace qlbase {
 
 #define IFFMAXROWSTATUS 1000000
+#define ERRMSGSIZ 81
 
 InputFileFITS::InputFileFITS() : InputFile() {
 }
@@ -31,8 +33,18 @@ InputFileFITS::InputFileFITS() : InputFile() {
 InputFileFITS::~InputFileFITS() {
 }
 
+void InputFileFITS::throwException(const char *msg, int status) {
+	std::string errMsg(msg);
+
+	char errDesc[ERRMSGSIZ];
+	fits_read_errmsg(errDesc);
+	errMsg += errDesc;
+
+	throw IOException(msg, status);
+}
+
 bool InputFileFITS::Open(const std::string &filename) {
-	status = 0;
+	int status = 0;
 	this->filename = filename;
 	if ( !fits_open_table(&infptr, filename.c_str(), READONLY, &status) ) {
 		opened = true;
@@ -43,63 +55,50 @@ bool InputFileFITS::Open(const std::string &filename) {
 	else
 		opened = false;
 
-	if (status) {
-		ERR("Error in InputFileFITS::Open() ");
-		fits_report_error(stderr, status);
-		status = 0;
-		return false;
-	}
+	if (status)
+		throwException("Error in InputFileFITS::Open() ", status);
+
 	return opened;
 }
 
 int32_t InputFileFITS::GetNCols() {
-	status = 0;
+	int status = 0;
 	fits_get_num_cols(infptr, &ncols, &status);
-	if (status) {
-		ERR("Error in InputFileFITS::GetNCols() ");
-		fits_report_error(stderr, status);
-		status = 0;
-		return 0;
-	}
+
+	if (status)
+		throwException("Error in InputFileFITS::GetNCols() ", status);
+
 	return ncols;
 }
 
 int64_t InputFileFITS::GetNRows() {
-	status = 0;
+	int status = 0;
 	fits_get_num_rows(infptr, &nrows, &status);
-	if (status) {
-		ERR("Error in InputFileFITS::GetNRows() ");
-		fits_report_error(stderr, status);
-		status = 0;
-		return 0;
-	}
+
+	if (status)
+		throwException("Error in InputFileFITS::GetNRows() ", status);
+
 	return nrows;
 }
 
 //##ModelId=3FAF8E850235
 bool InputFileFITS::Close() {
-	status = 0;
+	int status = 0;
 	fits_close_file(infptr, &status);
-	if (status) {
-		ERR("Error in InputFileFITS::Close() ");
-		fits_report_error(stderr, status);
-		opened = true;
-		status = 0;
-		return false;
-	}
-	opened = false;
+
+	if (status)
+		throwException("Error in InputFileFITS::Close() ", status);
+
 	return true;
 }
 
 bool InputFileFITS::MoveHeader(int header_number) {
 	status = 0;
 	fits_movabs_hdu(infptr, header_number + GetIndexFirstTableHeader(), 0, &status);
-	if (status) {
-		ERR("Error in InputFileFITS::MoveHeader() ");
-		fits_report_error(stderr, status);
-		status = 0;
-		return false;
-	}
+
+	if (status)
+		throwException("Error in InputFileFITS::MoveHeader() ", status);
+
 	return true;
 }
 
@@ -160,14 +159,12 @@ uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelem
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TBYTE() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TBYTE() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
-
 }
 
 int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements) {
@@ -184,13 +181,13 @@ int16_t* InputFileFITS::Read_TSHORT(int ncol, long frow, long lrow, int64_t nele
 
 	int16_t* data = (int16_t*) new int16_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TSHORT() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TSHORT() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
@@ -213,9 +210,7 @@ int32_t* InputFileFITS::Read_TINT(int ncol, long frow, long lrow, int64_t neleme
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TINT() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TINT() ", status);
 	}
 	nRowsRead = lrow - frow + 1;
 
@@ -236,13 +231,13 @@ int64_t* InputFileFITS::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t n
 
 	int64_t* data = new int64_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TINT32BIT() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TINT32BIT() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
@@ -262,13 +257,13 @@ uint16_t* InputFileFITS::Read_TUSHORT(int ncol, long frow, long lrow, int64_t ne
 
 	uint16_t* data = new uint16_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TUSHORT() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TUSHORT() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
@@ -288,13 +283,13 @@ uint32_t* InputFileFITS::Read_TUINT(int ncol, long frow, long lrow, int64_t nele
 
 	uint32_t* data = new uint32_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TUINT() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TUINT() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
@@ -314,13 +309,13 @@ uint64_t* InputFileFITS::Read_TULONG(int ncol, long frow, long lrow, int64_t nel
 
 	uint64_t* data = (uint64_t*) new uint64_t[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TULONG() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TULONG() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
@@ -340,13 +335,13 @@ float* InputFileFITS::Read_TFLOAT(int ncol, long frow, long lrow, int64_t neleme
 
 	float* data = new float[nelem];
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TFLOAT() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TFLOAT() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
@@ -367,13 +362,13 @@ double* InputFileFITS::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nele
 	double* data = (double*) new double[nelem];
 	//cout << "(2) ncol " << ncol << " frow " << frow << " nelem " << nelem << std::endl;
 	fits_read_col(infptr, typecode, ncol + GetIndexFirstColumn(), frow, felem, nelem, &null,  data, &anynull, &status);
+
 	if (status) {
 		delete [] data;
 		nRowsRead = 0;
-		ERR("Error in InputFileFITS::Read_TDOUBLE() ");
-		fits_report_error(stderr, status);
-		return 0;
+		throwException("Error in InputFileFITS::Read_TDOUBLE() ", status);
 	}
+
 	nRowsRead = lrow - frow + 1;
 
 	return data;
