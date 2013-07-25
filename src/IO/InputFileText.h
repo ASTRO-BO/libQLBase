@@ -49,17 +49,15 @@ class InputFileText : public InputFile {
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
 
-	protected:
+	private:
 		std::ifstream fileStream;
 		std::string separator;
 
-	protected:
 		void pointTo(int line);
 		bool findField(std::string& line, int& first, int& last, int pos = 0);
 		bool reopen();
 		bool test(int ncol, long frow, long& lrow);
 
-	private:
 		int nrows, ncols;
 
 		template<class T>
