@@ -34,27 +34,13 @@ class InputFile : public File {
 
 	public:
 
-		InputFile( );
+		InputFile();
 
 		virtual ~InputFile();
 
-		virtual void SetBaseHeader(int32_t headerBase);
-
-		virtual int32_t GetNCols() { return ncols; };
-
-		virtual int64_t GetNRows() { return nrows; };
-
-		virtual int64_t GetNEvents();
-
-		virtual int32_t GetStatus() { return status; };
-
-		virtual uint32_t GetIndexFirstColumn() = 0;
-
-		virtual uint32_t GetIndexFirstRow() = 0;
-
-		virtual uint32_t GetIndexFirstTableHeader() = 0;
-
-		virtual int64_t GetNRowReads() { return nRowsRead; };
+		/* Table chunk functions */
+		virtual int32_t getNCols() = 0;
+		virtual int64_t getNRows() = 0;
 
 		virtual std::vector<int8_t> read8i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
@@ -62,21 +48,6 @@ class InputFile : public File {
 		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
-
-	protected:
-
-		int32_t ncols;
-		int64_t nrows;
-
-		/** Number of rows of the last reading. */
-		int64_t nRowsRead;
-
-		/** The status of the reading. */
-		int32_t status;
-
-		std::string selectEvent;
-
-		int32_t headerBase;
 };
 
 }

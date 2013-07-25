@@ -29,14 +29,6 @@ namespace qlbase
 template<class T>
 void InputTextFile::readData(std::vector<T> &buff, int ncol, long frow, long lrow)
 {
-/*	if(!test(ncol, frow, lrow)) {
-		status = kFileNoRead;
-		// FIXME throw something
-	}
-	if(!reopen()){
-		status = kFileNoRead;
-		// FIXME throw something return 0;
-	}*/
 	int buff_sz = lrow - frow + 1;
 	int buff_off = 0;
 
@@ -58,12 +50,10 @@ void InputTextFile::readData(std::vector<T> &buff, int ncol, long frow, long lro
 			}
 		}
 	}
-	nRowsRead = buff_sz;
 }
 
-InputTextFile::InputTextFile(const std::string &separator) {
+InputTextFile::InputTextFile(const std::string &separator) : nrows(0), ncols(0) {
 	this->separator = separator;
-	status = kFileNoError;
 }
 
 InputTextFile::~InputTextFile() {
@@ -101,7 +91,6 @@ void InputTextFile::open(const std::string &filename) {
 void InputTextFile::close() {
 	nrows    = 0;
 	ncols    = 0;
-	status   = kFileNoError;
 }
 
 bool InputTextFile::findField(std::string& line, int& first, int& last, int pos) {
@@ -140,7 +129,6 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 	// Calculates last row index
 	if(lrow>nrows - 1) {
 		lrow = nrows - 1;
-		status = kFileErrorRowsTerminated;
 	}
 	return true;
 }

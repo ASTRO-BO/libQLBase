@@ -63,6 +63,8 @@ class InputTextFile : public InputFile {
 		bool test(int ncol, long frow, long& lrow);
 
 	private:
+		int nrows, ncols;
+
 		template<class T>
 		void readData(std::vector<T> &buff, int ncol, long frow, long lrow);
 

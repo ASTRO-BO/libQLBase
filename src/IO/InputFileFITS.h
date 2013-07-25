@@ -53,9 +53,8 @@ class InputFileFITS : public InputFile {
 
 		virtual void jumpToChunk(int number);
 
-		virtual int32_t GetNCols();
-
-		virtual int64_t GetNRows();
+		virtual int32_t getNCols();
+		virtual int64_t getNRows();
 
 		virtual uint32_t GetIndexFirstColumn() { return 1;};
 
