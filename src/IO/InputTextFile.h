@@ -46,7 +46,7 @@ class InputTextFile : public InputFile {
 
 		bool IsOpened();
 
-		double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
+/*		double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);*/
 
 		uint8_t* Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements = 0);
 

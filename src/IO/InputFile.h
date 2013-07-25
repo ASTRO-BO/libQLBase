@@ -50,11 +50,12 @@ class InputFile {
 
 		virtual int64_t GetNEvents();
 
+/* FIXME this shouldn't stay here..
 		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) = 0;
 
 		virtual double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) = 0;
 
-		virtual double GetTime(uint32_t timeColumnNumber, uint64_t pos) = 0;
+		virtual double GetTime(uint32_t timeColumnNumber, uint64_t pos) = 0;*/
 
 		virtual bool IsOpened();
 

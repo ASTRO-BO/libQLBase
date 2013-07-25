@@ -65,11 +65,11 @@ InputTextFile::InputTextFile(const std::string &separator) {
 InputTextFile::~InputTextFile() {
 }
 
-double* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
-	double* ret = Read_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
+/*double* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
+	double* ret = read64f(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
 }
-
+*/
 bool InputTextFile::Open(const std::string &filename) {
 
 	// Close prev input file stream

@@ -102,6 +102,7 @@ bool InputFileFITS::MoveHeader(int header_number) {
 	return true;
 }
 
+/* FIXME this shouldn't stay here..
 int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
 	double* first_time = Read_TDOUBLE(timeColumnNumber, pos_first, pos_first);
 	if(first_time == 0) return 0;
@@ -132,7 +133,7 @@ double* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64
 	MoveHeader(headerBase);
 	double* ret = Read_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
 	return ret;
-}
+}*/
 
 uint8_t* InputFileFITS::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
