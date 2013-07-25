@@ -87,39 +87,6 @@ int64_t InputFileFITS::GetNRows() {
 	return nrows;
 }
 
-/* FIXME this shouldn't stay here..
-int64_t InputFileFITS::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
-	double* first_time = Read_TDOUBLE(timeColumnNumber, pos_first, pos_first);
-	if(first_time == 0) return 0;
-	//double end_time = (*first_time) + deltaT;
-	double current_time = *first_time;
-	int64_t next_pos = pos_first;
-	while(current_time < end_time) {
-		next_pos++;
-		double* new_time = Read_TDOUBLE(timeColumnNumber, next_pos, next_pos);
-		if(new_time == 0) return 0;
-		current_time = *new_time;
-		delete[] new_time;
-	}
-	next_pos --;
-	delete[] first_time;
-	return next_pos;
-}
-
-double InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
-	MoveHeader(headerBase);
-	double* new_time = Read_TDOUBLE(timeColumnNumber , pos+ GetIndexFirstRow(), pos+ GetIndexFirstRow());
-	double ret = *new_time;
-	delete[] new_time;
-	return ret;
-}
-
-double* InputFileFITS::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
-	MoveHeader(headerBase);
-	double* ret = Read_TDOUBLE(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
-	return ret;
-}*/
-
 std::vector<int8_t> InputFileFITS::read8i(int ncol, long frow, long lrow, int64_t nelements) {
 	status = 0;
 	int anynull;

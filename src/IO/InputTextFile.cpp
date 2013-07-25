@@ -69,11 +69,6 @@ InputTextFile::InputTextFile(const std::string &separator) {
 InputTextFile::~InputTextFile() {
 }
 
-/*double* InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim) {
-	double* ret = read64f(timeColumnNumber , start+ GetIndexFirstRow(), start+dim-1+ GetIndexFirstRow());
-	return ret;
-}
-*/
 void InputTextFile::open(const std::string &filename) {
 
 	// Close prev input file stream
@@ -148,16 +143,6 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 		status = kFileErrorRowsTerminated;
 	}
 	return true;
-}
-
-int64_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time) {
-
-	return 0;
-}
-
-double InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
-
-	return 0;
 }
 
 std::vector<int8_t> InputTextFile::read8i(int ncol, long frow, long lrow, int64_t nelements) {

@@ -57,12 +57,6 @@ class InputFileFITS : public InputFile {
 
 		virtual int64_t GetNRows();
 
-/*		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
-
-		virtual double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
-
-		virtual double GetTime(uint32_t timeColumnNumber, uint64_t pos);*/
-
 		virtual uint32_t GetIndexFirstColumn() { return 1;};
 
 		virtual uint32_t GetIndexFirstRow() { return 1;};

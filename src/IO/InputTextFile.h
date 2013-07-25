@@ -39,12 +39,6 @@ class InputTextFile : public InputFile {
 		void close();
 		void jumpToChunk(int number) {};
 
-		int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
-
-		double GetTime(uint32_t timeColumnNumber, uint64_t pos);
-
-/*		double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);*/
-
 		virtual std::vector<int8_t> read8i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0);
