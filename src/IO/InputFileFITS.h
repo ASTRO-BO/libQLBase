@@ -56,8 +56,6 @@ class InputFileFITS : public InputFile {
 		virtual int32_t getNCols();
 		virtual int64_t getNRows();
 
-	public:
-
 		/** Read a FITS column.
          *
 		 * Example 1 (fixed):
@@ -86,10 +84,6 @@ class InputFileFITS : public InputFile {
 		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-	protected:
-
-		long n_good_rows;
 
 	private:
 
