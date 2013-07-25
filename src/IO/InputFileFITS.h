@@ -108,6 +108,7 @@ class InputFileFITS : public InputFile {
 	private:
 
 	void throwException(const char *msg, int status);
+	fitsfile *infptr;
 };
 
 }
