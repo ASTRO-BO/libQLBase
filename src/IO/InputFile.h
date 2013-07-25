@@ -23,13 +23,14 @@
 #include <string>
 #include <stdint.h>
 #include <vector>
+#include "File.h"
 
 namespace qlbase {
 
-/** This class represent a generic input file with data organized as tabular
- *  data.
+/** The interface for reading from a generic file divided into chunks.
+ * It specialize File adding functions for reading tables and images.
  */
-class InputFile {
+class InputFile : public File {
 
 	public:
 
@@ -38,12 +39,6 @@ class InputFile {
 		virtual ~InputFile();
 
 		virtual void SetBaseHeader(int32_t headerBase);
-
-		virtual bool Open(const std::string &filename) = 0;
-
-		virtual bool Close() = 0;
-
-		virtual bool MoveHeader(int header_number) = 0;
 
 		virtual int32_t GetNCols() { return ncols; };
 
@@ -58,13 +53,7 @@ class InputFile {
 
 		virtual double GetTime(uint32_t timeColumnNumber, uint64_t pos) = 0;*/
 
-		virtual bool IsOpened();
-
 		virtual int32_t GetStatus() { return status; };
-
-		virtual std::string GetFileName() { return filename; };
-
-		virtual void SetFileName(const std::string &filename) { this->filename = filename; };
 
 		virtual uint32_t GetIndexFirstColumn() = 0;
 
@@ -83,10 +72,6 @@ class InputFile {
 
 	protected:
 
-		std::string filename;
-
-		bool opened;
-
 		int32_t ncols;
 		int64_t nrows;
 
@@ -95,8 +80,6 @@ class InputFile {
 
 		/** The status of the reading. */
 		int32_t status;
-
-		bool applyFilter;
 
 		std::string selectEvent;
 

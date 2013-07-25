@@ -35,17 +35,13 @@ class InputTextFile : public InputFile {
 
 		virtual ~InputTextFile();
 
-		bool Open(const std::string &filename);
-
-		bool Close();
-
-		bool MoveHeader(int header_number) { return true; };
+		void open(const std::string &filename);
+		void close();
+		void jumpToChunk(int number) {};
 
 		int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
 
 		double GetTime(uint32_t timeColumnNumber, uint64_t pos);
-
-		bool IsOpened();
 
 /*		double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);*/
 

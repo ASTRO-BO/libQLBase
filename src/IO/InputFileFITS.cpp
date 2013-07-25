@@ -43,22 +43,20 @@ void InputFileFITS::throwException(const char *msg, int status) {
 	throw IOException(msg, status);
 }
 
-bool InputFileFITS::Open(const std::string &filename) {
+void InputFileFITS::open(const std::string &filename) {
 	int status = 0;
-	this->filename = filename;
-	if ( !fits_open_table(&infptr, filename.c_str(), READONLY, &status) ) {
-		opened = true;
-		fits_get_num_rows(infptr, &nrows, &status);
-		fits_get_num_cols(infptr, &ncols, &status);
-		DEBUG("InputFileFITS::Open() - " << filename << " - col: " << ncols << ", row: " << nrows << " - opened ");
-	}
-	else
-		opened = false;
+	fits_open_table(&infptr, filename.c_str(), READONLY, &status);
 
 	if (status)
 		throwException("Error in InputFileFITS::Open() ", status);
+}
 
-	return opened;
+void InputFileFITS::close() {
+	int status = 0;
+	fits_close_file(infptr, &status);
+
+	if (status)
+		throwException("Error in InputFileFITS::Close() ", status);
 }
 
 int32_t InputFileFITS::GetNCols() {
@@ -71,6 +69,14 @@ int32_t InputFileFITS::GetNCols() {
 	return ncols;
 }
 
+void InputFileFITS::jumpToChunk(int number) {
+	status = 0;
+	fits_movabs_hdu(infptr, number + GetIndexFirstTableHeader(), 0, &status);
+
+	if (status)
+		throwException("Error in InputFileFITS::jumpToChuck() ", status);
+}
+
 int64_t InputFileFITS::GetNRows() {
 	int status = 0;
 	fits_get_num_rows(infptr, &nrows, &status);
@@ -79,27 +85,6 @@ int64_t InputFileFITS::GetNRows() {
 		throwException("Error in InputFileFITS::GetNRows() ", status);
 
 	return nrows;
-}
-
-//##ModelId=3FAF8E850235
-bool InputFileFITS::Close() {
-	int status = 0;
-	fits_close_file(infptr, &status);
-
-	if (status)
-		throwException("Error in InputFileFITS::Close() ", status);
-
-	return true;
-}
-
-bool InputFileFITS::MoveHeader(int header_number) {
-	status = 0;
-	fits_movabs_hdu(infptr, header_number + GetIndexFirstTableHeader(), 0, &status);
-
-	if (status)
-		throwException("Error in InputFileFITS::MoveHeader() ", status);
-
-	return true;
 }
 
 /* FIXME this shouldn't stay here..

@@ -17,28 +17,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "InputFile.h"
+#ifndef QL_IO_FILE_H
+#define QL_IO_FILE_H
+
+#include <string>
 
 namespace qlbase {
 
-InputFile::InputFile() {
-	status = 0;
-	selectEvent = "";
-	headerBase = 1; //starting index = 0
+/** The interface for a generic file divided into chunks.
+ */
+class File {
+
+public:
+
+	File() : _filename("") {}
+	virtual ~File() {}
+
+	virtual void open(const std::string &filename) {
+		_filename = filename;
+	}
+	virtual void close() = 0;
+	virtual bool isOpened() {
+		return (_filename.compare("") == 0) ? false : true;
+	}
+
+	virtual std::string getFileName() { return _filename; };
+
+	virtual void jumpToChunk(int number) = 0;
+
+protected:
+
+	std::string _filename;
+};
+
 }
 
-InputFile::~InputFile() {
-
-}
-
-void InputFile::SetBaseHeader(int32_t headerBase) {
-	this->headerBase = headerBase;
-}
-
-
-int64_t InputFile::GetNEvents() {
-	jumpToChunk(headerBase);
-	return GetNRows();
-}
-
-}
+#endif

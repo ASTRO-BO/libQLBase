@@ -74,27 +74,20 @@ InputTextFile::~InputTextFile() {
 	return ret;
 }
 */
-bool InputTextFile::Open(const std::string &filename) {
+void InputTextFile::open(const std::string &filename) {
 
 	// Close prev input file stream
-	Close();
+	close();
+
+	fileStream.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
 
 	// Try to open new file
 	fileStream.open(filename.c_str());
-	if(!fileStream.is_open()) {
-		opened = false;
-		return false;
-	}
-
-	// Save file name
-	opened = true;
-	this->filename = filename;
 
 	// Read first line
 	std::string line;
 	if(!getline(fileStream,line)) {
-		Close();
-		return false;
+		close();
 	} else
 		nrows++;
 
@@ -108,8 +101,12 @@ bool InputTextFile::Open(const std::string &filename) {
 	while(getline(fileStream,line))
 		if(line.size())
 			nrows++;
+}
 
-	return true;
+void InputTextFile::close() {
+	nrows    = 0;
+	ncols    = 0;
+	status   = kFileNoError;
 }
 
 bool InputTextFile::findField(std::string& line, int& first, int& last, int pos) {
@@ -126,20 +123,11 @@ bool InputTextFile::findField(std::string& line, int& first, int& last, int pos)
 	return true;
 }
 
-bool InputTextFile::Close() {
-	nrows    = 0;
-	ncols    = 0;
-	filename = "";
-	opened   = false;
-	status   = kFileNoError;
-	return true;
-}
-
 bool InputTextFile::reopen() {
 	if(fileStream) {
 		if(!fileStream.good()) {
-			Close();
-			fileStream.open(filename.c_str());
+			close();
+			fileStream.open(_filename.c_str());
 		}
 		else {
 			fileStream.seekg(0);
@@ -170,12 +158,6 @@ int64_t InputTextFile::GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_f
 double InputTextFile::GetTime(uint32_t timeColumnNumber, uint64_t pos) {
 
 	return 0;
-}
-
-bool InputTextFile::IsOpened() {
-	if(fileStream)
-		return true;
-	return false;
 }
 
 std::vector<int8_t> InputTextFile::read8i(int ncol, long frow, long lrow, int64_t nelements) {
@@ -216,7 +198,7 @@ std::vector<double> InputTextFile::read64f(int ncol, long frow, long lrow, int64
 
 void InputTextFile::_printState() {
 	if(fileStream) {
-		DEBUG("File: " << filename << "(" << fileStream.rdstate() << ") ");
+		DEBUG("File: " << _filename << "(" << fileStream.rdstate() << ") ");
 		if(fileStream.rdstate()&std::ifstream::badbit)
 			DEBUG("Error: critical error in stream buffer");
 		if(fileStream.rdstate()&std::ifstream::eofbit)

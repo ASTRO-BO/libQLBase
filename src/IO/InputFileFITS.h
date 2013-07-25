@@ -48,15 +48,14 @@ class InputFileFITS : public InputFile {
 
 		~InputFileFITS();
 
-		virtual bool Open(const std::string &filename);
+		virtual void open(const std::string &filename);
+		virtual void close();
+
+		virtual void jumpToChunk(int number);
 
 		virtual int32_t GetNCols();
 
 		virtual int64_t GetNRows();
-
-		virtual bool Close();
-
-		virtual bool MoveHeader(int header_number);
 
 /*		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
 
