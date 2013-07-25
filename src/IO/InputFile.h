@@ -34,9 +34,9 @@ class InputFile : public File {
 
 	public:
 
-		InputFile();
+		InputFile() {}
 
-		virtual ~InputFile();
+		virtual ~InputFile() {}
 
 		/* Table chunk functions */
 		virtual int32_t getNCols() = 0;

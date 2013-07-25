@@ -39,6 +39,9 @@ class InputFileText : public InputFile {
 		void close();
 		void jumpToChunk(int number) {};
 
+		virtual int32_t getNCols(){ return ncols; }
+		virtual int64_t getNRows(){ return nrows; }
+
 		virtual std::vector<int8_t> read8i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0);
