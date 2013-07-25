@@ -26,36 +26,40 @@
 namespace qlbase
 {
 
-#define READ_DATA(ty) if(!test(ncol, frow, lrow)) {                                   \
-                        status = kFileNoRead;                                         \
-                        return 0;                                                     \
-                      }                                                               \
-                      if(!reopen()){                                                  \
-                        status = kFileNoRead;                                         \
-                        return 0;                                                     \
-                      }                                                               \
-                      int       buff_sz   = lrow - frow + 1;                          \
-                      int       buff_off  = 0;                                        \
-                      ty*       buff      = new ty[buff_sz];                          \
-                      for(int i = 0; i <= lrow; i++) {                                \
-                        std::string line;                                                  \
-                        if(getline(fileStream,line)) {                               \
-                          if(line.size()==0) {                                        \
-                            i--;                                                      \
-                            continue;                                                 \
-                          }                                                           \
-                          if(i>=frow) {                                               \
-                            int first = 0;                                            \
-                            int last  = 0;                                            \
-                            for(int j = 0; j <= ncol; j++)                            \
-                              findField(line,first,last,last);                        \
-                            std::istringstream ist(std::string(line,first,last-first));         \
-                            ist >> buff[buff_off++];                                  \
-                          }                                                           \
-                        }                                                             \
-                      }                                                               \
-                      nRowsRead = buff_sz;                                            \
-                      return buff;
+template<class T>
+void InputTextFile::readData(std::vector<T> &buff, int ncol, long frow, long lrow)
+{
+/*	if(!test(ncol, frow, lrow)) {
+		status = kFileNoRead;
+		// FIXME throw something
+	}
+	if(!reopen()){
+		status = kFileNoRead;
+		// FIXME throw something return 0;
+	}*/
+	int buff_sz = lrow - frow + 1;
+	int buff_off = 0;
+
+	buff.resize(buff_sz);
+	for(int i = 0; i <= lrow; i++) {
+		std::string line;
+		if(getline(fileStream, line)) {
+			if(line.size()==0) {
+				i--;
+				continue;
+			}
+			if(i>=frow) {
+				int first = 0;
+				int last  = 0;
+				for(int j = 0; j <= ncol; j++)
+					findField(line,first,last,last);
+				std::istringstream ist(std::string(line,first,last-first));
+				ist >> buff[buff_off++];
+			}
+		}
+	}
+	nRowsRead = buff_sz;
+}
 
 InputTextFile::InputTextFile(const std::string &separator) {
 	this->separator = separator;
@@ -174,84 +178,40 @@ bool InputTextFile::IsOpened() {
 	return false;
 }
 
-uint8_t* InputTextFile::Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(uint8_t);
-}
-
-int16_t* InputTextFile::Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements) {
-
-	// Test inputs
-	if(!test(ncol, frow, lrow)) {
-		status = kFileNoRead;
-		return 0;
-	}
-
-	// Reopen file if necessary
-	if(!reopen()) {
-		status = kFileNoRead;
-		return 0;
-	}
-
-	// Create buffer
-	int       buff_sz   = lrow - frow + 1;
-	int       buff_off  = 0;
-	int16_t*  buff      = new int16_t[buff_sz];
-
-	// Read rows
-	for(int i = 0; i <= lrow; i++) {
-		std::string line;
-		if(getline(fileStream,line)) {
-
-			// Skip withe rows
-			if(line.size()==0) {
-				i--;
-				continue;
-			}
-
-			if(i>=frow) {
-
-				// Skip columns
-				int first = 0;
-				int last  = 0;
-				for(int j = 0; j <= ncol; j++)
-					findField(line,first,last,last);
-
-				// convert string
-				std::istringstream ist(std::string(line,first,last-first));
-				ist >> buff[buff_off++];
-			}
-		}
-	}
-	nRowsRead = buff_sz;
+std::vector<int8_t> InputTextFile::read8i(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<int8_t> buff;
+	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-int32_t* InputTextFile::Read_TINT(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(int32_t)
+std::vector<int16_t> InputTextFile::read16i(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<int16_t> buff;
+	readData(buff, ncol, frow, lrow);
+	return buff;
 }
 
-int64_t* InputTextFile::Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(int64_t)
+std::vector<int32_t> InputTextFile::read32i(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<int32_t> buff;
+	readData(buff, ncol, frow, lrow);
+	return buff;
 }
 
-uint16_t* InputTextFile::Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(uint16_t)
+std::vector<int64_t> InputTextFile::read64i(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<int64_t> buff;
+	readData(buff, ncol, frow, lrow);
+	return buff;
 }
 
-uint32_t* InputTextFile::Read_TUINT(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(uint32_t)
+std::vector<float> InputTextFile::read32f(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<float> buff;
+	readData(buff, ncol, frow, lrow);
+	return buff;
 }
 
-uint64_t* InputTextFile::Read_TULONG(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(uint64_t)
-}
-
-float* InputTextFile::Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(float)
-}
-
-double* InputTextFile::Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements) {
-	READ_DATA(double)
+std::vector<double> InputTextFile::read64f(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<double> buff;
+	readData(buff, ncol, frow, lrow);
+	return buff;
 }
 
 void InputTextFile::_printState() {

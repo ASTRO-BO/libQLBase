@@ -22,6 +22,7 @@
 
 #include <fstream>
 #include <stdint.h>
+#include <vector>
 #include "InputFile.h"
 
 namespace qlbase {
@@ -48,23 +49,12 @@ class InputTextFile : public InputFile {
 
 /*		double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);*/
 
-		uint8_t* Read_TBYTE(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		int16_t* Read_TSHORT(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		int32_t* Read_TINT(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		int64_t* Read_TINT32BIT(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		uint16_t* Read_TUSHORT(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		uint32_t* Read_TUINT(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		uint64_t* Read_TULONG(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		float* Read_TFLOAT(int ncol, long frow, long lrow, int64_t nelements = 0);
-
-		double* Read_TDOUBLE(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<int8_t> read8i(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
 
 		virtual uint32_t GetIndexFirstColumn() { return 0;};
 
@@ -83,6 +73,9 @@ class InputTextFile : public InputFile {
 		bool test(int ncol, long frow, long& lrow);
 
 	private:
+		template<class T>
+		void readData(std::vector<T> &buff, int ncol, long frow, long lrow);
+
 		void _printState();
 };
 
