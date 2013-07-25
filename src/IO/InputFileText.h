@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef QL_IO_INPUTTEXTFILE_H
-#define QL_IO_INPUTTEXTFILE_H
+#ifndef QL_IO_INPUTFILETEXT_H
+#define QL_IO_INPUTFILETEXT_H
 
 #include <fstream>
 #include <stdint.h>
@@ -27,13 +27,13 @@
 
 namespace qlbase {
 
-class InputTextFile : public InputFile {
+class InputFileText : public InputFile {
 
 	public:
 
-		InputTextFile(const std::string &separator = std::string(" "));
+		InputFileText(const std::string &separator = std::string(" "));
 
-		virtual ~InputTextFile();
+		virtual ~InputFileText();
 
 		void open(const std::string &filename);
 		void close();

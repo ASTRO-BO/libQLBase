@@ -21,13 +21,13 @@
 #include <fstream>
 #include <sstream>
 #include "Definitions.h"
-#include "InputTextFile.h"
+#include "InputFileText.h"
 
 namespace qlbase
 {
 
 template<class T>
-void InputTextFile::readData(std::vector<T> &buff, int ncol, long frow, long lrow)
+void InputFileText::readData(std::vector<T> &buff, int ncol, long frow, long lrow)
 {
 	int buff_sz = lrow - frow + 1;
 	int buff_off = 0;
@@ -52,14 +52,14 @@ void InputTextFile::readData(std::vector<T> &buff, int ncol, long frow, long lro
 	}
 }
 
-InputTextFile::InputTextFile(const std::string &separator) : nrows(0), ncols(0) {
+InputFileText::InputFileText(const std::string &separator) : nrows(0), ncols(0) {
 	this->separator = separator;
 }
 
-InputTextFile::~InputTextFile() {
+InputFileText::~InputFileText() {
 }
 
-void InputTextFile::open(const std::string &filename) {
+void InputFileText::open(const std::string &filename) {
 
 	// Close prev input file stream
 	close();
@@ -88,12 +88,12 @@ void InputTextFile::open(const std::string &filename) {
 			nrows++;
 }
 
-void InputTextFile::close() {
+void InputFileText::close() {
 	nrows    = 0;
 	ncols    = 0;
 }
 
-bool InputTextFile::findField(std::string& line, int& first, int& last, int pos) {
+bool InputFileText::findField(std::string& line, int& first, int& last, int pos) {
 
 	if(line.length()==0)
 		return false;
@@ -107,7 +107,7 @@ bool InputTextFile::findField(std::string& line, int& first, int& last, int pos)
 	return true;
 }
 
-bool InputTextFile::reopen() {
+bool InputFileText::reopen() {
 	if(fileStream) {
 		if(!fileStream.good()) {
 			close();
@@ -121,7 +121,7 @@ bool InputTextFile::reopen() {
 	return false;
 }
 
-bool InputTextFile::test(int ncol, long frow, long& lrow) {
+bool InputFileText::test(int ncol, long frow, long& lrow) {
 	if(ncol>=ncols)
 		return false;
 	if(frow < 0 || frow > lrow)
@@ -133,43 +133,43 @@ bool InputTextFile::test(int ncol, long frow, long& lrow) {
 	return true;
 }
 
-std::vector<int8_t> InputTextFile::read8i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int8_t> InputFileText::read8i(int ncol, long frow, long lrow, int64_t nelements) {
 	std::vector<int8_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<int16_t> InputTextFile::read16i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int16_t> InputFileText::read16i(int ncol, long frow, long lrow, int64_t nelements) {
 	std::vector<int16_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<int32_t> InputTextFile::read32i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int32_t> InputFileText::read32i(int ncol, long frow, long lrow, int64_t nelements) {
 	std::vector<int32_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<int64_t> InputTextFile::read64i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int64_t> InputFileText::read64i(int ncol, long frow, long lrow, int64_t nelements) {
 	std::vector<int64_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<float> InputTextFile::read32f(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<float> InputFileText::read32f(int ncol, long frow, long lrow, int64_t nelements) {
 	std::vector<float> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<double> InputTextFile::read64f(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<double> InputFileText::read64f(int ncol, long frow, long lrow, int64_t nelements) {
 	std::vector<double> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-void InputTextFile::_printState() {
+void InputFileText::_printState() {
 	if(fileStream) {
 		DEBUG("File: " << _filename << "(" << fileStream.rdstate() << ") ");
 		if(fileStream.rdstate()&std::ifstream::badbit)
