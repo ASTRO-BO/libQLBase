@@ -58,12 +58,6 @@ class InputFileFITS : public InputFile {
 
 		virtual bool MoveHeader(int header_number);
 
-		/** Apply a filter to the current header. */
-		virtual bool ApplyFilter(const std::string &selectEvent);
-
-		/** Remove the filter to the current header. */
-		virtual void RemoveFilter();
-
 /*		virtual int64_t GetNextRowPeriod(uint32_t timeColumnNumber, int64_t pos_first, double end_time);
 
 		virtual double* GetTime(uint32_t timeColumnNumber, uint64_t start, uint64_t dim);
