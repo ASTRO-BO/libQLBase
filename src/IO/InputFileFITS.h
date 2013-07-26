@@ -50,6 +50,7 @@ class InputFileFITS : public InputFile {
 
 		virtual void open(const std::string &filename);
 		virtual void close();
+		virtual bool isOpened() { return opened; }
 
 		virtual void jumpToChunk(int number);
 
@@ -87,6 +88,7 @@ class InputFileFITS : public InputFile {
 
 	private:
 
+	bool opened;
 	void throwException(const char *msg, int status);
 	fitsfile *infptr;
 };

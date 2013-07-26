@@ -35,8 +35,10 @@ class InputFileText : public InputFile {
 
 		virtual ~InputFileText();
 
-		void open(const std::string &filename);
-		void close();
+		virtual void open(const std::string &filename);
+		virtual void close();
+		virtual bool isOpened(){ return opened; }
+
 		void jumpToChunk(int number) {};
 
 		virtual int32_t getNCols(){ return ncols; }
@@ -50,6 +52,8 @@ class InputFileText : public InputFile {
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
 
 	private:
+		bool opened;
+
 		std::ifstream fileStream;
 		std::string separator;
 

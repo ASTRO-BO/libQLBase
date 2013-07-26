@@ -26,7 +26,7 @@ namespace qlbase {
 
 #define ERRMSGSIZ 81
 
-InputFileFITS::InputFileFITS() : InputFile() {
+InputFileFITS::InputFileFITS() : opened(false) {
 }
 
 InputFileFITS::~InputFileFITS() {
@@ -48,6 +48,8 @@ void InputFileFITS::open(const std::string &filename) {
 
 	if (status)
 		throwException("Error in InputFileFITS::Open() ", status);
+
+	opened = true;
 }
 
 void InputFileFITS::close() {
@@ -56,6 +58,8 @@ void InputFileFITS::close() {
 
 	if (status)
 		throwException("Error in InputFileFITS::Close() ", status);
+
+	opened = false;
 }
 
 void InputFileFITS::jumpToChunk(int number) {

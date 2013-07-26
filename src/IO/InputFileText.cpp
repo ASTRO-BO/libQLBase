@@ -52,7 +52,7 @@ void InputFileText::readData(std::vector<T> &buff, int ncol, long frow, long lro
 	}
 }
 
-InputFileText::InputFileText(const std::string &separator) : nrows(0), ncols(0) {
+InputFileText::InputFileText(const std::string &separator) : opened(false), nrows(0), ncols(0) {
 	this->separator = separator;
 }
 
@@ -86,11 +86,15 @@ void InputFileText::open(const std::string &filename) {
 	while(getline(fileStream,line))
 		if(line.size())
 			nrows++;
+
+	opened = true;
 }
 
 void InputFileText::close() {
 	nrows    = 0;
 	ncols    = 0;
+
+	opened = false;
 }
 
 bool InputFileText::findField(std::string& line, int& first, int& last, int pos) {

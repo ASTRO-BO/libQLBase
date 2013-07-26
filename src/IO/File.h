@@ -37,9 +37,7 @@ public:
 		_filename = filename;
 	}
 	virtual void close() = 0;
-	virtual bool isOpened() {
-		return (_filename.compare("") == 0) ? false : true;
-	}
+	virtual bool isOpened() = 0;
 
 	virtual std::string getFileName() { return _filename; };
 
