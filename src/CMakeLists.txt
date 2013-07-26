@@ -8,7 +8,7 @@ set( QLBase_MINOR_VERSION 1 )
 set(LIBNAME ${CMAKE_PROJECT_NAME}.${QLBase_MAJOR_VERSION}.${QLBase_MINOR_VERSION})
 
 # build the lib
-file(GLOB_RECURSE SOURCES "*.cpp")
+set(SOURCES "IO/InputFileFITS.cpp" "IO/OutputFileFITS.cpp" "IO/InputFileText.cpp")
 add_library(${LIBNAME} SHARED ${SOURCES})
 
 # make docs
