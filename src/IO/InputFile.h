@@ -42,7 +42,7 @@ class InputFile : public File {
 		virtual int32_t getNCols() = 0;
 		virtual int64_t getNRows() = 0;
 
-		virtual std::vector<int8_t> read8i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
+		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;
 		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0) = 0;

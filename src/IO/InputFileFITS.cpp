@@ -88,7 +88,7 @@ int64_t InputFileFITS::getNRows() {
 	return nrows;
 }
 
-std::vector<int8_t> InputFileFITS::read8i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow, int64_t nelements) {
 	int status = 0;
 	int anynull;
 	int typecode = TBYTE;
@@ -108,7 +108,7 @@ std::vector<int8_t> InputFileFITS::read8i(int ncol, long frow, long lrow, int64_
 	//nelem cells starting from (ncol, frow) cell. If the format is variable or the
 	//cell contains an array, nelem corresponds with the number of the data reads
 	//into this cell.
-	std::vector<int8_t> data;
+	std::vector<uint8_t> data;
 	data.resize(nelem);
 	fits_read_col(infptr, typecode, ncol+1, frow, felem, nelem, &null,  &data[0], &anynull, &status);
 	if (status) {

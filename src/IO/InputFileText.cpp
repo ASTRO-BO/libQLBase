@@ -133,8 +133,8 @@ bool InputFileText::test(int ncol, long frow, long& lrow) {
 	return true;
 }
 
-std::vector<int8_t> InputFileText::read8i(int ncol, long frow, long lrow, int64_t nelements) {
-	std::vector<int8_t> buff;
+std::vector<uint8_t> InputFileText::readu8i(int ncol, long frow, long lrow, int64_t nelements) {
+	std::vector<uint8_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }

@@ -78,7 +78,7 @@ class InputFileFITS : public InputFile {
 		 *        the cell identified by the (ncol, frow) in the case of
 		 *        variable format.
          */
-		virtual std::vector<int8_t> read8i(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0);
 		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0);
