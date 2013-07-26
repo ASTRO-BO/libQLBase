@@ -35,9 +35,14 @@ InputFileFITS::~InputFileFITS() {
 void InputFileFITS::throwException(const char *msg, int status) {
 	std::string errMsg(msg);
 
-	char errDesc[ERRMSGSIZ];
-	fits_read_errmsg(errDesc);
-	errMsg += errDesc;
+	if(status != 0)
+	{
+		char errDesc[ERRMSGSIZ];
+		fits_read_errmsg(errDesc);
+		errMsg += errDesc;
+	}
+	else
+		errMsg += "Reading from a closed file.";
 
 	throw IOException(msg, status);
 }
@@ -64,6 +69,10 @@ void InputFileFITS::close() {
 
 void InputFileFITS::jumpToChunk(int number) {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::jumpToChuck() ", status);
+
 	fits_movabs_hdu(infptr, number+1, 0, &status);
 
 	if (status)
@@ -72,6 +81,10 @@ void InputFileFITS::jumpToChunk(int number) {
 
 int32_t InputFileFITS::getNCols() {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::getNCols() ", status);
+
 	int32_t ncols;
 	fits_get_num_cols(infptr, &ncols, &status);
 
@@ -83,6 +96,10 @@ int32_t InputFileFITS::getNCols() {
 
 int64_t InputFileFITS::getNRows() {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::getNRows() ", status);
+
 	int64_t nrows;
 	fits_get_num_rows(infptr, &nrows, &status);
 
@@ -94,6 +111,10 @@ int64_t InputFileFITS::getNRows() {
 
 std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow, int64_t nelements) {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::read() ", status);
+
 	int anynull;
 	int typecode = TBYTE;
 	int felem = 1;
@@ -124,6 +145,10 @@ std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow, int6
 
 std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow, int64_t nelements) {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::read16i() ", status);
+
 	int anynull;
 	int typecode = TSHORT;
 	int felem = 1;
@@ -146,6 +171,10 @@ std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow, int6
 
 std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow, int64_t nelements) {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::read32i() ", status);
+
 	int anynull;
 	int typecode = TINT;
 	int felem = 1;
@@ -167,6 +196,10 @@ std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow, int6
 
 std::vector<int64_t> InputFileFITS::read64i(int ncol, long frow, long lrow, int64_t nelements) {
 	int status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::read64i() ", status);
+
 	int anynull;
 	int typecode = TLONG;
 	int felem = 1;
