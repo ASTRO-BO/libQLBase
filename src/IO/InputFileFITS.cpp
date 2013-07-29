@@ -109,159 +109,58 @@ int64_t InputFileFITS::getNRows() {
 	return nrows;
 }
 
-std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow, int64_t nelements) {
-	int status = 0;
+std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow) {
+	std::vector<uint8_t> buff;
+	read(ncol, buff, TBYTE, frow, lrow);
+	return buff;
+}
 
+std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow) {
+	std::vector<int16_t> buff;
+	read(ncol, buff, TSHORT, frow, lrow);
+	return buff;
+}
+
+std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow) {
+	std::vector<int32_t> buff;
+	read(ncol, buff, TINT32BIT, frow, lrow);
+	return buff;
+}
+
+std::vector<int64_t> InputFileFITS::read64i(int ncol, long frow, long lrow) {
+	std::vector<int64_t> buff;
+	read(ncol, buff, TLONG, frow, lrow);
+	return buff;
+}
+
+std::vector<float> InputFileFITS::read32f(int ncol, long frow, long lrow) {
+	std::vector<float> buff;
+	read(ncol, buff, TFLOAT, frow, lrow);
+	return buff;
+}
+
+std::vector<double> InputFileFITS::read64f(int ncol, long frow, long lrow) {
+	std::vector<double> buff;
+	read(ncol, buff, TDOUBLE, frow, lrow);
+	return buff;
+}
+
+template<class T>
+void InputFileFITS::read(int ncol, std::vector<T>& buff, int type, long frow, long lrow) {
+	int status = 0;
 	if(!isOpened())
 		throwException("Error in InputFileFITS::read() ", status);
 
 	int anynull;
-	int typecode = TBYTE;
-	int felem = 1;
-	long nelem;
-	if(nelements == 0)
-		nelem = lrow - frow + 1;
-	else
-		nelem = nelements;
+	long nelem = lrow - frow + 1;
 	long null = 0;
 
-	//ncol: number of column
-	//frow: number of row
-	//felem: number of the first element to be read starting from the cell
-	//identified by the (ncol, frow)
-	//nelem: number of elements read. If the format if fixed it corresponds with
-	//nelem cells starting from (ncol, frow) cell. If the format is variable or the
-	//cell contains an array, nelem corresponds with the number of the data reads
-	//into this cell.
-	std::vector<uint8_t> data;
-	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol+1, frow+1, felem, nelem, &null,  &data[0], &anynull, &status);
-	if (status) {
+	buff.resize(nelem);
+
+	fits_read_col(infptr, type, ncol+1, frow+1, 1, nelem, &null,  &buff[0], &anynull, &status);
+
+	if(status)
 		throwException("Error in InputFileFITS::read() ", status);
-	}
-
-	return data;
-}
-
-std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow, int64_t nelements) {
-	int status = 0;
-
-	if(!isOpened())
-		throwException("Error in InputFileFITS::read16i() ", status);
-
-	int anynull;
-	int typecode = TSHORT;
-	int felem = 1;
-	long nelem;
-	if(nelements == 0)
-		nelem = lrow - frow + 1;
-	else
-		nelem = nelements;
-	long null = 0;
-
-	std::vector<int16_t> data;
-	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol+1, frow+1, felem, nelem, &null,  &data[0], &anynull, &status);
-
-	if (status)
-		throwException("Error in InputFileFITS::read16i() ", status);
-
-	return data;
-}
-
-std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow, int64_t nelements) {
-	int status = 0;
-
-	if(!isOpened())
-		throwException("Error in InputFileFITS::read32i() ", status);
-
-	int anynull;
-	int typecode = TINT;
-	int felem = 1;
-	long nelem;
-	if(nelements == 0)
-		nelem = lrow - frow + 1;
-	else
-		nelem = nelements;
-	long null = 0;
-
-	std::vector<int32_t> data;
-	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol+1, frow+1, felem, nelem, &null,  &data[0], &anynull, &status);
-	if (status)
-		throwException("Error in InputFileFITS::read32i() ", status);
-
-	return data;
-}
-
-std::vector<int64_t> InputFileFITS::read64i(int ncol, long frow, long lrow, int64_t nelements) {
-	int status = 0;
-
-	if(!isOpened())
-		throwException("Error in InputFileFITS::read64i() ", status);
-
-	int anynull;
-	int typecode = TLONG;
-	int felem = 1;
-	long nelem;
-	if(nelements == 0)
-		nelem = lrow - frow + 1;
-	else
-		nelem = nelements;
-	long null = 0;
-
-	std::vector<int64_t> data;
-	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol+1, frow+1, felem, nelem, &null,  &data[0], &anynull, &status);
-
-	if (status)
-		throwException("Error in InputFileFITS::read64i() ", status);
-
-	return data;
-}
-
-std::vector<float> InputFileFITS::read32f(int ncol, long frow, long lrow, int64_t nelements) {
-	int status = 0;
-	int anynull;
-	int typecode = TFLOAT;
-	int felem = 1;
-	long nelem;
-	if(nelements == 0)
-		nelem = lrow - frow + 1;
-	else
-		nelem = nelements;
-	float null = 0.0;
-
-	std::vector<float> data;
-	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol+1, frow+1, felem, nelem, &null,  &data[0], &anynull, &status);
-
-	if (status)
-		throwException("Error in InputFileFITS::read32f() ", status);
-
-	return data;
-}
-
-std::vector<double> InputFileFITS::read64f(int ncol, long frow, long lrow, int64_t nelements) {
-	int status = 0;
-	int anynull;
-	int typecode = TDOUBLE;
-	int felem = 1;
-	long nelem;
-	if(nelements == 0)
-		nelem = lrow - frow + 1;
-	else
-		nelem = nelements;
-	double null = 0.0;
-
-	std::vector<double> data;
-	data.resize(nelem);
-	fits_read_col(infptr, typecode, ncol+1, frow+1, felem, nelem, &null,  &data[0], &anynull, &status);
-
-	if (status)
-		throwException("Error in InputFileFITS::read64f() ", status);
-
-	return data;
 }
 
 }

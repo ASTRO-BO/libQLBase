@@ -57,40 +57,22 @@ class InputFileFITS : public InputFile {
 		virtual int32_t getNCols();
 		virtual int64_t getNRows();
 
-		/** Read a FITS column.
-         *
-		 * Example 1 (fixed):
-		 * uint8_t* gridlcdi = inputFile->Read_TBYTE(GRIDLCDI, first_pos_new, last_pos_new);
-		 * if(gridlcdi == kPointerNull) return inputFile->GetStatus();
-         *
-		 * Example 2 (variable):
-		 * uint8_t* aclatcon = tempFile.Read_TBYTE(ACLATCON, j+1, j+1, 12);
-		 * if(aclatcon == kPointerNull)
-		 *     return tempFile.GetStatus();
-         *
-		 * @param ncol Number of column to be read.
-		 * @param frow Number of the first row to be read (in the case of fixed
-		 *        format) or number of the row to be read (in the case of
-		 *        variable format).
-		 * @param lrow Number of the last row to be read (in the case of fixed
-		 *        format) or not used in the case of variable format.
-		 * @param nelements Not used in the case of fixed format (it become
-		 *        equal to lrow - frow + 1) or number of the elements reads into
-		 *        the cell identified by the (ncol, frow) in the case of
-		 *        variable format.
-         */
-		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow);
+		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow);
+		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow);
+		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow);
+		virtual std::vector<float> read32f(int ncol, long frow, long lrow);
+		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
 	private:
 
 	bool opened;
-	void throwException(const char *msg, int status);
 	fitsfile *infptr;
+
+	void throwException(const char *msg, int status);
+
+	template<class T>
+	void read(int ncol, std::vector<T>& buff, int type, long frow, long lrow);
 };
 
 }
