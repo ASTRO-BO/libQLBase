@@ -1,4 +1,6 @@
 #include<IO/InputFileFITS.h>
+#include<IO/OutputFileFITS.h>
+#include<sstream>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
@@ -64,4 +66,40 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 
 	// reading the first 4 rows from column 0 on a closed file should raise an exception
 	BOOST_CHECK_THROW(rowsT1 = file.read64i(0, 0, 3), qlbase::IOException);
+}
+
+BOOST_AUTO_TEST_CASE(output_file_fits)
+{
+	qlbase::OutputFileFITS ofile;
+
+	// closing a not-opened file should raise an exception
+//	BOOST_CHECK_THROW(ofile.close(), qlbase::IOException); // FIXME THIS CAUSE THE SUITE TO CRASH
+
+	// creating a new fits file should not raise an exception
+	BOOST_CHECK_NO_THROW(ofile.create("testing.fits"));
+
+	// going to the first chunk should not raise an error
+	BOOST_CHECK_NO_THROW(ofile.jumpToChunk(0));
+
+	// writing a new binary table on first header should raise an error
+	std::vector<qlbase::field> fields(10);
+	std::stringstream ss;
+	for(unsigned int i=0; i<fields.size(); i++)
+	{
+		ss.str("field");
+		ss << i;
+		fields[i].name = ss.str();
+		(i % 2) ? fields[i].type=qlbase::INT32 : fields[i].type=qlbase::UNSIGNED_INT8;
+		(i % 2) ? fields[i].unit="mph" : fields[i].unit="cm";
+	}
+	BOOST_CHECK_NO_THROW(ofile.createTable("testing binary table", fields));
+
+	// going to the second chunk should not raise an error
+	BOOST_CHECK_NO_THROW(ofile.jumpToChunk(1));
+
+	// closing the file shouldn't raise an exception
+	BOOST_CHECK_NO_THROW(ofile.close());
+
+	// the file should be closed
+	BOOST_CHECK_EQUAL(ofile.isOpened(), false);
 }
