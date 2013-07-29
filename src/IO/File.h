@@ -21,8 +21,22 @@
 #define QL_IO_FILE_H
 
 #include <string>
+#include <stdexcept>
 
 namespace qlbase {
+
+class IOException : public std::runtime_error {
+
+    int _errorCode;
+
+	public:
+
+	IOException(const std::string &msg, int errorCode = 0) : std::runtime_error(msg), _errorCode(errorCode) {}
+
+	int getErrorCode() {
+		return _errorCode;
+	}
+};
 
 /** The interface for a generic file divided into chunks.
  */

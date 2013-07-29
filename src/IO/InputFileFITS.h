@@ -22,23 +22,9 @@
 
 #include <stdint.h>
 #include <cfitsio/fitsio.h>
-#include <stdexcept>
 #include "InputFile.h"
 
 namespace qlbase {
-
-class IOException : public std::runtime_error {
-
-    int _errorCode;
-
-	public:
-
-	IOException(const std::string &msg, int errorCode = 0) : std::runtime_error(msg), _errorCode(errorCode) {}
-
-	int getErrorCode() {
-		return _errorCode;
-	}
-};
 
 class InputFileFITS : public InputFile {
 
