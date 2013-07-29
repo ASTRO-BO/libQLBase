@@ -119,7 +119,7 @@ void OutputFileFITS::createTable(const std::string& name, const std::vector<fiel
 		std::memcpy(tunit[i], unit.c_str(), 10);
 	}
 
-	fits_create_tbl(infptr, BINARY_TBL, nfields, 0, ttypes, tform, tunit, name.c_str(), &status);
+	fits_create_tbl(infptr, BINARY_TBL, 0, nfields, ttypes, tform, tunit, name.c_str(), &status);
 
 	for(unsigned int i=0; i<nfields; i++)
 	{
@@ -186,17 +186,17 @@ const std::string OutputFileFITS::_getFieldTypeString(fieldType type) {
 	switch(type)
 	{
 		case UNSIGNED_INT8:
-			return "rB";
+			return "1B";
 		case INT16:
-			return "rI";
+			return "1I";
 		case INT32:
-			return "rJ";
+			return "1J";
 		case INT64:
-			return "rK";
+			return "1K";
 		case FLOAT:
-			return "rE";
+			return "1E";
 		case DOUBLE:
-			return "rD";
+			return "1D";
 	}
 	return "";
 }
