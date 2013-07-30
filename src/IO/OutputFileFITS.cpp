@@ -148,7 +148,7 @@ void OutputFileFITS::write16i(int ncol, std::vector<int16_t>& buff, long frow, l
 
 void OutputFileFITS::write32i(int ncol, std::vector<int32_t>& buff, long frow, long lrow)
 {
-	_write(ncol, buff, TINT32BIT, frow, lrow);
+	_write(ncol, buff, TINT, frow, lrow);
 }
 
 void OutputFileFITS::write64i(int ncol, std::vector<int64_t>& buff, long frow, long lrow)

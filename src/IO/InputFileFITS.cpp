@@ -123,7 +123,7 @@ std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow) {
 
 std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow) {
 	std::vector<int32_t> buff;
-	read(ncol, buff, TINT32BIT, frow, lrow);
+	read(ncol, buff, TINT, frow, lrow);
 	return buff;
 }
 
