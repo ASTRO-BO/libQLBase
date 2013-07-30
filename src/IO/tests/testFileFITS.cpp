@@ -86,11 +86,11 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	std::stringstream ss;
 	for(unsigned int i=0; i<fields.size(); i++)
 	{
-		ss.str("field");
-		ss << i;
+		ss.str("");
+		ss << "field" << i;
 		fields[i].name = ss.str();
-		(i % 2) ? fields[i].type=qlbase::INT32 : fields[i].type=qlbase::UNSIGNED_INT8;
-		(i % 2) ? fields[i].unit="mph" : fields[i].unit="cm";
+		(i % 2 == 0) ? fields[i].type=qlbase::INT32 : fields[i].type=qlbase::UNSIGNED_INT8;
+		(i % 2 == 0) ? fields[i].unit="mph" : fields[i].unit="cm";
 	}
 	BOOST_CHECK_NO_THROW(ofile.createTable("testing binary table", fields));
 
@@ -102,4 +102,32 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 
 	// the file should be closed
 	BOOST_CHECK_EQUAL(ofile.isOpened(), false);
+
+	// open the fits file should not raise an exception
+	BOOST_CHECK_NO_THROW(ofile.open("testing.fits"));
+
+	// going to the second chunk should not raise an exception
+	BOOST_CHECK_NO_THROW(ofile.jumpToChunk(1));
+
+	// writing columns not raise an exception
+	const int NROW = 10;
+	std::vector< std::vector<int32_t> > colsi(5);
+	std::vector< std::vector<uint8_t> > colsb(5);
+
+	for(unsigned int i=0; i<5; i++)
+	{
+		for(unsigned int row=0; row<NROW; row++)
+		{
+			colsi[i].push_back(i*2*NROW+row);
+			colsb[i].push_back((i*2+1)*NROW+row);
+		}
+
+		BOOST_CHECK_NO_THROW(ofile.write32i(i*2, colsi[i], 0, NROW-1));
+		BOOST_CHECK_NO_THROW(ofile.writeu8i(i*2+1, colsb[i], 0, NROW-1));
+	}
+
+	// closing the file shouldn't raise an exception
+	BOOST_CHECK_NO_THROW(ofile.close());
+
+	// TODO clean (remove testing.fits file)
 }
