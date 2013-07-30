@@ -27,6 +27,13 @@
 
 namespace qlbase {
 
+template<class T>
+struct Image {
+	std::vector<T> data;
+	int32_t dim;
+	std::vector<int64_t> sizes;
+};
+
 /** The interface for reading from a generic file divided into chunks.
  * It specialize File adding functions for reading tables and images.
  */
@@ -48,6 +55,13 @@ class InputFile : public File {
 		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow) = 0;
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow) = 0;
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow) = 0;
+
+		virtual Image<uint8_t> readImageu8i() = 0;
+		virtual Image<int16_t> readImage16i() = 0;
+		virtual Image<int32_t> readImage32if() = 0;
+		virtual Image<int64_t> readImage64i() = 0;
+		virtual Image<float> readImage32f() = 0;
+		virtual Image<double> readImage64f() = 0;
 };
 
 }

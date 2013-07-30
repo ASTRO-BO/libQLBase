@@ -1,6 +1,7 @@
 #include<IO/InputFileFITS.h>
 #include<IO/OutputFileFITS.h>
 #include<sstream>
+#include<fstream>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
@@ -57,6 +58,13 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 
 	// the file should be open
 	BOOST_CHECK_EQUAL(file.isOpened(), true);
+
+	// jumping on an existing chunck shouldn't raise an exception
+	BOOST_CHECK_NO_THROW(file.jumpToChunk(2));
+
+	// reading the image shouldn't raise an exception
+	qlbase::Image<float> img;
+	BOOST_CHECK_NO_THROW(img = file.readImage32f());
 
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(file.close());

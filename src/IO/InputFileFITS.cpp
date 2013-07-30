@@ -141,7 +141,49 @@ std::vector<float> InputFileFITS::read32f(int ncol, long frow, long lrow) {
 
 std::vector<double> InputFileFITS::read64f(int ncol, long frow, long lrow) {
 	std::vector<double> buff;
-	read(ncol, buff, TDOUBLE, frow, lrow);
+	_read(ncol, buff, TDOUBLE, frow, lrow);
+	return buff;
+}
+
+Image<uint8_t> InputFileFITS::readImageu8i()
+{
+	Image<uint8_t> buff;
+	_readImage(buff, TBYTE);
+	return buff;
+}
+
+Image<int16_t> InputFileFITS::readImage16i()
+{
+	Image<int16_t> buff;
+	_readImage(buff, TSHORT);
+	return buff;
+}
+
+Image<int32_t> InputFileFITS::readImage32if()
+{
+	Image<int32_t> buff;
+	_readImage(buff, TINT);
+	return buff;
+}
+
+Image<int64_t> InputFileFITS::readImage64i()
+{
+	Image<int64_t> buff;
+	_readImage(buff, TLONG);
+	return buff;
+}
+
+Image<float> InputFileFITS::readImage32f()
+{
+	Image<float> buff;
+	_readImage(buff, TFLOAT);
+	return buff;
+}
+
+Image<double> InputFileFITS::readImage64f()
+{
+	Image<double> buff;
+	_readImage(buff, TDOUBLE);
 	return buff;
 }
 
@@ -161,6 +203,51 @@ void InputFileFITS::read(int ncol, std::vector<T>& buff, int type, long frow, lo
 
 	if(status)
 		throwException("Error in InputFileFITS::read() ", status);
+}
+
+template<class T>
+void InputFileFITS::_readImage(Image<T>& buff, int type)
+{
+	int status = 0;
+	if(!isOpened())
+		throwException("Error in InputFileFITS::readImage() ", status);
+
+	int bitpix;
+	int naxis;
+	const int MAXDIM = 3;
+	long naxes[MAXDIM];
+	fits_get_img_param(infptr, MAXDIM,  &bitpix, &naxis, naxes, &status);
+	if(!isOpened())
+		throwException("Error in InputFileFITS::readImage() ", status);
+
+
+	long fpixel[MAXDIM];
+	long nelements = 1;
+	for(int dim=0; dim<naxis; dim++)
+	{
+		fpixel[dim] = 1;
+		nelements *= naxes[dim];
+	}
+
+	long nulval = 0;
+	int anynul;
+
+	std::cout << "bitpix " << bitpix << std::endl;
+	std::cout << "naxis " << naxis << std::endl;
+	std::cout << "naxes " << naxes[0] << " " << naxes[1] << std::endl;
+	std::cout << "fpixel " << fpixel[0] << " " << fpixel[1] << std::endl;
+	std::cout << "nelements " << nelements << std::endl;
+	std::cout << "type " << type << std::endl;
+	buff.data.resize(nelements);
+	fits_read_pix(infptr, type, fpixel, nelements, &nulval, &buff.data[0], &anynul, &status);
+	if(!isOpened())
+		throwException("Error in InputFileFITS::readImage() ", status);
+
+	buff.dim = naxis;
+
+	buff.sizes.resize(0);
+	for(int i=0; i<naxis; i++)
+		buff.sizes.push_back(naxes[i]);
 }
 
 }
