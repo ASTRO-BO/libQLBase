@@ -111,31 +111,31 @@ int64_t InputFileFITS::getNRows() {
 
 std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow) {
 	std::vector<uint8_t> buff;
-	read(ncol, buff, TBYTE, frow, lrow);
+	_read(ncol, buff, TBYTE, frow, lrow);
 	return buff;
 }
 
 std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow) {
 	std::vector<int16_t> buff;
-	read(ncol, buff, TSHORT, frow, lrow);
+	_read(ncol, buff, TSHORT, frow, lrow);
 	return buff;
 }
 
 std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow) {
 	std::vector<int32_t> buff;
-	read(ncol, buff, TINT, frow, lrow);
+	_read(ncol, buff, TINT, frow, lrow);
 	return buff;
 }
 
 std::vector<int64_t> InputFileFITS::read64i(int ncol, long frow, long lrow) {
 	std::vector<int64_t> buff;
-	read(ncol, buff, TLONG, frow, lrow);
+	_read(ncol, buff, TLONG, frow, lrow);
 	return buff;
 }
 
 std::vector<float> InputFileFITS::read32f(int ncol, long frow, long lrow) {
 	std::vector<float> buff;
-	read(ncol, buff, TFLOAT, frow, lrow);
+	_read(ncol, buff, TFLOAT, frow, lrow);
 	return buff;
 }
 
@@ -188,7 +188,7 @@ Image<double> InputFileFITS::readImage64f()
 }
 
 template<class T>
-void InputFileFITS::read(int ncol, std::vector<T>& buff, int type, long frow, long lrow) {
+void InputFileFITS::_read(int ncol, std::vector<T>& buff, int type, long frow, long lrow) {
 	int status = 0;
 	if(!isOpened())
 		throwException("Error in InputFileFITS::read() ", status);

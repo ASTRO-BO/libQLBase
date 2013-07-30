@@ -65,7 +65,7 @@ class InputFileFITS : public InputFile {
 	void throwException(const char *msg, int status);
 
 	template<class T>
-	void read(int ncol, std::vector<T>& buff, int type, long frow, long lrow);
+	void _read(int ncol, std::vector<T>& buff, int type, long frow, long lrow);
 
 	template<class T>
 	void _readImage(Image<T>& buff, int type);
