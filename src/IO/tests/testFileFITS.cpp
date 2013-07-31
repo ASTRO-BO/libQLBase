@@ -2,6 +2,7 @@
 #include<IO/OutputFileFITS.h>
 #include<sstream>
 #include<fstream>
+#include<iomanip>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
@@ -65,6 +66,29 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	// reading the image shouldn't raise an exception
 	qlbase::Image<float> img;
 	BOOST_CHECK_NO_THROW(img = file.readImage32f());
+	std::stringstream ss;
+
+	// image values should be like the ones stored in the img.csv file.
+	std::vector<std::string> rows;
+	for(int i=0; i<img.data.size(); i++)
+	{
+
+		ss << std::fixed << std::setprecision(5) << img.data[i];
+
+		if(((i+1) % img.sizes[1]) == 0 && i != 0)
+		{
+			rows.push_back(ss.str());
+			ss.str("");
+		}
+		else
+			ss << " ";
+	}
+	std::ifstream imgfile("img.csv");
+	std::vector<std::string> rowsExpected;
+	std::string row;
+	while(std::getline(imgfile, row))
+		rowsExpected.push_back(row);
+	BOOST_CHECK_EQUAL_COLLECTIONS(&rows[0], &rows[rows.size()], &rowsExpected[0], &rowsExpected[rowsExpected.size()]);
 
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(file.close());
