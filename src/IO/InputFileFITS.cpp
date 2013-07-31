@@ -17,8 +17,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <iostream>
-
 #include "Definitions.h"
 #include "InputFileFITS.h"
 
@@ -232,12 +230,6 @@ void InputFileFITS::_readImage(Image<T>& buff, int type)
 	long nulval = 0;
 	int anynul;
 
-	std::cout << "bitpix " << bitpix << std::endl;
-	std::cout << "naxis " << naxis << std::endl;
-	std::cout << "naxes " << naxes[0] << " " << naxes[1] << std::endl;
-	std::cout << "fpixel " << fpixel[0] << " " << fpixel[1] << std::endl;
-	std::cout << "nelements " << nelements << std::endl;
-	std::cout << "type " << type << std::endl;
 	buff.data.resize(nelements);
 	fits_read_pix(infptr, type, fpixel, nelements, &nulval, &buff.data[0], &anynul, &status);
 	if(!isOpened())
