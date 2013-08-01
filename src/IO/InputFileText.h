@@ -51,6 +51,13 @@ class InputFileText : public InputFile {
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow);
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
+		virtual Image<uint8_t> readImageu8i(){ throw IOException("readImageu8i not supported", 0); }
+		virtual Image<int16_t> readImage16i(){ throw IOException("readImageu8i not supported", 0); }
+		virtual Image<int32_t> readImage32if(){ throw IOException("readImageu8i not supported", 0); }
+		virtual Image<int64_t> readImage64i(){ throw IOException("readImageu8i not supported", 0); }
+		virtual Image<float> readImage32f(){ throw IOException("readImageu8i not supported", 0); }
+		virtual Image<double> readImage64f(){ throw IOException("readImageu8i not supported", 0); }
+
 	private:
 		bool opened;
 
