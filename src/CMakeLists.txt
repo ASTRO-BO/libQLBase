@@ -21,7 +21,7 @@ configure_file(../Doxyfile.in ${PROJECT_BINARY_DIR}/Doxyfile @ONLY IMMEDIATE)
 add_custom_target(docs COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile)
 
 # unix /usr/local installation
-install(DIRECTORY IO/ DESTINATION include/${CMAKE_PROJECT_NAME}
+install(DIRECTORY IO/ DESTINATION include/IO
             FILES_MATCHING PATTERN "*.h")
 install(TARGETS ${LIBNAME} DESTINATION lib64)
 install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/ DESTINATION share/doc/${CMAKE_PROJECT_NAME})
