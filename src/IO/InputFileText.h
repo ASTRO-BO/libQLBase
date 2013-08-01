@@ -44,12 +44,12 @@ class InputFileText : public InputFile {
 		virtual int32_t getNCols(){ return ncols; }
 		virtual int64_t getNRows(){ return nrows; }
 
-		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<float> read32f(int ncol, long frow, long lrow, int64_t nelements = 0);
-		virtual std::vector<double> read64f(int ncol, long frow, long lrow, int64_t nelements = 0);
+		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow);
+		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow);
+		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow);
+		virtual std::vector<int64_t> read64i(int ncol, long frow, long lrow);
+		virtual std::vector<float> read32f(int ncol, long frow, long lrow);
+		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
 	private:
 		bool opened;

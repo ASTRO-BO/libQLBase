@@ -137,37 +137,37 @@ bool InputFileText::test(int ncol, long frow, long& lrow) {
 	return true;
 }
 
-std::vector<uint8_t> InputFileText::readu8i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<uint8_t> InputFileText::readu8i(int ncol, long frow, long lrow) {
 	std::vector<uint8_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<int16_t> InputFileText::read16i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int16_t> InputFileText::read16i(int ncol, long frow, long lrow) {
 	std::vector<int16_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<int32_t> InputFileText::read32i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int32_t> InputFileText::read32i(int ncol, long frow, long lrow) {
 	std::vector<int32_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<int64_t> InputFileText::read64i(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<int64_t> InputFileText::read64i(int ncol, long frow, long lrow) {
 	std::vector<int64_t> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<float> InputFileText::read32f(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<float> InputFileText::read32f(int ncol, long frow, long lrow) {
 	std::vector<float> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
 }
 
-std::vector<double> InputFileText::read64f(int ncol, long frow, long lrow, int64_t nelements) {
+std::vector<double> InputFileText::read64f(int ncol, long frow, long lrow) {
 	std::vector<double> buff;
 	readData(buff, ncol, frow, lrow);
 	return buff;
