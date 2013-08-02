@@ -39,3 +39,13 @@ install(TARGETS ${LIBNAME} DESTINATION lib64)
 install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/ DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic")
+
+# uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P
+${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
