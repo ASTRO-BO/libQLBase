@@ -26,7 +26,8 @@ add_custom_target(docs COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyf
 
 # unix /usr/local installation
 install(DIRECTORY ${INCLUDEDIR} DESTINATION include/QL
-            FILES_MATCHING PATTERN "*.h")
+		FILES_MATCHING PATTERN "*.h"
+		PATTERN "tests" EXCLUDE)
 install(TARGETS ${LIBNAME} DESTINATION lib64)
 install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/ DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 
