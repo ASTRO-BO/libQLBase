@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 project(QLBase)
 
+set(CFITSIO_PATH $ENV{CFITSIO})
+if(NOT CFITSIO_PATH)
+	message(SEND_ERROR "The CFITSIO enviromental variable should be set.")
+endif()
+set(CFITSIO_INCLUDE ${CFITSIO_PATH}include)
+set(CFITSIO_LIB ${CFITSIO_PATH}lib)
+
 # lib the name with version
 set( QLBase_MAJOR_VERSION 0 )
 set( QLBase_MINOR_VERSION 1 )
