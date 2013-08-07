@@ -32,7 +32,7 @@ class InputFileFITS : public InputFile {
 
 		InputFileFITS();
 
-		~InputFileFITS();
+		virtual ~InputFileFITS();
 
 		virtual void open(const std::string &filename);
 		virtual void close();
