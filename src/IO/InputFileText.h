@@ -39,7 +39,7 @@ class InputFileText : public InputFile {
 		virtual void close();
 		virtual bool isOpened(){ return opened; }
 
-		void jumpToChunk(int number) {};
+		void jumpToChunk(int number) {}
 
 		virtual int32_t getNCols(){ return ncols; }
 		virtual int64_t getNRows(){ return nrows; }
