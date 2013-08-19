@@ -21,7 +21,7 @@
 #define QL_IO_INPUTFILEFITS_H
 
 #include <stdint.h>
-#include <cfitsio/fitsio.h>
+#include <fitsio.h>
 #include "InputFile.h"
 
 namespace qlbase {

@@ -20,7 +20,7 @@
 #define QL_IO_OUTPUTFILEFITS_H
 
 #include <stdint.h>
-#include <cfitsio/fitsio.h>
+#include <fitsio.h>
 #include <stdexcept>
 #include "OutputFile.h"
 
