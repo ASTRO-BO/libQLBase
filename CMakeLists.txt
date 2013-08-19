@@ -38,7 +38,6 @@ install(DIRECTORY ${INCLUDEDIR} DESTINATION include
 		PATTERN "tests" EXCLUDE)
 install(TARGETS ${LIBNAME} DESTINATION lib)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic")
 # make uninstall
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
