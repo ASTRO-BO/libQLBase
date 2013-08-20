@@ -65,7 +65,7 @@ void InputFileFITS::close() {
 	opened = false;
 }
 
-void InputFileFITS::jumpToChunk(int number) {
+void InputFileFITS::moveToHeader(int number) {
 	int status = 0;
 
 	if(!isOpened())

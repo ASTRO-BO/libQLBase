@@ -40,7 +40,7 @@ public:
 	virtual void close();
 	virtual bool isOpened() { return opened; }
 
-	virtual void jumpToChunk(int number);
+	virtual void moveToHeader(int number);
 
 	virtual void createTable(const std::string& name, const std::vector<field>& fields);
 	virtual void writeu8i(int ncol, std::vector<uint8_t>& buff, long frow, long lrow);

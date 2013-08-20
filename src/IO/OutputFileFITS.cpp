@@ -80,7 +80,7 @@ void OutputFileFITS::close() {
 	opened = false;
 }
 
-void OutputFileFITS::jumpToChunk(int number) {
+void OutputFileFITS::moveToHeader(int number) {
 	int status = 0;
 
 	if(!isOpened())

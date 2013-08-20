@@ -55,7 +55,7 @@ public:
 
 	virtual std::string getFileName() { return _filename; };
 
-	virtual void jumpToChunk(int number) = 0;
+	virtual void moveToHeader(int number) = 0;
 
 protected:
 

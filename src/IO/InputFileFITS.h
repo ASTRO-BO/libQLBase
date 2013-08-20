@@ -38,7 +38,7 @@ class InputFileFITS : public InputFile {
 		virtual void close();
 		virtual bool isOpened() { return opened; }
 
-		virtual void jumpToChunk(int number);
+		virtual void moveToHeader(int number);
 
 		virtual int32_t getNCols();
 		virtual int64_t getNRows();

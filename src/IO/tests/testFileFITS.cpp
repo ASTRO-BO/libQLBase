@@ -21,10 +21,10 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	BOOST_CHECK_NO_THROW(file.open("sample.fits"));
 
 	// jumping on a bad chunck should raise an exception
-	BOOST_CHECK_THROW(file.jumpToChunk(10), qlbase::IOException);
+	BOOST_CHECK_THROW(file.moveToHeader(10), qlbase::IOException);
 
 	// jumping on an existing chunck shouldn't raise an exception
-	BOOST_CHECK_NO_THROW(file.jumpToChunk(1));
+	BOOST_CHECK_NO_THROW(file.moveToHeader(1));
 
 	// reading the first 4 rows from column 0 shouldn't raise an exception
 	std::vector<int32_t> rowsT1;
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	BOOST_CHECK_EQUAL(file.isOpened(), true);
 
 	// jumping on an existing chunck shouldn't raise an exception
-	BOOST_CHECK_NO_THROW(file.jumpToChunk(2));
+	BOOST_CHECK_NO_THROW(file.moveToHeader(2));
 
 	// reading the image shouldn't raise an exception
 	qlbase::Image<float> img;
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	BOOST_CHECK_NO_THROW(ofile.create("testing.fits"));
 
 	// going to the first chunk should not raise an error
-	BOOST_CHECK_NO_THROW(ofile.jumpToChunk(0));
+	BOOST_CHECK_NO_THROW(ofile.moveToHeader(0));
 
 	// writing a new binary table on first header should raise an error
 	std::vector<qlbase::field> fields(10);
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	BOOST_CHECK_NO_THROW(ofile.createTable("testing binary table", fields));
 
 	// going to the second chunk should not raise an error
-	BOOST_CHECK_NO_THROW(ofile.jumpToChunk(1));
+	BOOST_CHECK_NO_THROW(ofile.moveToHeader(1));
 
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(ofile.close());
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	BOOST_CHECK_NO_THROW(ofile.open("testing.fits"));
 
 	// going to the second chunk should not raise an exception
-	BOOST_CHECK_NO_THROW(ofile.jumpToChunk(1));
+	BOOST_CHECK_NO_THROW(ofile.moveToHeader(1));
 
 	// writing columns not raise an exception
 	const int NROW = 10;
