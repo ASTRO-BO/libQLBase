@@ -33,9 +33,8 @@ configure_file(Doxyfile.in ${PROJECT_BINARY_DIR}/Doxyfile @ONLY IMMEDIATE)
 add_custom_target(docs COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile)
 
 # make install
-install(DIRECTORY ${INCLUDEDIR} DESTINATION include
-		FILES_MATCHING PATTERN "*.h"
-		PATTERN "tests" EXCLUDE)
+file(GLOB HEADERS "${INCLUDEDIR}/IO/*.h")
+install(FILES ${HEADERS} DESTINATION include)
 install(TARGETS ${LIBNAME} DESTINATION lib)
 
 # make uninstall
