@@ -13,6 +13,7 @@ set( QLBase_MINOR_VERSION 1 )
 set(LIBNAME ${CMAKE_PROJECT_NAME}.${QLBase_MAJOR_VERSION}.${QLBase_MINOR_VERSION})
 
 # build the lib
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64" )
 set(SRCDIR "src/")
 set(INCLUDEDIR "src/")
 include_directories( ${INCLUDEDIR} )
