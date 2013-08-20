@@ -41,8 +41,8 @@ class InputFileText : public InputFile {
 
 		void moveToHeader(int number) {}
 
-		virtual int32_t getNCols(){ return ncols; }
-		virtual int64_t getNRows(){ return nrows; }
+		virtual int getNCols(){ return ncols; }
+		virtual long getNRows(){ return nrows; }
 
 		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow);
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow);
@@ -69,7 +69,8 @@ class InputFileText : public InputFile {
 		bool reopen();
 		bool test(int ncol, long frow, long& lrow);
 
-		int nrows, ncols;
+		int ncols;
+		long nrows;
 
 		template<class T>
 		void readData(std::vector<T> &buff, int ncol, long frow, long lrow);

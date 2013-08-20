@@ -46,8 +46,8 @@ class InputFile : public File {
 		virtual ~InputFile() {}
 
 		/* Table chunk functions */
-		virtual int32_t getNCols() = 0;
-		virtual int64_t getNRows() = 0;
+		virtual int getNCols() = 0;
+		virtual long getNRows() = 0;
 
 		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow) = 0;
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow) = 0;

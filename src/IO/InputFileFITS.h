@@ -40,8 +40,8 @@ class InputFileFITS : public InputFile {
 
 		virtual void moveToHeader(int number);
 
-		virtual int32_t getNCols();
-		virtual int64_t getNRows();
+		virtual int getNCols();
+		virtual long getNRows();
 
 		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow);
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow);

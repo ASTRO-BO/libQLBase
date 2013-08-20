@@ -77,13 +77,13 @@ void InputFileFITS::moveToHeader(int number) {
 		throwException("Error in InputFileFITS::jumpToChuck() ", status);
 }
 
-int32_t InputFileFITS::getNCols() {
+int InputFileFITS::getNCols() {
 	int status = 0;
 
 	if(!isOpened())
 		throwException("Error in InputFileFITS::getNCols() ", status);
 
-	int32_t ncols;
+	int ncols;
 	fits_get_num_cols(infptr, &ncols, &status);
 
 	if (status)
@@ -92,13 +92,13 @@ int32_t InputFileFITS::getNCols() {
 	return ncols;
 }
 
-int64_t InputFileFITS::getNRows() {
+long InputFileFITS::getNRows() {
 	int status = 0;
 
 	if(!isOpened())
 		throwException("Error in InputFileFITS::getNRows() ", status);
 
-	int64_t nrows;
+	long nrows;
 	fits_get_num_rows(infptr, &nrows, &status);
 
 	if (status)
