@@ -22,7 +22,6 @@ set(SOURCES ${SRCDIR}IO/InputFileFITS.cpp
 			${SRCDIR}IO/OutputFileFITS.cpp
 			${SRCDIR}IO/InputFileText.cpp)
 add_library(${LIBNAME} SHARED ${SOURCES})
-target_link_libraries(${LIBNAME} ${CFITSIO}/lib/libcfitsio.a)
 
 # make docs
 FIND_PACKAGE(Doxygen)
