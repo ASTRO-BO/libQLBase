@@ -36,8 +36,7 @@ class IOException : public std::runtime_error {
 	}
 };
 
-/** The interface for a generic file divided into chunks.
- */
+/// The interface for a FITS-like file divided into different headers.
 class File {
 
 public:

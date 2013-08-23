@@ -30,9 +30,8 @@ struct Image {
 	std::vector<int64_t> sizes;
 };
 
-/** The interface for reading from a generic file divided into chunks.
- * It specialize File adding functions for reading tables and images.
- */
+/// The interface for reading from a generic file divided into chunks.
+/// It specialize File adding functions for reading tables and images.
 class InputFile : public File {
 
 	public:

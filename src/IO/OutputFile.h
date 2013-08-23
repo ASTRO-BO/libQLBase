@@ -40,9 +40,8 @@ struct field
 	std::string unit;
 };
 
-/** The interface for reading from a generic file divided into chunks.
- * It specialize File adding functions for reading tables and images.
- */
+/// The interface for reading from a generic file divided into chunks.
+/// It specialize File adding functions for reading tables and images.
 class OutputFile : public File {
 
 public:
@@ -51,7 +50,6 @@ public:
 
 	virtual ~OutputFile() {}
 
-	/* Table chunk functions */
 	virtual void createTable(const std::string& name, const std::vector<field>& fields) = 0;
 	virtual void writeu8i(int ncol, std::vector<uint8_t>& buff, long frow, long lrow) = 0;
 	virtual void write16i(int ncol, std::vector<int16_t>& buff, long frow, long lrow) = 0;
