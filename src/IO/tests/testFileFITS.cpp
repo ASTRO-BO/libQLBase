@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	qlbase::OutputFileFITS ofile;
 
 	// closing a not-opened file should raise an exception
-//	BOOST_CHECK_THROW(ofile.close(), qlbase::IOException); // FIXME THIS CAUSE THE SUITE TO CRASH
+	BOOST_CHECK_THROW(ofile.close(), qlbase::IOException);
 
 	// creating a new fits file should not raise an exception
 	BOOST_CHECK_NO_THROW(ofile.create("testing.fits"));
