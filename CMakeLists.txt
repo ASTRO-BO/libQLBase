@@ -31,8 +31,8 @@ set (LIBS ${LIBS} boost_unit_test_framework)
 add_executable(testFileFITS ${SRCDIR}/IO/tests/testFileFITS.cpp)
 target_link_libraries(testFileFITS ${LIBS})
 
-#enable_testing()
-#add_test(testFileFITS testFileFITS)
+enable_testing()
+add_test(testFileFITS testFileFITS)
 
 # this copy is 2 lines with cmake 2.8..
 set(TESTFILES img.csv sample.fits)
