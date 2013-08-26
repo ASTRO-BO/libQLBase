@@ -14,6 +14,7 @@ set(LIBNAME ${CMAKE_PROJECT_NAME}.${QLBase_MAJOR_VERSION}.${QLBase_MINOR_VERSION
 
 # build the lib
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64" )
+set (LIBS ${LIBS} ${CFITSIO}/lib/libcfitsio.a)
 set(SRCDIR "src/")
 set(INCLUDEDIR "src/")
 include_directories( ${INCLUDEDIR} )
@@ -22,6 +23,30 @@ set(SOURCES ${SRCDIR}IO/InputFileFITS.cpp
 			${SRCDIR}IO/OutputFileFITS.cpp
 			${SRCDIR}IO/InputFileText.cpp)
 add_library(${LIBNAME} SHARED ${SOURCES})
+target_link_libraries(${LIBNAME} ${LIBS})
+
+# build the tests
+set (LIBS ${LIBS} ${LIBNAME})
+set (LIBS ${LIBS} boost_unit_test_framework)
+add_executable(testFileFITS ${SRCDIR}/IO/tests/testFileFITS.cpp)
+target_link_libraries(testFileFITS ${LIBS})
+
+#enable_testing()
+#add_test(testFileFITS testFileFITS)
+
+# this copy is 2 lines with cmake 2.8..
+set(TESTFILES img.csv sample.fits)
+foreach(testfile ${TESTFILES})
+add_custom_command(TARGET testFileFITS
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   ${CMAKE_CURRENT_SOURCE_DIR}/src/IO/tests/${testfile}
+                   ${CMAKE_CURRENT_BINARY_DIR}/${testfile})
+                   set(RES ${RES} ${CMAKE_CURRENT_BINARY_DIR}/${testfile})
+endforeach(testfile)
+add_custom_command(SOURCE testFileFITS TARGET testFileFITS DEPENDS ${res})
+
+add_custom_command(TARGET testFileFITS POST_BUILD COMMAND testFileFITS)
 
 # make docs
 FIND_PACKAGE(Doxygen)
