@@ -46,6 +46,13 @@ class InputFileFITS : public InputFile {
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow);
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
+		virtual std::vector< std::vector<uint8_t> > readu8iv(int ncol, long frow, long lrow, int vsize);
+		virtual std::vector< std::vector<int16_t> > read16iv(int ncol, long frow, long lrow, int vsize);
+		virtual std::vector< std::vector<int32_t> > read32iv(int ncol, long frow, long lrow, int vsize);
+		virtual std::vector< std::vector<int64_t> > read64iv(int ncol, long frow, long lrow, int vsize);
+		virtual std::vector< std::vector<float> > read32fv(int ncol, long frow, long lrow, int vsize);
+		virtual std::vector< std::vector<double> > read64fv(int ncol, long frow, long lrow, int vsize);
+
 		virtual Image<uint8_t> readImageu8i();
 		virtual Image<int16_t> readImage16i();
 		virtual Image<int32_t> readImage32if();
@@ -62,6 +69,9 @@ class InputFileFITS : public InputFile {
 
 	template<class T>
 	void _read(int ncol, std::vector<T>& buff, int type, long frow, long lrow);
+
+	template<class T>
+	void _readv(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow, int vsize);
 
 	template<class T>
 	void _readImage(Image<T>& buff, int type);

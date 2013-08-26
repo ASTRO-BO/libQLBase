@@ -139,6 +139,48 @@ std::vector<double> InputFileFITS::read64f(int ncol, long frow, long lrow) {
 	return buff;
 }
 
+std::vector< std::vector<uint8_t> > InputFileFITS::readu8iv(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<uint8_t> > buff;
+	_readv(ncol, buff, TBYTE, frow, lrow, vsize);
+	return buff;
+}
+
+std::vector< std::vector<int16_t> > InputFileFITS::read16iv(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<int16_t> > buff;
+	_readv(ncol, buff, TSHORT, frow, lrow, vsize);
+	return buff;
+}
+
+std::vector< std::vector<int32_t> > InputFileFITS::read32iv(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<int32_t> > buff;
+	_readv(ncol, buff, TINT, frow, lrow, vsize);
+	return buff;
+}
+
+std::vector< std::vector<int64_t> > InputFileFITS::read64iv(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<int64_t> > buff;
+	_readv(ncol, buff, TLONG, frow, lrow, vsize);
+	return buff;
+}
+
+std::vector< std::vector<float> > InputFileFITS::read32fv(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<float> > buff;
+	_readv(ncol, buff, TFLOAT, frow, lrow, vsize);
+	return buff;
+}
+
+std::vector< std::vector<double> > InputFileFITS::read64fv(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<double> > buff;
+	_readv(ncol, buff, TDOUBLE, frow, lrow, vsize);
+	return buff;
+}
+
 Image<uint8_t> InputFileFITS::readImageu8i()
 {
 	Image<uint8_t> buff;
@@ -197,6 +239,26 @@ void InputFileFITS::_read(int ncol, std::vector<T>& buff, int type, long frow, l
 
 	if(status)
 		throwException("Error in InputFileFITS::read() ", status);
+}
+
+template<class T>
+void InputFileFITS::_readv(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow, int vsize) {
+	int status = 0;
+	if(!isOpened())
+		throwException("Error in InputFileFITS::_readv() ", status);
+
+	int anynull;
+	long nelem = (lrow - frow + 1);
+	long null = 0;
+
+	buff.resize(nelem);
+	for(unsigned int i=0; i<nelem; i++)
+		buff[i].resize(vsize);
+
+	fits_read_col(infptr, type, ncol+1, frow+1, 1, nelem*vsize, &null,  &buff[0], &anynull, &status);
+
+	if(status)
+		throwException("Error in InputFileFITS::_readv() ", status);
 }
 
 template<class T>

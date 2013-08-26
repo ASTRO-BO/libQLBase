@@ -47,6 +47,31 @@ class InputFileText : public InputFile {
 		virtual std::vector<float> read32f(int ncol, long frow, long lrow);
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
+		virtual std::vector< std::vector<uint8_t> > readu8iv(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("readu8iv not supported", 0);
+		}
+		virtual std::vector< std::vector<int16_t> > read16iv(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("read16iv not supported", 0);
+		}
+		virtual std::vector< std::vector<int32_t> > read32iv(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("read32iv not supported", 0);
+		}
+		virtual std::vector< std::vector<int64_t> > read64iv(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("read64iv not supported", 0);
+		}
+		virtual std::vector< std::vector<float> > read32fv(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("readu32fv not supported", 0);
+		}
+		virtual std::vector< std::vector<double> > read64fv(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("readu64fv not supported", 0);
+		}
+
 		virtual Image<uint8_t> readImageu8i(){ throw IOException("readImageu8i not supported", 0); }
 		virtual Image<int16_t> readImage16i(){ throw IOException("readImageu8i not supported", 0); }
 		virtual Image<int32_t> readImage32if(){ throw IOException("readImageu8i not supported", 0); }
