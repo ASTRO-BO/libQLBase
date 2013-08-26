@@ -21,6 +21,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
+#include<unistd.h>
 
 BOOST_AUTO_TEST_CASE(input_file_fits)
 {
@@ -176,5 +177,5 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(ofile.close());
 
-	// TODO clean (remove testing.fits file)
+	unlink("testing.fits");
 }
