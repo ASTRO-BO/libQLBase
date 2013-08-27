@@ -21,7 +21,7 @@ namespace qlbase {
 
 #define ERRMSGSIZ 81
 
-InputFileFITS::InputFileFITS() : opened(false) {
+InputFileFITS::InputFileFITS() : opened(false), infptr(0) {
 }
 
 InputFileFITS::~InputFileFITS() {
