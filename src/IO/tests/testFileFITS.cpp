@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	expectedT1[1] = 1;
 	expectedT1[2] = 2;
 	expectedT1[3] = 3;
-	BOOST_CHECK_EQUAL_COLLECTIONS(&rowsT1[0], &rowsT1[rowsT1.size()], &expectedT1[0], &expectedT1[expectedT1.size()]);
+	BOOST_CHECK_EQUAL_COLLECTIONS(rowsT1.begin(), rowsT1.end(), expectedT1.begin(), expectedT1.end());
 
 	// reading first 10 rows from the 8th column shouldn't raise an exception
 	std::vector<uint8_t> rowsT2;
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	expectedT2[7] = 77;
 	expectedT2[8] = 78;
 	expectedT2[9] = 79;
-	BOOST_CHECK_EQUAL_COLLECTIONS(&rowsT2[0], &rowsT2[rowsT2.size()], &expectedT2[0], &expectedT2[expectedT2.size()]);
+	BOOST_CHECK_EQUAL_COLLECTIONS(rowsT2.begin(), rowsT2.end(), expectedT2.begin(), expectedT2.end());
 
 	// the file should be open
 	BOOST_CHECK_EQUAL(file.isOpened(), true);
