@@ -37,6 +37,7 @@ struct field
 {
 	std::string name;
 	fieldType type;
+	int vsize;
 	std::string unit;
 };
 
@@ -57,6 +58,13 @@ public:
 	virtual void write64i(int ncol, std::vector<int64_t>& buff, long frow, long lrow) = 0;
 	virtual void write32f(int ncol, std::vector<float>& buff, long frow, long lrow) = 0;
 	virtual void write64f(int ncol, std::vector<double>& buff, long frow, long lrow) = 0;
+
+	virtual void writeu8iv(int ncol, std::vector< std::vector<uint8_t> >& buff, long frow, long lrow) = 0;
+	virtual void write16iv(int ncol, std::vector< std::vector<int16_t> >& buff, long frow, long lrow) = 0;
+	virtual void write32iv(int ncol, std::vector< std::vector<int32_t> >& buff, long frow, long lrow) = 0;
+	virtual void write64iv(int ncol, std::vector< std::vector<int64_t> >& buff, long frow, long lrow) = 0;
+	virtual void write32fv(int ncol, std::vector< std::vector<float> >& buff, long frow, long lrow) = 0;
+	virtual void write64fv(int ncol, std::vector< std::vector<double> >& buff, long frow, long lrow) = 0;
 };
 
 }

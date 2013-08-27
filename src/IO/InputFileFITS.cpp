@@ -15,6 +15,7 @@
 
 #include "Definitions.h"
 #include "InputFileFITS.h"
+#include <cstring>
 
 namespace qlbase {
 
@@ -251,11 +252,18 @@ void InputFileFITS::_readv(int ncol, std::vector< std::vector<T> >& buff, int ty
 	long nelem = (lrow - frow + 1);
 	long null = 0;
 
+	T* buffptr = new T[nelem*vsize];
+	fits_read_col(infptr, type, ncol+1, frow+1, 1, nelem*vsize, &null,  buffptr, &anynull, &status);
+
+	// conversion from row pointers to std::vector< std::vector<T> >
 	buff.resize(nelem);
 	for(unsigned int i=0; i<nelem; i++)
 		buff[i].resize(vsize);
 
-	fits_read_col(infptr, type, ncol+1, frow+1, 1, nelem*vsize, &null,  &buff[0], &anynull, &status);
+	for(unsigned int row = frow; row < lrow+1; row++)
+		memcpy(&buff[row][0], &buffptr[row*vsize], vsize*sizeof(T));
+
+	delete[] buffptr;
 
 	if(status)
 		throwException("Error in InputFileFITS::_readv() ", status);

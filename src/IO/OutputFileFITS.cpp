@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include <iostream>
+#include <sstream>
 #include <cstring>
 
 #include "Definitions.h"
@@ -24,7 +25,7 @@ namespace qlbase {
 
 #define ERRMSGSIZ 81
 
-OutputFileFITS::OutputFileFITS() : opened(false) {
+OutputFileFITS::OutputFileFITS() : opened(false), infptr(0) {
 }
 
 OutputFileFITS::~OutputFileFITS() {
@@ -108,7 +109,7 @@ void OutputFileFITS::createTable(const std::string& name, const std::vector<fiel
 		std::memcpy(ttypes[i], type.c_str(), 10);
 
 		tform[i] = new char[10];
-		std::string form = _getFieldTypeString(fields[i].type);
+		std::string form(_getFieldTypeString(fields[i].type, fields[i].vsize));
 		std::memcpy(tform[i], form.c_str(), 10);
 
 		tunit[i] = new char[10];
@@ -163,6 +164,36 @@ void OutputFileFITS::write64f(int ncol, std::vector<double>& buff, long frow, lo
 	_write(ncol, buff, TDOUBLE, frow, lrow);
 }
 
+void OutputFileFITS::writeu8iv(int ncol, std::vector< std::vector<uint8_t> >& buff, long frow, long lrow)
+{
+	_writev(ncol, buff, TBYTE, frow, lrow);
+}
+
+void OutputFileFITS::write16iv(int ncol, std::vector< std::vector<int16_t> >& buff, long frow, long lrow)
+{
+	_writev(ncol, buff, TSHORT, frow, lrow);
+}
+
+void OutputFileFITS::write32iv(int ncol, std::vector< std::vector<int32_t> >& buff, long frow, long lrow)
+{
+	_writev(ncol, buff, TINT, frow, lrow);
+}
+
+void OutputFileFITS::write64iv(int ncol, std::vector< std::vector<int64_t> >& buff, long frow, long lrow)
+{
+	_writev(ncol, buff, TLONG, frow, lrow);
+}
+
+void OutputFileFITS::write32fv(int ncol, std::vector< std::vector<float> >& buff, long frow, long lrow)
+{
+	_writev(ncol, buff, TFLOAT, frow, lrow);
+}
+
+void OutputFileFITS::write64fv(int ncol, std::vector< std::vector<double> >& buff, long frow, long lrow)
+{
+	_writev(ncol, buff, TDOUBLE, frow, lrow);
+}
+
 template<class T>
 void OutputFileFITS::_write(int ncol, std::vector<T>& buff, int type, long frow, long lrow) {
 	int status = 0;
@@ -178,24 +209,58 @@ void OutputFileFITS::_write(int ncol, std::vector<T>& buff, int type, long frow,
 		throwException("Error in OutputFileFITS::write() ", status);
 }
 
+template<class T>
+void OutputFileFITS::_writev(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow) {
+	int status = 0;
+	if(!isOpened())
+		throwException("Error in OutputFileFITS::write() ", status);
 
-const std::string OutputFileFITS::_getFieldTypeString(fieldType type) {
+	long nelem = lrow - frow + 1;
+	unsigned int size = buff[0].size();
+	T* buffptr = new T[nelem*size];
+	for(unsigned int row=frow; row<lrow+1; row++)
+	{
+		for(unsigned int i=0; i<size; i++)
+		{
+			buffptr[row*size + i] = buff[row][i];
+		}
+	}
+
+	fits_write_col(infptr, type, ncol+1, frow+1, 1, nelem*size, buffptr, &status);
+
+	delete[] buffptr;
+
+	if(status)
+		throwException("Error in OutputFileFITS::write() ", status);
+}
+
+const std::string OutputFileFITS::_getFieldTypeString(fieldType type, int vsize) {
+	std::ostringstream ist;
+	ist << vsize;
 	switch(type)
 	{
 		case UNSIGNED_INT8:
-			return "1B";
+			ist << "B";
+			break;
 		case INT16:
-			return "1I";
+			ist << "I";
+			break;
 		case INT32:
-			return "1J";
+			ist << "J";
+			break;
 		case INT64:
-			return "1K";
+			ist << "K";
+			break;
 		case FLOAT:
-			return "1E";
+			ist << "E";
+			break;
 		case DOUBLE:
-			return "1D";
+			ist << "D";
+			break;
+		default:
+			throw IOException("Error in OutputFileFITS::_getFieldTypeString() ", 0);
 	}
-	return "";
+	return ist.str();
 }
 
 }

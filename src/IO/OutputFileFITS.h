@@ -47,6 +47,13 @@ public:
 	virtual void write32f(int ncol, std::vector<float>& buff, long frow, long lrow);
 	virtual void write64f(int ncol, std::vector<double>& buff, long frow, long lrow);
 
+	virtual void writeu8iv(int ncol, std::vector< std::vector<uint8_t> >& buff, long frow, long lrow);
+	virtual void write16iv(int ncol, std::vector< std::vector<int16_t> >& buff, long frow, long lrow);
+	virtual void write32iv(int ncol, std::vector< std::vector<int32_t> >& buff, long frow, long lrow);
+	virtual void write64iv(int ncol, std::vector< std::vector<int64_t> >& buff, long frow, long lrow);
+	virtual void write32fv(int ncol, std::vector< std::vector<float> >& buff, long frow, long lrow);
+	virtual void write64fv(int ncol, std::vector< std::vector<double> >& buff, long frow, long lrow);
+
 private:
 
 	bool opened;
@@ -57,7 +64,10 @@ private:
 	template<class T>
 	void _write(int ncol, std::vector<T>& buff, int type, long frow, long lrow);
 
-	const std::string _getFieldTypeString(fieldType type);
+	template<class T>
+	void _writev(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow);
+
+	const std::string _getFieldTypeString(fieldType type, int vsize);
 };
 
 }

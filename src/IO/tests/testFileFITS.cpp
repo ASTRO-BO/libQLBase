@@ -73,6 +73,18 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	expectedT2[9] = 79;
 	BOOST_CHECK_EQUAL_COLLECTIONS(rowsT2.begin(), rowsT2.end(), expectedT2.begin(), expectedT2.end());
 
+	// reading the entire 11 column 8th column shouldn't raise an exception
+	std::vector< std::vector<float> > rowsT3;
+	BOOST_CHECK_NO_THROW(rowsT3 = file.read32fv(10, 0, 9, 12));
+
+	// the read packets should be the following
+	for(unsigned int row=0; row<10; row++)
+	{
+		std::vector<float> expectedT3(12, (float)row);
+		for(unsigned int i=0; i<12; i++)
+			BOOST_REQUIRE_CLOSE( rowsT3[row][i], expectedT3[i], 0.001 );
+	}
+
 	// the file should be open
 	BOOST_CHECK_EQUAL(file.isOpened(), true);
 
@@ -138,8 +150,15 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 		ss << "field" << i;
 		fields[i].name = ss.str();
 		(i % 2 == 0) ? fields[i].type=qlbase::INT32 : fields[i].type=qlbase::UNSIGNED_INT8;
+		fields[i].vsize = 1;
 		(i % 2 == 0) ? fields[i].unit="mph" : fields[i].unit="cm";
 	}
+	qlbase::field vectorfield;
+	vectorfield.name = "fvector";
+	vectorfield.type = qlbase::FLOAT;
+	vectorfield.vsize = 12;
+	vectorfield.unit = "cms";
+	fields.push_back(vectorfield);
 	BOOST_CHECK_NO_THROW(ofile.createTable("testing binary table", fields));
 
 	// going to the second chunk should not raise an error
@@ -173,6 +192,13 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 		BOOST_CHECK_NO_THROW(ofile.write32i(i*2, colsi[i], 0, NROW-1));
 		BOOST_CHECK_NO_THROW(ofile.writeu8i(i*2+1, colsb[i], 0, NROW-1));
 	}
+	std::vector< std::vector<float> > vectors;
+	for(unsigned int row=0; row<NROW; row++)
+	{
+		std::vector<float> v(12, (float)row);
+		vectors.push_back(v);
+	}
+	BOOST_CHECK_NO_THROW(ofile.write32fv(10, vectors, 0, NROW-1));
 
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(ofile.close());
