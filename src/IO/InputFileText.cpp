@@ -25,26 +25,35 @@ namespace qlbase
 template<class T>
 void InputFileText::readData(std::vector<T> &buff, int ncol, long frow, long lrow)
 {
+	if(!isOpened())
+		throw IOException("Error in InputFileText::readData() ", 0);
+
 	int buff_sz = lrow - frow + 1;
 	int buff_off = 0;
 
+	fileStream.clear();
+	fileStream.seekg(0, std::ios::beg);
+
 	buff.resize(buff_sz);
-	for(int i = 0; i <= lrow; i++) {
+	for(int i = frow; i < lrow+1; i++) {
 		std::string line;
 		if(getline(fileStream, line)) {
-			if(line.size()==0) {
-				i--;
-				continue;
+			int first = 0;
+			int last  = 0;
+			int colCounter = 0;
+			while(colCounter <= ncol && colCounter <= ncols)
+			{
+				findField(line,first,last,last);
+				colCounter++;
 			}
-			if(i>=frow) {
-				int first = 0;
-				int last  = 0;
-				for(int j = 0; j <= ncol; j++)
-					findField(line,first,last,last);
+			if(colCounter == ncol+1)
+			{
 				std::istringstream ist(std::string(line,first,last-first));
 				ist >> buff[buff_off++];
 			}
 		}
+		else
+			throw IOException("InputFileText::readData()", 0);
 	}
 }
 
@@ -57,18 +66,19 @@ InputFileText::~InputFileText() {
 
 void InputFileText::open(const std::string &filename) {
 
-	// Close prev input file stream
-	close();
-
-	fileStream.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
+	fileStream.clear();
 
 	// Try to open new file
 	fileStream.open(filename.c_str());
+    if(!fileStream.is_open())
+		throw IOException("Error in InputFileText::Open()", 0);
+	opened = true;
 
 	// Read first line
 	std::string line;
 	if(!getline(fileStream,line)) {
 		close();
+		throw IOException("Error in InputFileText::Open()", 0);
 	} else
 		nrows++;
 
@@ -82,11 +92,12 @@ void InputFileText::open(const std::string &filename) {
 	while(getline(fileStream,line))
 		if(line.size())
 			nrows++;
-
-	opened = true;
 }
 
 void InputFileText::close() {
+    if(!opened)
+		throw IOException("Error in InputFileText::Close()", 0);
+
 	nrows    = 0;
 	ncols    = 0;
 
@@ -103,6 +114,9 @@ bool InputFileText::findField(std::string& line, int& first, int& last, int pos)
 		return false;
 
 	last = line.find_first_of(separator,first);
+
+	if(last == -1)
+	    last = line.size();
 
 	return true;
 }
@@ -134,8 +148,41 @@ bool InputFileText::test(int ncol, long frow, long& lrow) {
 }
 
 std::vector<uint8_t> InputFileText::readu8i(int ncol, long frow, long lrow) {
+	if(!isOpened())
+		throw IOException("Error in InputFileText::readu8i() ", 0);
+
 	std::vector<uint8_t> buff;
-	readData(buff, ncol, frow, lrow);
+	int buff_sz = lrow - frow + 1;
+	int buff_off = 0;
+
+	fileStream.clear();
+	fileStream.seekg(0, std::ios::beg);
+
+	buff.resize(buff_sz);
+	for(int i = frow; i < lrow+1; i++) {
+		std::string line;
+		if(getline(fileStream, line)) {
+			int first = 0;
+			int last  = 0;
+			int colCounter = 0;
+			while(colCounter <= ncol && colCounter <= ncols)
+			{
+				findField(line,first,last,last);
+				colCounter++;
+			}
+			if(colCounter == ncol+1)
+			{
+				// istringstream doesn't format directly to unsigned char.
+				std::istringstream ist(std::string(line,first,last-first));
+				unsigned int intTmp;
+				ist >> intTmp;
+				buff[buff_off++] = (uint8_t) intTmp;
+			}
+		}
+		else
+			throw IOException("InputFileText::readData()", 0);
+	}
+
 	return buff;
 }
 

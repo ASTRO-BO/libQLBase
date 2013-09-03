@@ -30,12 +30,15 @@ set (LIBS ${LIBS} ${LIBNAME})
 set (LIBS ${LIBS} boost_unit_test_framework)
 add_executable(testFileFITS ${SRCDIR}/IO/tests/testFileFITS.cpp)
 target_link_libraries(testFileFITS ${LIBS})
+add_executable(testFileText ${SRCDIR}/IO/tests/testFileText.cpp)
+target_link_libraries(testFileText ${LIBS})
 
 enable_testing()
 add_test(testFileFITS testFileFITS)
+add_test(testFileText testFileText)
 
 # this copy is 2 lines with cmake 2.8..
-set(TESTFILES img.csv sample.fits)
+set(TESTFILES img.csv sample.fits sample.txt)
 foreach(testfile ${TESTFILES})
 add_custom_command(TARGET testFileFITS
                    POST_BUILD
@@ -47,6 +50,7 @@ endforeach(testfile)
 add_custom_command(SOURCE testFileFITS TARGET testFileFITS DEPENDS ${res})
 
 add_custom_command(TARGET testFileFITS POST_BUILD COMMAND testFileFITS)
+add_custom_command(TARGET testFileFITS POST_BUILD COMMAND testFileText)
 
 # make docs
 FIND_PACKAGE(Doxygen)
