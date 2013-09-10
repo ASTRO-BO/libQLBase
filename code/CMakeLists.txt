@@ -6,12 +6,12 @@ set(SOURCES IO/InputFileFITS.cpp
 			IO/OutputFileFITS.cpp
 			IO/InputFileText.cpp)
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
-set_target_properties(${LIBNAME} PROPERTIES SOVERSION ${CMAKE_VERSION})
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SOVERSION ${QLBase_VERSION})
 
 # make install
 file(GLOB HEADERS "${QLBase_SOURCE_DIR}/code/IO/*.h")
 install(FILES ${HEADERS} DESTINATION include)
-install(TARGETS ${LIBNAME} DESTINATION lib)
+install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)
 
 # make uninstall
 configure_file(

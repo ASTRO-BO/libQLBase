@@ -4,6 +4,8 @@ project(QLBase)
 set(QLBase_MAJOR_VERSION 0)
 set(QLBase_MINOR_VERSION 1)
 set(QLBase_PATCH_VERSION 0)
+set(QLBase_VERSION
+${QLBase_MAJOR_VERSION}.${QLBase_MINOR_VERSION}.${QLBase_PATCH_VERSION})
 
 set(CMAKE_MODULE_PATH ${QLBase_SOURCE_DIR}/cmake-modules)
 
