@@ -14,7 +14,7 @@ set(SOURCES IO/InputFileFITS.cpp
 add_library(${LIBNAME} SHARED ${SOURCES})
 
 # make install
-file(GLOB HEADERS "${QLBase_SOURCE_DIR}/src/IO/*.h")
+file(GLOB HEADERS "${QLBase_SOURCE_DIR}/code/IO/*.h")
 install(FILES ${HEADERS} DESTINATION include)
 install(TARGETS ${LIBNAME} DESTINATION lib)
 
