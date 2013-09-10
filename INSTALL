@@ -1,12 +1,12 @@
-This library uses cmake >= 2.6 to build, check if you have it installed!
+This library uses cmake 2.8 to build, check if you have it installed!
 The installation works only for linux by now.
 
-You can build the system in-sources or out-of-sources. The latter is suggested
-and it is for example in the home:
+You can build the system out-of-sources like this:
+(for this example the sources are in ~/Projects/libQLBase)
 
   ~ $ mkdir build
   ~ $ cd build
-  ~/build $ cmake libQLBase/src
+  ~/build $ cmake ~/Projects/libQLBase/
   ~/build $ make
 
 To install into /usr/local just use:
@@ -21,7 +21,7 @@ To clean the temporary local build simply use:
   ~/build $ cd ..
   ~/ $ rm -rf build/
 
-If you want specify a different installation path you need to change the
-MAKE_INSTALL_PREFIX cmake variable, like:
+If you want specify a different installation directory use the same process just described.
+You need only to specify an additional parameter on the cmake call (CMAKE_INSTALL_PREFIX):
 
-  ~/build $ cmake -DCMAKE_INSTALL_PREFIX:PATH=/LOCAL_GTB libQLBaseDir/
+  ~/build $ cmake -DCMAKE_INSTALL_PREFIX:PATH=/installdir ~/Projects/libQLBase/
