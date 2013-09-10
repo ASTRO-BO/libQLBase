@@ -7,14 +7,14 @@ include_directories(${QLBase_SOURCE_DIR}/code
 
 add_executable(testFileFITS testFileFITS.cpp)
 target_link_libraries(testFileFITS
-                      QLBase.0.1
+                      QLBase
                       ${CFITSIO_LIBRARIES}
                       ${Boost_LIBRARIES}
                       )
 
 add_executable(testFileText testFileText.cpp)
 target_link_libraries(testFileText
-                      QLBase.0.1
+                      QLBase
                       ${CFITSIO_LIBRARIES}
                       ${Boost_LIBRARIES}
                       )
