@@ -24,7 +24,7 @@ foreach(testfile ${TESTFILES})
 add_custom_command(TARGET testFileFITS
                    POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   ${QLBase_SOURCE_DIR}/src/IO/tests/${testfile}
+                   ${QLBase_SOURCE_DIR}/tests/${testfile}
                    ${CMAKE_CURRENT_BINARY_DIR}/${testfile})
                    set(RES ${RES} ${CMAKE_CURRENT_BINARY_DIR}/${testfile})
 endforeach(testfile)
