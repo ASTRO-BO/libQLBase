@@ -1,6 +1,5 @@
 find_package(CFITSIO REQUIRED)
 include_directories(${CFITSIO_INCLUDE_DIR})
-set(LIBS ${LIBS} ${CFITSIO_LIBRARIES})
 
 set(SOURCES IO/InputFileFITS.cpp
 			IO/OutputFileFITS.cpp
