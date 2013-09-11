@@ -1,0 +1,51 @@
+11/09/13 - Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v0.1.0
+
+* General
+    * Removed using namespace std inside headers.
+    * Added gpl license to sources.
+    * Removed trailing white spaces.
+    * Added Eclipse project.
+
+* IO package
+    * Added some libQL2 classes: InputFileFITS, OutputFileFITS, InputTextFile
+    (binary table support).
+    * Starting table rows and columns from 0.
+    * Added File, InputFile, OutputFile parent abstract classes.
+    * Moved IOException class to File.h.
+    * Moved open, close, moveToHeader to a generic File class.
+    * Changed protected attributes/functions to private.
+    * Added fixed length vector as table cell data type.
+    * Added support for grayscale images reading.
+    * Renamed InputTextFile files to InputFileText.
+    * InputFileText class doesn't support images, throw errors.
+    * Using std::vector instead of raw pointers.
+    * Throw exceptions on errors for IO classes.
+    * Removed InputFileFilter class.
+    * Using qlbase namespace.
+
+    * Removed TObject dependancy.
+    * Use std::string instead of TString.
+    * Using true,false insead of ROOT kTRUE,kFALSE.
+    * Using bool instead of ROOT Bool_t.
+    * Using float, double instead of ROOT Float_t, Double_t.
+    * Using uint8_t, int16_t, int32_t, int64_t instead of ROOT Char_t, Short_t, Int_t, ULong_t.
+
+* Build
+    * Added cmake files to build the library.
+    * Requires cmake 2.8.
+    * Added make docs target.
+    * Added make install target.
+    * Added make uninstall target.
+    * Added test run after the library build.
+
+* Documentation
+    * Added Doxyfile from libQL2.
+    * Using cmake variables inside Doxyfile.in.
+    * Removed deprecated doxygen search engine configuration.
+    * Added INSTALL instructions.
+
+* Test
+    * Added unit test for an InputFileFITS binary table.
+    * Added unit test for an InputFileFITS grayscale float image.
+    * Added unit test for an OutputFile FITS binary table.
