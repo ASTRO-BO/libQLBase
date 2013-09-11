@@ -6,8 +6,9 @@ set(QLBase_MINOR_VERSION 1)
 set(QLBase_PATCH_VERSION 0)
 set(QLBase_VERSION
 ${QLBase_MAJOR_VERSION}.${QLBase_MINOR_VERSION}.${QLBase_PATCH_VERSION})
+set(PROJECT_VERSION ${QLBase_VERSION})
 
-set(CMAKE_MODULE_PATH ${QLBase_SOURCE_DIR}/cmake-modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake-modules)
 
 add_subdirectory(code)
 add_subdirectory(tests)
