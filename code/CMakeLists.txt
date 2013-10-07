@@ -1,11 +1,13 @@
 find_package(CFITSIO REQUIRED)
 include_directories(${CFITSIO_INCLUDE_DIR})
+set(LIBS ${LIBS} ${CFITSIO_LIBRARIES})
 
 set(SOURCES IO/InputFileFITS.cpp
 			IO/OutputFileFITS.cpp
 			IO/InputFileText.cpp)
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
 
 # make install
 file(GLOB HEADERS "${PROJECT_SOURCE_DIR}/code/IO/*.h")
