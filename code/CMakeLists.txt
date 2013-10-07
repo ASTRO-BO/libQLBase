@@ -13,6 +13,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
 file(GLOB HEADERS "${PROJECT_SOURCE_DIR}/code/IO/*.h")
 install(FILES ${HEADERS} DESTINATION include)
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)
+file(MAKE_DIRECTORY file(${CMAKE_CURRENT_BINARY_DIR}/../doc))
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../doc DESTINATION .)
 
 # make uninstall
 configure_file(
