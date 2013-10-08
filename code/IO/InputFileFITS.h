@@ -23,6 +23,7 @@
 namespace qlbase {
 
 /// FITS file reader (cfitsio wrapping class).
+/// All methods except isOpened() throw qlbase::IOException on errors.
 class InputFileFITS : public InputFile {
 
 	public:
