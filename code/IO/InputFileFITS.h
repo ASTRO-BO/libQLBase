@@ -39,7 +39,7 @@ class InputFileFITS : public InputFile {
 		virtual bool isOpened() { return opened; }
 
 		/// Point to a specific header.
-		/// /param[in] number Number of the header.
+		/// /param[in] number Number of the header (starting from 0).
 		virtual void moveToHeader(int number);
 
 		/// Get the number of columns.
@@ -49,9 +49,9 @@ class InputFileFITS : public InputFile {
 		virtual long getNRows();
 
 		/// Read a part of a column of bytes (fits type 1B).
-		/// \param[in] ncol Column number.
-		/// \param[in] frow First row.
-		/// \param[in] lrow Last row.
+		/// \param[in] ncol Column number (starting from 0).
+		/// \param[in] frow First row (starting from 0).
+		/// \param[in] lrow Last row (starting from 0).
 		/// \return The vector of bytes.
 		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow);
 
@@ -72,9 +72,9 @@ class InputFileFITS : public InputFile {
 
 
 		/// Read a part of a column of vector of bytes (fits type for es. 20B).
-		/// \param[in] ncol Column number.
-		/// \param[in] frow First row.
-		/// \param[in] lrow Last row.
+		/// \param[in] ncol Column number (starting from 0).
+		/// \param[in] frow First row (starting from 0).
+		/// \param[in] lrow Last row (starting from 0).
 		/// \param[in] vsize Size of the the vector (this represent the size of a cell).
 		/// \return The column of vector of bytes (vector of vector of bytes).
 		virtual std::vector< std::vector<uint8_t> > readu8iv(int ncol, long frow, long lrow, int vsize);
