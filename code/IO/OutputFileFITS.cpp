@@ -213,7 +213,7 @@ template<class T>
 void OutputFileFITS::_writev(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow) {
 	int status = 0;
 	if(!isOpened())
-		throwException("Error in OutputFileFITS::write() ", status);
+		throwException("Error in OutputFileFITS::writev() ", status);
 
 	long nelem = lrow - frow + 1;
 	unsigned int size = buff[0].size();
@@ -231,7 +231,7 @@ void OutputFileFITS::_writev(int ncol, std::vector< std::vector<T> >& buff, int 
 	delete[] buffptr;
 
 	if(status)
-		throwException("Error in OutputFileFITS::write() ", status);
+		throwException("Error in OutputFileFITS::writev() ", status);
 }
 
 const std::string OutputFileFITS::_getFieldTypeString(fieldType type, int vsize) {
