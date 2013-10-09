@@ -91,6 +91,9 @@ class InputFile : public File {
 		/// Read a column of vector of double.
 		virtual std::vector< std::vector<double> > read64fv(int ncol, long frow, long lrow, int vsize) = 0;
 
+		/// Read a column of strings.
+		virtual std::vector< std::vector<char> > readString(int ncol, long frow, long lrow, int vsize) = 0;
+
 		/***** Image reading functions *****/
 		/// Read a multidimensional image of bytes.
 		virtual Image<uint8_t> readImageu8i() = 0;

@@ -71,7 +71,6 @@ class InputFileFITS : public InputFile {
 		/// Read a column of double (fits type 1D).
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
-
 		/// Read a column of vector of bytes (fits type for es. 20B).
 		/// \param[in] ncol Column number (starting from 0).
 		/// \param[in] frow First row (starting from 0).
@@ -94,6 +93,9 @@ class InputFileFITS : public InputFile {
 
 		/// Read a column of vector of double (fits type for es. 20D).
 		virtual std::vector< std::vector<double> > read64fv(int ncol, long frow, long lrow, int vsize);
+
+		/// Read a column of strings (fits type for es. 20A).
+		virtual std::vector< std::vector<char> > readString(int ncol, long frow, long lrow, int vsize);
 
 		/// Read a multidimensional image of bytes.
 		/// \return The Image structure holding the image data, dimensions and its sizes.

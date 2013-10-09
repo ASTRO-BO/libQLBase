@@ -71,6 +71,10 @@ class InputFileText : public InputFile {
 		{
 			throw IOException("readu64fv not supported", 0);
 		}
+		virtual std::vector< std::vector<char> > readString(int ncol, long frow, long lrow, int vsize)
+		{
+			throw IOException("readString not supported", 0);
+		}
 
 		virtual Image<uint8_t> readImageu8i(){ throw IOException("readImageu8i not supported", 0); }
 		virtual Image<int16_t> readImage16i(){ throw IOException("readImageu8i not supported", 0); }

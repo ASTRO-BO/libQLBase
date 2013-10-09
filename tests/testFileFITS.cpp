@@ -85,6 +85,19 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 			BOOST_REQUIRE_CLOSE( rowsT3[row][i], expectedT3[i], 0.001 );
 	}
 
+	// reading the 12 column shouldn't raise an exception
+	std::vector< std::vector<char> > rowsT4;
+	BOOST_CHECK_NO_THROW(rowsT4 = file.readString(11, 0, 9, 20));
+
+	// the rows strings should be 'aaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbb', ...
+	std::vector< std::vector<char> > expectedT4(10);
+	for(unsigned int row=0; row<10; row++)
+	{
+		std::vector<char> expectedT4(20, 'a'+row);
+		for(unsigned int i=0; i<20; i++)
+			BOOST_CHECK_EQUAL(rowsT4[row][i], expectedT4[i]);
+	}
+
 	// the file should be open
 	BOOST_CHECK_EQUAL(file.isOpened(), true);
 

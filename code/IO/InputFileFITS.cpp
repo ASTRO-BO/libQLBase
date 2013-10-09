@@ -182,6 +182,40 @@ std::vector< std::vector<double> > InputFileFITS::read64fv(int ncol, long frow, 
 	return buff;
 }
 
+std::vector< std::vector<char> > InputFileFITS::readString(int ncol, long frow, long lrow, int vsize)
+{
+	std::vector< std::vector<char> > buff;
+
+	int status = 0;
+	if(!isOpened())
+		throwException("Error in InputFileFITS::readString() ", status);
+
+	int anynull;
+	long nelem = (lrow - frow + 1);
+	long null = 0;
+
+	char** buffptrs = new char*[nelem];
+	for(unsigned int i=0; i<nelem; i++)
+		buffptrs[i] = new char[vsize];
+
+	fits_read_col(infptr, TSTRING, ncol+1, frow+1, 1, nelem, &null,  buffptrs, &anynull, &status);
+
+	buff.resize(nelem);
+	for(unsigned int i=0; i<nelem; i++)
+	{
+		buff[i].resize(vsize);
+		memcpy(&buff[i][0], buffptrs[i], vsize);
+		delete buffptrs[i];
+	}
+
+	delete[] buffptrs;
+
+	if(status)
+		throwException("Error in InputFileFITS::readString() ", status);
+
+	return buff;
+}
+
 Image<uint8_t> InputFileFITS::readImageu8i()
 {
 	Image<uint8_t> buff;
