@@ -125,12 +125,24 @@ void OutputFileFITS::createTable(const std::string& name, const std::vector<fiel
 		delete tform[i];
 		delete tunit[i];
 	}
+
 	delete ttypes;
 	delete tform;
 	delete tunit;
 
 	if (status)
-		throwException("Error in OutputFileFITS::jumpToChuck() ", status);
+		throwException("Error in OutputFileFITS::createTable() ", status);
+
+	for(unsigned int i=0; i<nfields; i++)
+	{
+		if(fields[i].type == STRING)
+		{
+			long tdim[] = {fields[i].vsize, 1};
+			fits_write_tdim(infptr, i+1, 2, tdim, &status);
+		}
+	}
+	if (status)
+		throwException("Error in OutputFileFITS::createTable() ", status);
 }
 
 
@@ -192,6 +204,31 @@ void OutputFileFITS::write32fv(int ncol, std::vector< std::vector<float> >& buff
 void OutputFileFITS::write64fv(int ncol, std::vector< std::vector<double> >& buff, long frow, long lrow)
 {
 	_writev(ncol, buff, TDOUBLE, frow, lrow);
+}
+
+void OutputFileFITS::writeString(int ncol, std::vector< std::vector<char> >& buff, long frow, long lrow)
+{
+	int status = 0;
+	if(!isOpened())
+		throwException("Error in OutputFileFITS::writev() ", status);
+
+	long nelem = lrow - frow + 1;
+	unsigned int size = buff[0].size();
+	char** buffptrs = new char*[nelem];
+	for(unsigned int row=frow; row<lrow+1; row++)
+	{
+		buffptrs[row] = new char[buff[0].size()];
+		memcpy(buffptrs[row], &buff[row][0], buff[0].size());
+	}
+
+	fits_write_col(infptr, TSTRING, ncol+1, frow+1, 1, nelem, buffptrs, &status);
+
+	for(unsigned int row=frow; row<lrow+1; row++)
+		delete buffptrs[row];
+	delete[] buffptrs;
+
+	if(status)
+		throwException("Error in OutputFileFITS::writev() ", status);
 }
 
 template<class T>
@@ -256,6 +293,9 @@ const std::string OutputFileFITS::_getFieldTypeString(fieldType type, int vsize)
 			break;
 		case DOUBLE:
 			ist << "D";
+			break;
+		case STRING:
+			ist << "A";
 			break;
 		default:
 			throw IOException("Error in OutputFileFITS::_getFieldTypeString() ", 0);

@@ -53,6 +53,7 @@ public:
 	virtual void write64iv(int ncol, std::vector< std::vector<int64_t> >& buff, long frow, long lrow);
 	virtual void write32fv(int ncol, std::vector< std::vector<float> >& buff, long frow, long lrow);
 	virtual void write64fv(int ncol, std::vector< std::vector<double> >& buff, long frow, long lrow);
+	virtual void writeString(int ncol, std::vector< std::vector<char> >& buff, long frow, long lrow);
 
 private:
 

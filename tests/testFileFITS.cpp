@@ -153,12 +153,21 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 		fields[i].vsize = 1;
 		(i % 2 == 0) ? fields[i].unit="mph" : fields[i].unit="cm";
 	}
+    // 11 column
 	qlbase::field vectorfield;
 	vectorfield.name = "fvector";
 	vectorfield.type = qlbase::FLOAT;
 	vectorfield.vsize = 12;
 	vectorfield.unit = "cms";
 	fields.push_back(vectorfield);
+
+    // 12 column
+	vectorfield.name = "fstring";
+	vectorfield.type = qlbase::STRING;
+	vectorfield.vsize = 20;
+	vectorfield.unit = "desc";
+	fields.push_back(vectorfield);
+
 	BOOST_CHECK_NO_THROW(ofile.createTable("testing binary table", fields));
 
 	// going to the second chunk should not raise an error
@@ -199,6 +208,16 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 		vectors.push_back(v);
 	}
 	BOOST_CHECK_NO_THROW(ofile.write32fv(10, vectors, 0, NROW-1));
+
+	std::vector< std::vector<char> > vectorStr;
+	for(unsigned int row=0; row<NROW; row++)
+	{
+		std::vector<char> v(20, 'a'+row);
+		vectorStr.push_back(v);
+	}
+	BOOST_CHECK_NO_THROW(ofile.close());
+	BOOST_CHECK_NO_THROW(ofile.open("testing.fits"));
+	BOOST_CHECK_NO_THROW(ofile.writeString(11, vectorStr, 0, NROW-1));
 
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(ofile.close());

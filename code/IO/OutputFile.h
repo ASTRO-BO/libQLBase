@@ -30,7 +30,8 @@ enum fieldType
 	INT32,
 	INT64,
 	FLOAT,
-	DOUBLE
+	DOUBLE,
+	STRING
 };
 
 struct field
@@ -65,7 +66,9 @@ public:
 	virtual void write64iv(int ncol, std::vector< std::vector<int64_t> >& buff, long frow, long lrow) = 0;
 	virtual void write32fv(int ncol, std::vector< std::vector<float> >& buff, long frow, long lrow) = 0;
 	virtual void write64fv(int ncol, std::vector< std::vector<double> >& buff, long frow, long lrow) = 0;
+	virtual void writeString(int ncol, std::vector< std::vector<char> >& buff, long frow, long lrow) = 0;
 };
+
 
 }
 
