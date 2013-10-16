@@ -47,7 +47,7 @@ void InputFileFITS::open(const std::string &filename) {
 	fits_open_table(&infptr, filename.c_str(), READONLY, &status);
 
 	if (status)
-		throwException("Error in InputFileFITS::Open() ", status);
+		throwException("Error in InputFileFITS::open() ", status);
 
 	opened = true;
 }
@@ -57,7 +57,7 @@ void InputFileFITS::close() {
 	fits_close_file(infptr, &status);
 
 	if (status)
-		throwException("Error in InputFileFITS::Close() ", status);
+		throwException("Error in InputFileFITS::close() ", status);
 
 	opened = false;
 }
@@ -66,12 +66,12 @@ void InputFileFITS::moveToHeader(int number) {
 	int status = 0;
 
 	if(!isOpened())
-		throwException("Error in InputFileFITS::jumpToChuck() ", status);
+		throwException("Error in InputFileFITS::moveToHeader() ", status);
 
 	fits_movabs_hdu(infptr, number+1, 0, &status);
 
 	if (status)
-		throwException("Error in InputFileFITS::jumpToChuck() ", status);
+		throwException("Error in InputFileFITS::moveToHeader() ", status);
 }
 
 int InputFileFITS::getNCols() {
@@ -262,7 +262,7 @@ template<class T>
 void InputFileFITS::_read(int ncol, std::vector<T>& buff, int type, long frow, long lrow) {
 	int status = 0;
 	if(!isOpened())
-		throwException("Error in InputFileFITS::read() ", status);
+		throwException("Error in InputFileFITS::_read() ", status);
 
 	int anynull;
 	long nelem = lrow - frow + 1;
@@ -273,7 +273,7 @@ void InputFileFITS::_read(int ncol, std::vector<T>& buff, int type, long frow, l
 	fits_read_col(infptr, type, ncol+1, frow+1, 1, nelem, &null,  &buff[0], &anynull, &status);
 
 	if(status)
-		throwException("Error in InputFileFITS::read() ", status);
+		throwException("Error in InputFileFITS::_read() ", status);
 }
 
 template<class T>
@@ -308,7 +308,7 @@ void InputFileFITS::_readImage(Image<T>& buff, int type)
 {
 	int status = 0;
 	if(!isOpened())
-		throwException("Error in InputFileFITS::readImage() ", status);
+		throwException("Error in InputFileFITS::_readImage() ", status);
 
 	int bitpix;
 	int naxis;
@@ -316,7 +316,7 @@ void InputFileFITS::_readImage(Image<T>& buff, int type)
 	long naxes[MAXDIM];
 	fits_get_img_param(infptr, MAXDIM,  &bitpix, &naxis, naxes, &status);
 	if(!isOpened())
-		throwException("Error in InputFileFITS::readImage() ", status);
+		throwException("Error in InputFileFITS::_readImage() ", status);
 
 
 	long fpixel[MAXDIM];
@@ -333,7 +333,7 @@ void InputFileFITS::_readImage(Image<T>& buff, int type)
 	buff.data.resize(nelements);
 	fits_read_pix(infptr, type, fpixel, nelements, &nulval, &buff.data[0], &anynul, &status);
 	if(!isOpened())
-		throwException("Error in InputFileFITS::readImage() ", status);
+		throwException("Error in InputFileFITS::_readImage() ", status);
 
 	buff.dim = naxis;
 

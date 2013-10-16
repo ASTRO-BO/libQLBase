@@ -82,12 +82,12 @@ void OutputFileFITS::moveToHeader(int number) {
 	int status = 0;
 
 	if(!isOpened())
-		throwException("Error in OutputFileFITS::jumpToChuck() ", status);
+		throwException("Error in OutputFileFITS::moveToHeader() ", status);
 
 	fits_movabs_hdu(infptr, number+1, 0, &status);
 
 	if (status)
-		throwException("Error in OutputFileFITS::jumpToChuck() ", status);
+		throwException("Error in OutputFileFITS::moveToHeader() ", status);
 }
 
 void OutputFileFITS::createTable(const std::string& name, const std::vector<field>& fields) {
@@ -210,7 +210,7 @@ void OutputFileFITS::writeString(int ncol, std::vector< std::vector<char> >& buf
 {
 	int status = 0;
 	if(!isOpened())
-		throwException("Error in OutputFileFITS::writev() ", status);
+		throwException("Error in OutputFileFITS::writeString() ", status);
 
 	long nelem = lrow - frow + 1;
 	unsigned int size = buff[0].size();
@@ -228,14 +228,14 @@ void OutputFileFITS::writeString(int ncol, std::vector< std::vector<char> >& buf
 	delete[] buffptrs;
 
 	if(status)
-		throwException("Error in OutputFileFITS::writev() ", status);
+		throwException("Error in OutputFileFITS::writeString() ", status);
 }
 
 template<class T>
 void OutputFileFITS::_write(int ncol, std::vector<T>& buff, int type, long frow, long lrow) {
 	int status = 0;
 	if(!isOpened())
-		throwException("Error in OutputFileFITS::write() ", status);
+		throwException("Error in OutputFileFITS::_write() ", status);
 
 	long nelem = lrow - frow + 1;
 
@@ -243,14 +243,14 @@ void OutputFileFITS::_write(int ncol, std::vector<T>& buff, int type, long frow,
 	fits_write_col(infptr, type, ncol+1, frow+1, 1, nelem, &buffptr[0], &status);
 
 	if(status)
-		throwException("Error in OutputFileFITS::write() ", status);
+		throwException("Error in OutputFileFITS::_write() ", status);
 }
 
 template<class T>
 void OutputFileFITS::_writev(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow) {
 	int status = 0;
 	if(!isOpened())
-		throwException("Error in OutputFileFITS::writev() ", status);
+		throwException("Error in OutputFileFITS::_writev() ", status);
 
 	long nelem = lrow - frow + 1;
 	unsigned int size = buff[0].size();
@@ -268,7 +268,7 @@ void OutputFileFITS::_writev(int ncol, std::vector< std::vector<T> >& buff, int 
 	delete[] buffptr;
 
 	if(status)
-		throwException("Error in OutputFileFITS::writev() ", status);
+		throwException("Error in OutputFileFITS::_writev() ", status);
 }
 
 const std::string OutputFileFITS::_getFieldTypeString(fieldType type, int vsize) {
