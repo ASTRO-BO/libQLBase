@@ -43,6 +43,7 @@ void InputFileFITS::throwException(const char *msg, int status) {
 }
 
 void InputFileFITS::open(const std::string &filename) {
+	File::open(filename);
 	int status = 0;
 	fits_open_table(&infptr, filename.c_str(), READONLY, &status);
 

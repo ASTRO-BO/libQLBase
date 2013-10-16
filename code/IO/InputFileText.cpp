@@ -65,6 +65,7 @@ InputFileText::~InputFileText() {
 }
 
 void InputFileText::open(const std::string &filename) {
+	File::open(filename);
 
 	fileStream.clear();
 

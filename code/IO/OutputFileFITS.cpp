@@ -58,6 +58,7 @@ void OutputFileFITS::create(const std::string &filename) {
 }
 
 void OutputFileFITS::open(const std::string &filename) {
+	File::open(filename);
 	int status = 0;
 
 	fits_open_table(&infptr, filename.c_str(), READWRITE, &status);
