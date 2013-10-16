@@ -58,7 +58,6 @@ public:
 private:
 
 	bool opened;
-	fitsfile *infptr;
 
 	void throwException(const char *msg, int status);
 
@@ -69,6 +68,10 @@ private:
 	void _writev(int ncol, std::vector< std::vector<T> >& buff, int type, long frow, long lrow);
 
 	const std::string _getFieldTypeString(fieldType type, int vsize);
+
+protected:
+
+	fitsfile *infptr;
 };
 
 }

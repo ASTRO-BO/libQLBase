@@ -119,7 +119,6 @@ class InputFileFITS : public InputFile {
 	private:
 
 	bool opened;
-	fitsfile *infptr;
 
 	void throwException(const char *msg, int status);
 
@@ -132,6 +131,9 @@ class InputFileFITS : public InputFile {
 	template<class T>
 	void _readImage(Image<T>& buff, int type);
 
+	protected:
+
+	fitsfile *infptr;
 };
 
 }
