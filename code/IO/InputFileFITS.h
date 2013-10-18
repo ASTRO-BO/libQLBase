@@ -116,6 +116,12 @@ class InputFileFITS : public InputFile {
 		/// Read a multidimensional image of 64bit double.
 		virtual Image<double> readImage64f();
 
+		/// Return the internal file descriptor
+		virtual const fitsfile* GetFilePointer()
+		{
+			return infptr;
+		}
+
 	private:
 
 	bool opened;
