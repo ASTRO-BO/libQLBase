@@ -309,7 +309,7 @@ void InputFileFITS::_readv(int ncol, std::vector< std::vector<T> >& buff, int ty
 	for(unsigned int i=0; i<nelem; i++)
 		buff[i].resize(vsize);
 
-	for(unsigned int row = frow; row < lrow+1; row++)
+	for(unsigned int row = 0; row < nelem; row++)
 		memcpy(&buff[row][0], &buffptr[row*vsize], vsize*sizeof(T));
 
 	delete[] buffptr;
