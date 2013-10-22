@@ -105,6 +105,20 @@ long InputFileFITS::getNRows() {
 	return nrows;
 }
 
+int InputFileFITS::getColNum(const std::string& columnName) {
+	int status = 0, colnum = -1;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::getColNum() ", status);
+
+	fits_get_colnum(infptr, CASEINSEN, (char*)columnName.c_str(), &colnum, &status);
+
+	if (status)
+		throwException("Error in InputFileFITS::getColNum() ", status);
+
+	return colnum;
+}
+
 std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow) {
 	std::vector<uint8_t> buff;
 	_read(ncol, buff, TBYTE, frow, lrow);

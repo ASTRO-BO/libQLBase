@@ -49,6 +49,9 @@ class InputFileFITS : public InputFile {
 		/// Get the number of rows.
 		virtual long getNRows();
 
+		/// Get column number from the name.
+		virtual int getColNum(const std::string& columnName);
+
 		/// Read a column of bytes (fits type 1B).
 		/// \param[in] ncol Column number (starting from 0).
 		/// \param[in] frow First row (starting from 0).

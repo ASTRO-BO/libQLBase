@@ -40,6 +40,11 @@ class InputFileText : public InputFile {
 		virtual int getNCols(){ return ncols; }
 		virtual long getNRows(){ return nrows; }
 
+		virtual int getColNum(const std::string& columnName)
+		{
+			throw IOException("getColNum not supported", 0);
+		}
+
 		virtual std::vector<uint8_t> readu8i(int ncol, long frow, long lrow);
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow);
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow);

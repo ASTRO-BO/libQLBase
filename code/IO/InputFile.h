@@ -51,6 +51,9 @@ class InputFile : public File {
 		/// Get the number of rows.
 		virtual long getNRows() = 0;
 
+		/// Get column number from the name.
+		virtual int getColNum(const std::string& columnName) = 0;
+
 		/// Read a column of byte.
 		/// \param[in] ncol Column number (starting from 0).
 		/// \param[in] frow First row (starting from 0).
