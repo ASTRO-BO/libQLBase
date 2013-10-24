@@ -1,4 +1,16 @@
-11/09/13 - Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+2013/10/24 - Andrea Zoli <zoli@iasfbo.inaf.it>
+* General
+    * Fixed cfitsio linking error on mac.
+    * Fixed installation of the docs.
+
+* IO package
+    * Added comments to InputFile related functions.
+    * Added support for reading/writing column of strings inside FITS.
+    * Fixed error messages of exceptions.
+    * Added getColNum() function that returns a column number starting from its string name.
+    * Fixed memcpy bug on InputFileFITS::_readv().
+
+2013/09/11 - Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v0.1.0
 
 * General
