@@ -91,6 +91,34 @@ void OutputFileFITS::moveToHeader(int number) {
 		throwException("Error in OutputFileFITS::moveToHeader() ", status);
 }
 
+void OutputFileFITS::writeKeyword(const std::string& name, const std::string& value, const std::string& comment) {
+	int status = 0;
+	char card[FLEN_CARD];
+
+	if(!isOpened())
+		throwException("Error in OutputFileFITS::writeKeyword() ", status);
+
+	// check if this is a protected keyword that must not be changed.
+	fits_read_card(infptr, name.c_str(), card, &status);
+	if(status != KEY_NO_EXIST) {
+		if (*card && fits_get_keyclass(card) == TYP_STRUC_KEY)
+			throwException("Error in OutputFileFITS::writeKeyword() protected ", status);
+	}
+	if (status != KEY_NO_EXIST && status != 0)
+		throwException("Error in OutputFileFITS::writeKeyword() ", status);
+
+	status = 0;
+	std::string key = name + " = " + value + " / " + comment;
+	int keytype;
+	fits_parse_template((char*)key.c_str(), card, &keytype, &status);
+	if (status)
+		throwException("Error in OutputFileFITS::writeKeyword() ", status);
+
+	fits_update_card(infptr, name.c_str(), card, &status);
+	if (status)
+		throwException("Error in OutputFileFITS::writeKeyword() ", status);
+}
+
 void OutputFileFITS::createTable(const std::string& name, const std::vector<field>& fields) {
 	int status = 0;
 

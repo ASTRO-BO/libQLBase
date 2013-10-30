@@ -18,6 +18,7 @@
 
 #include <stdint.h>
 #include <fitsio.h>
+#include <string>
 #include <stdexcept>
 #include "OutputFile.h"
 
@@ -38,6 +39,8 @@ public:
 	virtual bool isOpened() { return opened; }
 
 	virtual void moveToHeader(int number);
+
+	void writeKeyword(const std::string& name, const std::string& value, const std::string& comment);
 
 	virtual void createTable(const std::string& name, const std::vector<field>& fields);
 	virtual void writeu8i(int ncol, std::vector<uint8_t>& buff, long frow, long lrow);

@@ -232,6 +232,13 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	BOOST_CHECK_NO_THROW(ofile.open("testing.fits"));
 	BOOST_CHECK_NO_THROW(ofile.writeString(11, vectorStr, 0, NROW-1));
 
+	boost_check_no_throw(ofile.writekeyword("field1", "100", "the first field"));
+	boost_check_no_throw(ofile.writekeyword("field2", "2", "the second field"));
+	boost_check_no_throw(ofile.writekeyword("field3", "3", "the third field"));
+	boost_check_no_throw(ofile.writekeyword("field4", "4", "the fourth field"));
+	boost_check_no_throw(ofile.writekeyword("field5", "5", "the fifth field"));
+	boost_check_no_throw(ofile.writekeyword("field1", "1", "the sixth field"));
+
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(ofile.close());
 
