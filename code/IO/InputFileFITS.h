@@ -74,6 +74,12 @@ class InputFileFITS : public InputFile {
 		/// Read a column of double (fits type 1D).
 		virtual std::vector<double> read64f(int ncol, long frow, long lrow);
 
+		/// Return the number of keywords for the current header.
+		virtual int getKeywordNum();
+
+		/// Get a fits keyword through index (starting from 0).
+		virtual std::string getKeyword(int index);
+
 		/// Read a column of vector of bytes (fits type for es. 20B).
 		/// \param[in] ncol Column number (starting from 0).
 		/// \param[in] frow First row (starting from 0).

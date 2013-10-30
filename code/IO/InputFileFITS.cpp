@@ -119,6 +119,35 @@ int InputFileFITS::getColNum(const std::string& columnName) {
 	return colnum;
 }
 
+int InputFileFITS::getKeywordNum() {
+	int status = 0, nkeys;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::getKeywordNum() ", status);
+
+	fits_get_hdrspace(infptr, &nkeys, NULL, &status);
+
+	if(status)
+		throwException("Error in InputFileFITS::getKeywordNum() ", status);
+
+	return nkeys;
+}
+
+std::string InputFileFITS::getKeyword(int index) {
+	int status = 0;
+	char card[FLEN_CARD];    // Standard string lengths defined in fitsio.h
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::getKeyword() ", status);
+
+	fits_read_record(infptr, index+1, card, &status);
+
+	if(status)
+		throwException("Error in InputFileFITS::getKeyword() ", status);
+
+	return std::string(card);
+}
+
 std::vector<uint8_t> InputFileFITS::readu8i(int ncol, long frow, long lrow) {
 	std::vector<uint8_t> buff;
 	_read(ncol, buff, TBYTE, frow, lrow);

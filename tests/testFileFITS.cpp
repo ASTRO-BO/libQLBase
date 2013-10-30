@@ -18,10 +18,59 @@
 #include<sstream>
 #include<fstream>
 #include<iomanip>
+#include<iostream>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
 #include<unistd.h>
+
+static const std::string keywords[] = {
+"XTENSION= 'BINTABLE'           / binary table extension",
+"BITPIX  =                    8 / 8-bit bytes",
+"NAXIS   =                    2 / 2-dimensional binary table",
+"NAXIS1  =                   93 / width of table in bytes",
+"NAXIS2  =                   10 / number of rows in table",
+"PCOUNT  =                    0 / size of special data area",
+"GCOUNT  =                    1 / one data group (required keyword)",
+"TFIELDS =                   12 / number of fields in each row",
+"TTYPE1  = 'field0  '           / label for field   1",
+"TFORM1  = '1J      '           / data format of field: 4-byte INTEGER",
+"TUNIT1  = 'mph     '           / physical unit of field",
+"TTYPE2  = 'field1  '           / label for field   2",
+"TFORM2  = '1B      '           / data format of field: BYTE",
+"TUNIT2  = 'cm      '           / physical unit of field",
+"TTYPE3  = 'field2  '           / label for field   3",
+"TFORM3  = '1J      '           / data format of field: 4-byte INTEGER",
+"TUNIT3  = 'mph     '           / physical unit of field",
+"TTYPE4  = 'field3  '           / label for field   4",
+"TFORM4  = '1B      '           / data format of field: BYTE",
+"TUNIT4  = 'cm      '           / physical unit of field",
+"TTYPE5  = 'field4  '           / label for field   5",
+"TFORM5  = '1J      '           / data format of field: 4-byte INTEGER",
+"TUNIT5  = 'mph     '           / physical unit of field",
+"TTYPE6  = 'field5  '           / label for field   6",
+"TFORM6  = '1B      '           / data format of field: BYTE",
+"TUNIT6  = 'cm      '           / physical unit of field",
+"TTYPE7  = 'field6  '           / label for field   7",
+"TFORM7  = '1J      '           / data format of field: 4-byte INTEGER",
+"TUNIT7  = 'mph     '           / physical unit of field",
+"TTYPE8  = 'field7  '           / label for field   8",
+"TFORM8  = '1B      '           / data format of field: BYTE",
+"TUNIT8  = 'cm      '           / physical unit of field",
+"TTYPE9  = 'field8  '           / label for field   9",
+"TFORM9  = '1J      '           / data format of field: 4-byte INTEGER",
+"TUNIT9  = 'mph     '           / physical unit of field",
+"TTYPE10 = 'field9  '           / label for field  10",
+"TFORM10 = '1B      '           / data format of field: BYTE",
+"TUNIT10 = 'cm      '           / physical unit of field",
+"TTYPE11 = 'fvector '           / label for field  11",
+"TFORM11 = '12E     '           / data format of field: 4-byte REAL",
+"TUNIT11 = 'cms     '           / physical unit of field",
+"TTYPE12 = 'fstring '           / label for field  12",
+"TFORM12 = '20A     '           / data format of field: ASCII Character",
+"TUNIT12 = 'desc    '           / physical unit of field",
+"EXTNAME = 'testing binary table' / name of this binary table extension",
+"TDIM12  = '(20,1)  '           / size of the multidimensional array" };
 
 BOOST_AUTO_TEST_CASE(input_file_fits)
 {
@@ -139,6 +188,11 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 
 	// reading the first 4 rows from column 0 on a closed file should raise an exception
 	BOOST_CHECK_THROW(rowsT1 = file.read32i(0, 0, 3), qlbase::IOException);
+
+	// the fits header should be the same of the keywords string vector.
+	BOOST_CHECK_NO_THROW(file.open("sample.fits"));
+	for(int i=0; i<file.getKeywordNum(); i++)
+		BOOST_CHECK(file.getKeyword(i).compare(keywords[i]) == 0);
 }
 
 BOOST_AUTO_TEST_CASE(output_file_fits)
@@ -232,12 +286,12 @@ BOOST_AUTO_TEST_CASE(output_file_fits)
 	BOOST_CHECK_NO_THROW(ofile.open("testing.fits"));
 	BOOST_CHECK_NO_THROW(ofile.writeString(11, vectorStr, 0, NROW-1));
 
-	boost_check_no_throw(ofile.writekeyword("field1", "100", "the first field"));
-	boost_check_no_throw(ofile.writekeyword("field2", "2", "the second field"));
-	boost_check_no_throw(ofile.writekeyword("field3", "3", "the third field"));
-	boost_check_no_throw(ofile.writekeyword("field4", "4", "the fourth field"));
-	boost_check_no_throw(ofile.writekeyword("field5", "5", "the fifth field"));
-	boost_check_no_throw(ofile.writekeyword("field1", "1", "the sixth field"));
+	BOOST_CHECK_NO_THROW(ofile.writeKeyword("field1", "100", "the first field"));
+	BOOST_CHECK_NO_THROW(ofile.writeKeyword("field2", "2", "the second field"));
+	BOOST_CHECK_NO_THROW(ofile.writeKeyword("field3", "3", "the third field"));
+	BOOST_CHECK_NO_THROW(ofile.writeKeyword("field4", "4", "the fourth field"));
+	BOOST_CHECK_NO_THROW(ofile.writeKeyword("field5", "5", "the fifth field"));
+	BOOST_CHECK_NO_THROW(ofile.writeKeyword("field1", "1", "the sixth field"));
 
 	// closing the file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(ofile.close());
