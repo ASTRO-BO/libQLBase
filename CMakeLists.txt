@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake-modules)
 
 add_subdirectory(code)
 add_subdirectory(tests)
+add_subdirectory(scripts)
 
 enable_testing()
 add_test(testFileFITS testFileFITS)
