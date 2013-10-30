@@ -40,6 +40,10 @@ class InputFile : public File {
 
 		virtual ~InputFile() {}
 
+		/// Get the number of headers present in the file.
+		/// \return The number of headers.
+		virtual int getHeadersNum() = 0;
+
 		/// Point to a specific block (alias header). A block could be related to a table or an image.
 		/// /param[in] number Number of the block (starting from 0).
 		virtual void moveToHeader(int number) = 0;

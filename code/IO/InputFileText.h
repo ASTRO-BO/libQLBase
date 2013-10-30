@@ -35,6 +35,8 @@ class InputFileText : public InputFile {
 		virtual void close();
 		virtual bool isOpened(){ return opened; }
 
+		virtual int getHeadersNum(){ return 1; }
+
 		void moveToHeader(int number) {}
 
 		virtual int getNCols(){ return ncols; }

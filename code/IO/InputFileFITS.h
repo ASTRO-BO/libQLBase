@@ -39,6 +39,9 @@ class InputFileFITS : public InputFile {
 		virtual void close();
 		virtual bool isOpened() { return opened; }
 
+		/// Get the number of headers present in the fits.
+		virtual int getHeadersNum();
+
 		/// Point to a specific header.
 		/// /param[in] number Number of the header (starting from 0).
 		virtual void moveToHeader(int number);

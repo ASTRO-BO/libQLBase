@@ -63,6 +63,20 @@ void InputFileFITS::close() {
 	opened = false;
 }
 
+int InputFileFITS::getHeadersNum() {
+	int  num = 0, status = 0;
+
+	if(!isOpened())
+		throwException("Error in InputFileFITS::getHeadersNum() ", status);
+
+	fits_get_num_hdus(infptr, &num, &status);
+
+	if (status)
+		throwException("Error in InputFileFITS::getHeadersNum() ", status);
+
+	return num;
+}
+
 void InputFileFITS::moveToHeader(int number) {
 	int status = 0;
 

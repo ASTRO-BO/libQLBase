@@ -85,6 +85,11 @@ BOOST_AUTO_TEST_CASE(input_file_fits)
 	// opening a FITS file shouldn't raise an exception
 	BOOST_CHECK_NO_THROW(file.open("sample.fits"));
 
+	// the number of headers should be 3
+	int num;
+	BOOST_CHECK_NO_THROW(num = file.getHeadersNum());
+	BOOST_CHECK_EQUAL(num, 3);
+
 	// jumping on a bad chunck should raise an exception
 	BOOST_CHECK_THROW(file.moveToHeader(10), qlbase::IOException);
 
