@@ -24,6 +24,9 @@ types = {   "1" : "temporal",
 
 
 filenames = glob.glob("*.param")
+filenames+= glob.glob("*.ql_file2")
+filenames+= glob.glob("*.ql_file2GPS")
+filenames+= glob.glob("*.ql_file2PPS")
 for filename in filenames:
     fileout = open(os.path.splitext(filename)[0]+"_graph.xml" , 'w')
 
