@@ -23,6 +23,7 @@
 #include<string>
 #include<sstream>
 #include<cstdlib>
+#include<map>
 #include "InputFileFITS.h"
 
 using namespace qlbase;
@@ -62,6 +63,15 @@ int main(int argc, char* argv[])
 		cout << "\nUsage: ./fits2xml fitsfile xmlfile\n";
 		return 0;
 	}
+
+	// create type map
+	map<char, string> typeMap;
+	typeMap['B'] = "byte";
+	typeMap['I'] = "int16";
+	typeMap['J'] = "int32";
+	typeMap['K'] = "int64";
+	typeMap['E'] = "float32";
+	typeMap['D'] = "float64";
 
 	InputFileFITS infile;
 	infile.open(argv[1]);
@@ -117,7 +127,15 @@ int main(int argc, char* argv[])
 				sform << "TFORM" << i;
 				form = getValue(sform.str());
 				if(form != "")
-					outfile << " type=\""+form+"\"";
+				{
+					string t = trim(form, "1234567890");
+					outfile << " type=\""+typeMap[t[0]]+"\"";
+
+					string strsize = trim(form, "BIJKED");
+					int size = atoi(strsize.c_str());
+					if(size > 1)
+						outfile << " arraysize=\""+strsize+"\"";
+				}
 				sunit << "TUNIT" << i;
 				unit = getValue(sunit.str());
 				if(unit != "")
