@@ -81,7 +81,6 @@ int main(int argc, char* argv[])
 	outfile << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
 	outfile << "<ddl xmlns=\"http://oats.inaf.it/das\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" << endl;
 
-	std::cout << infile.getHeadersNum() << std::endl;
 	for(unsigned hdunum=0; hdunum < infile.getHeadersNum(); hdunum++)
 	{
 		// reset global context
