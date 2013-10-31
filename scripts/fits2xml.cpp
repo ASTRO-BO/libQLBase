@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 		if(getValue("XTENSION").compare("BINTABLE") == 0)
 		{
 			// write table types
-			outfile << "  <type name=\""+getValue("CREAT_ID")+"_"+getValue("EXTNAME")+"\" description=\""+getValue("TM_ID")+"\">" << endl;
+			outfile << "  <type name=\""+getValue("EXTNAME")+"\">" << endl;
 			outfile << "    <data>" << endl;
 			outfile << "      <binaryTable>" << endl;
 			for(unsigned int i=1; i<=atoi(getValue("TFIELDS").c_str()); i++)
