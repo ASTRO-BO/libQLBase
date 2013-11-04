@@ -22,6 +22,31 @@ types = {   "1" : "temporal",
          "2048" : "grapherror_dataarray",
          "4096" : "histo_dataarray" }
 
+dtmap = {}
+def createDataType(fields):
+    refs = [x.strip() for x in fields[1].split(',')]
+
+    # create attribute vector
+    attr = [""]*4
+    if fields[6] != "na":
+        attr[0] = fields[6].strip()
+
+    if fields[19] != "":
+        attr[1] = fields[19].strip()
+
+    if len(fields)>20 and fields[20] != "none":
+        attr[2] = fields[20].strip()
+
+    if len(fields)>21 and fields[21] != "none":
+        attr[3] = fields[21].strip()
+
+    # add elements to dtmap {"type", [("field1", attr), ("field2", attr), ...]}
+    for i in range(len(refs)):
+        type, field = refs[i].split('/')
+        try:
+            dtmap[type].append((field, attr))
+        except:
+            dtmap[type] = [(field, attr)]
 
 filenames = glob.glob("*.param")
 filenames+= glob.glob("*.ql_file2")
@@ -29,9 +54,12 @@ filenames+= glob.glob("*.ql_file2GPS")
 filenames+= glob.glob("*.ql_file2PPS")
 for filename in filenames:
     fileout = open(os.path.splitext(filename)[0]+"_graph.xml" , 'w')
+    name = os.path.splitext(filename)[0];
+    print("converting "+filename+" into "+name+"_graph.xml")
 
     fileout.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     fileout.write("<graphs>\n")
+
 
     file = open(filename, 'r')
     fileout.write("<!--####################################################################-->\n")
@@ -47,14 +75,14 @@ for filename in filenames:
         # split into fields
         fields = [x.strip() for x in line.split('|')]
 
+        # save data type
+        createDataType(fields)
+
         # save graph
         type = types[fields[3]]
         strout = "<graph id=\""+fields[0]+"\" type=\""+type+"\" name=\""+fields[2]+"\""
         if fields[5] != "":
             strout+=" title=\""+fields[5]+"\""
-
-        if fields[6] != "na":
-            strout+=" temporalScale=\""+fields[6]+"\""
 
         if fields[9] != "na":
             strout+=" temporalBinSize=\""+fields[9]+"\""
@@ -76,16 +104,6 @@ for filename in filenames:
 
         if fields[18] != "none":
             strout+=" extra=\""+fields[18]+"\""
-
-        if fields[19] != "":
-            strout+=" lookupTable=\""+fields[19]+"\""
-
-        if len(fields)>20 and fields[20] != "none":
-            strout+=" calcurve=\""+fields[20]+"\""
-
-        if len(fields)>21 and fields[21] != "none":
-            strout+=" validRange=\""+fields[21]+"\""
-
         strout+=">\n"
 
         # save axis
@@ -142,3 +160,42 @@ for filename in filenames:
 
     fileout.write("</graphs>\n")
     fileout.close()
+
+# writing data types
+filesdt = []
+num = 0
+for type, flist in dtmap.iteritems():
+    print("saving data type "+type+"_type.xml")
+
+    filesdt.append(open(type+"_type.xml" , 'w'))
+
+    filesdt[num].write("<!--####################################################################-->\n")
+    filesdt[num].write("<!-- File type: " +type+" -->\n")
+    filesdt[num].write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    filesdt[num].write("<types>\n")
+    filesdt[num].write("  <type id=\""+type+"\">\n")
+
+    duplicates = []
+    for i in range(len(flist)):
+        if flist[i][0] in duplicates:
+            continue
+        duplicates.append(flist[i][0])
+        filesdt[num].write("    <field name=\""+flist[i][0]+"\" type=\"float\" ")
+        attributes = flist[i][1]
+        if attributes[0] != "":
+            filesdt[num].write("temporalScale=\""+attributes[0]+"\" ")
+        if attributes[1] != "":
+            filesdt[num].write("loockupTable=\""+attributes[1]+"\" ")
+        if attributes[2] != "":
+            filesdt[num].write("calcurve=\""+attributes[2]+"\" ")
+        if attributes[3] != "":
+            filesdt[num].write("validRange=\""+attributes[3]+"\" ")
+
+        filesdt[num].write("/>\n")
+    num += 1
+
+# closing types tag
+for i in range(num):
+    filesdt[i].write("  </type>\n")
+    filesdt[i].write("</types>\n")
+    filesdt[i].close()
