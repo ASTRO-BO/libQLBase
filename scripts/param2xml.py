@@ -185,9 +185,9 @@ for type, flist in dtmap.iteritems():
         if attributes[0] != "":
             filesdt[num].write("temporalScale=\""+attributes[0]+"\" ")
         if attributes[1] != "":
-            filesdt[num].write("loockupTable=\""+attributes[1]+"\" ")
+            filesdt[num].write("lookupTable=\""+attributes[1]+"\" ")
         if attributes[2] != "":
-            filesdt[num].write("calcurve=\""+attributes[2]+"\" ")
+            filesdt[num].write("calCurve=\""+attributes[2]+"\" ")
         if attributes[3] != "":
             filesdt[num].write("validRange=\""+attributes[3]+"\" ")
 
