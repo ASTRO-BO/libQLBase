@@ -130,7 +130,7 @@ int InputFileFITS::getColNum(const std::string& columnName) {
 	if (status)
 		throwException("Error in InputFileFITS::getColNum() ", status);
 
-	return colnum;
+	return colnum-1;
 }
 
 int InputFileFITS::getKeywordNum() {
