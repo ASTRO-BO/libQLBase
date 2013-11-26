@@ -116,7 +116,8 @@ for filename in filenames:
         if len(fields)>22:
             errorlabels = [x.strip() for x in fields[22].split(',')]
 
-        if len(refs) > 0:
+        if len(refs) == 1 and len(labels) == 2:
+            refv = [x.strip() for x in refs[0].split('/')]
             strout+="    <xaxis ref=\""+refs[0]+"\""
             if len(labels) >= 1:
                 strout+=" label=\""+labels[0].strip()+"\""
@@ -129,6 +130,20 @@ for filename in filenames:
             if len(errorlabels) >= 1 and errorlabels[0] != "none":
                 strout+=" errorLabel=\""+errorlabels[0]+"\""
             strout+=" />\n"
+            strout+="    <yaxis label=\""+labels[1].strip()+"\" />\n"
+        elif len(refs) > 0:
+                strout+="    <xaxis ref=\""+refs[0]+"\""
+                if len(labels) >= 1:
+                    strout+=" label=\""+labels[0].strip()+"\""
+                if nbins[0] != "na":
+                    strout+=" nbins=\""+nbins[0]+"\""
+                if mins[0] != "na":
+                    strout+=" min=\""+mins[0]+"\""
+                if maxs[0] != "na":
+                    strout+=" max=\""+maxs[0]+"\""
+                if len(errorlabels) >= 1 and errorlabels[0] != "none":
+                    strout+=" errorLabel=\""+errorlabels[0]+"\""
+                strout+=" />\n"
         if len(refs) > 1:
             strout+="    <yaxis ref=\""+refs[1]+"\""
             if len(labels) >= 2:
@@ -163,24 +178,26 @@ for filename in filenames:
 
 # writing data types
 filesdt = []
+filesdf = []
 num = 0
 for type, flist in dtmap.iteritems():
     print("saving data type "+type+"_type.xml")
 
     filesdt.append(open(type+"_type.xml" , 'w'))
+    filesdf.append(open(type+"_mapping.xml" , 'w'))
 
-    filesdt[num].write("<!--####################################################################-->\n")
-    filesdt[num].write("<!-- File type: " +type+" -->\n")
     filesdt[num].write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-    filesdt[num].write("<types>\n")
-    filesdt[num].write("  <type id=\""+type+"\">\n")
+    filesdt[num].write("<type id=\""+type+"\">\n")
+
+    filesdf[num].write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    filesdf[num].write("<mapping type=\""+type+"\" format=\"fits\">\n")
 
     duplicates = []
     for i in range(len(flist)):
         if flist[i][0] in duplicates:
             continue
         duplicates.append(flist[i][0])
-        filesdt[num].write("    <field name=\""+flist[i][0]+"\" type=\"float\" ")
+        filesdt[num].write("  <field name=\""+flist[i][0]+"\" type=\"float\" ")
         attributes = flist[i][1]
         if attributes[0] != "":
             filesdt[num].write("temporalScale=\""+attributes[0]+"\" ")
@@ -192,10 +209,14 @@ for type, flist in dtmap.iteritems():
             filesdt[num].write("validRange=\""+attributes[3]+"\" ")
 
         filesdt[num].write("/>\n")
+
+        filesdf[num].write("  <link field=\""+flist[i][0]+"\" ref=\"PACKETS/"+flist[i][0]+"\" />\n")
+
     num += 1
 
 # closing types tag
 for i in range(num):
-    filesdt[i].write("  </type>\n")
-    filesdt[i].write("</types>\n")
+    filesdt[i].write("</type>\n")
     filesdt[i].close()
+    filesdf[i].write("</mapping>\n")
+    filesdf[i].close()
