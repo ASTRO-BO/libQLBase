@@ -1,4 +1,21 @@
+2013/11/26 - Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v0.3.0
+*Bugfix
+    * InputFileFITS::getColNum() now returns correctly column index starting from 0
+    instead of 1.
+
+* IO package
+    * Added support for writing and reading keywords from FITS files.
+    * Added InputFile::getHeadersNum() returning the number of headers which
+    is composed a file.
+
+* scripts
+    * Added a python script for .param to graph type and mapping conversion.
+    * Added a C++ script to convert FITS headers to format xmls. (requires
+    this library).
+
 2013/10/24 - Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v0.2.0
 * General
     * Fixed cfitsio linking error on mac.
     * Fixed installation of the docs.
