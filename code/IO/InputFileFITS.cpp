@@ -370,7 +370,7 @@ void InputFileFITS::_readImage(Image<T>& buff, int type)
 
 	int bitpix;
 	int naxis;
-	const int MAXDIM = 3;
+	const int MAXDIM = 12;
 	long naxes[MAXDIM];
 	fits_get_img_param(infptr, MAXDIM,  &bitpix, &naxis, naxes, &status);
 	if(!isOpened())
