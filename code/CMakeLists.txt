@@ -11,7 +11,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
 
 # make install
 file(GLOB HEADERS "${PROJECT_SOURCE_DIR}/code/IO/*.h")
-install(FILES ${HEADERS} DESTINATION include)
+install(FILES ${HEADERS} DESTINATION include/qlbase)
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../doc)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../doc DESTINATION .)
