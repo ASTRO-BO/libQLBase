@@ -1,3 +1,16 @@
+2014/02/27 - Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v0.3.1
+* Bugfix
+    * Fixing fits opening (don't set the initial header).
+    * Remove the bug that create "file" "(" and ")" directory during the build.
+
+* IO package
+    * Increased maximum image dimensions to 12.
+
+* Build
+    * Install headers into qlbase subdir.
+    * Update Eclipse project files.
+
 2013/11/26 - Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v0.3.0
 *Bugfix
