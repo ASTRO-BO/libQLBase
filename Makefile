@@ -82,7 +82,6 @@ ALL_CFLAGS = -m64 -fexceptions -Wall $(CFLAGS) $(INCPATH)
 CPPFLAGS =
 
 ifneq (, $(findstring cfitsio, $(LINKERENV)))
-	INCPATH += -I /opt/local/include
 	LIBS += -lcfitsio
 endif
 ifneq (, $(findstring ctarta, $(LINKERENV)))
