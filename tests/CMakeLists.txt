@@ -1,5 +1,3 @@
-find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
-
 include_directories(${QLBase_SOURCE_DIR}/code
                     ${Boost_INCLUDE_DIRS}
                     ${CFITSIO_INCLUDE_DIR}
