@@ -193,6 +193,12 @@ std::vector<int16_t> InputFileText::read16i(int ncol, long frow, long lrow) {
 	return buff;
 }
 
+std::vector<uint16_t> InputFileText::read16u(int ncol, long frow, long lrow) {
+	std::vector<uint16_t> buff;
+	readData(buff, ncol, frow, lrow);
+	return buff;
+}
+
 std::vector<int32_t> InputFileText::read32i(int ncol, long frow, long lrow) {
 	std::vector<int32_t> buff;
 	readData(buff, ncol, frow, lrow);

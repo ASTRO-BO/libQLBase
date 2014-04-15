@@ -68,6 +68,9 @@ class InputFile : public File {
 		/// Read a column of 16 bit integers.
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow) = 0;
 
+		/// Read a column of 16 bit unsigned integers.
+		virtual std::vector<uint16_t> read16u(int ncol, long frow, long lrow) = 0;
+
 		/// Read a column of 32 bit integers.
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow) = 0;
 

@@ -65,6 +65,9 @@ class InputFileFITS : public InputFile {
 		/// Read a column of 16 bit integers (fits type 1I).
 		virtual std::vector<int16_t> read16i(int ncol, long frow, long lrow);
 
+		/// Read a column of 16 bit unsigned integers (fits type 1U).
+		virtual std::vector<uint16_t> read16u(int ncol, long frow, long lrow);
+
 		/// Read a column of 32 bit integers (fits type 1J).
 		virtual std::vector<int32_t> read32i(int ncol, long frow, long lrow);
 

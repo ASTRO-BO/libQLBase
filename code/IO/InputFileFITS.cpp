@@ -174,6 +174,12 @@ std::vector<int16_t> InputFileFITS::read16i(int ncol, long frow, long lrow) {
 	return buff;
 }
 
+std::vector<uint16_t> InputFileFITS::read16u(int ncol, long frow, long lrow) {
+	std::vector<uint16_t> buff;
+	_read(ncol, buff, TUSHORT, frow, lrow);
+	return buff;
+}
+
 std::vector<int32_t> InputFileFITS::read32i(int ncol, long frow, long lrow) {
 	std::vector<int32_t> buff;
 	_read(ncol, buff, TINT, frow, lrow);
