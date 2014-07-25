@@ -1,5 +1,13 @@
+2014/07/25 - Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v0.3.3
+	* Add Makefile.
+	* Boost dependency is now Optional.
+	* Optional dependency to doxygen 1.8.
+	* Added utility common_string and mac_clock_gettime.
+	* Add read16u support.
+
 2014/02/27 - Andrea Zoli <zoli@iasfbo.inaf.it>
-TAG v0.3.1
+TAG v0.3.2
 * Bugfix
     * Fixing fits opening (don't set the initial header).
     * Remove the bug that create "file" "(" and ")" directory during the build.
