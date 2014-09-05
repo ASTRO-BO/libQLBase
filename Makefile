@@ -4,7 +4,7 @@
 # override the file variables with the environment variables
 # 		make CFLAGS='-g'
 #		make prefix='/usr'
-#		make CC=gcc-4.8
+#		make CXX=gcc-4.8
 # External environment variable. 
 #	Build: CPLUS_INCLUDE_PATH LIBRARY_PATH
 #	Execution: LD_LIBRARY_PATH DYLD_LIBRARY_PATH LOCAL  
@@ -66,20 +66,20 @@ ICON_DIR = ui
 ####### 4) Compiler, tools and options
 
 ifneq (, $(findstring mpi, $(LINKERENV)))
-CC       = mpic++
+CXX ?= mpic++
 else
-CC       = g++
+CXX ?= g++
 endif
 
 #Set INCPATH to add the inclusion paths
 INCPATH = -I $(INCLUDE_DIR) 
 LIBS = -lstdc++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
-CFLAGS   = 
+CFLAGS ?= -O2
 #Insert the implicit parameter to the compiler:
-ALL_CFLAGS = -m64 -fexceptions -Wall $(CFLAGS) $(INCPATH)
+ALL_CFLAGS = -fexceptions -Wall $(CFLAGS) $(INCPATH)
 #Use CPPFLAGS for the preprocessor
-CPPFLAGS =
+CPPFLAGS ?=
 
 ifneq (, $(findstring cfitsio, $(LINKERENV)))
 	LIBS += -lcfitsio
@@ -116,7 +116,7 @@ ifneq (, $(findstring apple, $(SYSTEM)))
         endif
 endif 
 
-LINK     = $CC
+LINK     = $(CXX)
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
 AR       = ar cqs
@@ -165,10 +165,10 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 ####### 9) Pattern rules
 
 %.o : %.cpp
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 %.o : %.c
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 #only for documentation generation
 $(DOXY_SOURCE_DIR)/%.h : %.h
@@ -188,7 +188,7 @@ lib: staticlib
 	
 exe: makeobjdir $(OBJECTS)
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME1) $(OBJECTS_DIR)/*.o $(LIBS)
+		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME1) $(OBJECTS_DIR)/*.o $(LIBS)
 	
 staticlib: makelibdir makeobjdir $(OBJECTS)	
 		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
